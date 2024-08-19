@@ -1,0 +1,261 @@
+---
+title: "Consensus Test Analysis"
+output: html_document
+date: "2024-07-17"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### Libraries 
+
+```{r}
+library(tidyverse)
+library(kableExtra)
+library(lme4)
+library(psych)
+library(performance)
+library(sjPlot)
+library(HLMdiag)
+library(pbkrtest)
+library(patchwork)
+library(broom.mixed)
+library(tidyselect)
+library(purrr)
+```
+
+### Reading data
+
+```{r}
+consensus_raw <- read.csv("Consensus_2024_07_30.csv") 
+# consensus_raw <- read.csv("Consensus_testdata.csv")
+consensus_topicdata <- read.csv("Consensus_topicdata.csv") %>%
+  rename(topic = Tags,
+         Topic_description = Topic,
+         decimal = Decimal,
+         percentage_ratio = Percentage.ratio,
+         type = Type,
+         testimony = Testimony) %>%
+  filter(topic != "") %>%
+  select(-c(X.1:X.16))
+```
+
+### Removing redundant data & other checks 
+
+```{r}
+consensus1 <- consensus_raw %>%
+  filter(
+    # Status == "Survey Test" &
+    consent == "I consent to the above." & # Add more filters if needed
+    LocationLatitude != "" # Change this 
+    # attention == "Yes."
+  ) %>%
+  select(-vars_select(names(consensus_raw), contains('dur'))) %>% # Selecting OUT variables containing the "dur" substring
+  select(-c(1:7, 9:17, 124:129, 131:132)) 
+```
+
+# Summing up IH & AOT scales ()
+- IH scale had no reverse scoring 
+- AOT-E had items 3, 4, 5, 7, 8 reverse scored
+
+```{r}
+# Function to recode IH 
+recode_ih <- function(variable) {
+  variable <- recode_factor(
+    variable,
+    "Not at all true or characteristic of me" = "1",
+    "Slightly true or characteristic of me" = "2",
+    "Moderately true or characteristic of me" = "3",
+    "Very true or characteristic of me" = "4",
+    "Extremely true or characteristic of me" = "5"
+  ) %>%
+  as.numeric()
+}
+
+# Function to recode AOT 
+recode_aot <- function(variable) {
+  variable <- recode_factor(
+    variable,
+    "Strongly disagree" = "1",
+    "Moderately disagree" = "2",
+    "Slightly disagree" = "3", 
+    "Slightly agree" = "4",
+    "Moderately agree" = "5",
+    "Strongly agree" = "6"
+    ) %>%
+    as.numeric() 
+}
+
+# Reverse scoring AOT 
+reverse_aot <- function(variable) {
+  variable = 7 - variable 
+}
+
+# Recoding and calculating POMP score (or mean***) [preregister both ways]
+consensus_wide <- consensus1 %>%
+  mutate(
+    across(c(ih_1:ih_6), function(x) recode_ih(x)),
+    across(c(aot_e_1:aot_e_8), function(x) recode_aot(x)),
+    across(c(aot_e_3, aot_e_4, aot_e_5, aot_e_7, aot_e_8), function(x) reverse_aot(x)),
+    ih = 100 * ( (rowSums(across(ih_1:ih_6)) - 6*1) / (6*5 - 6*1) ), 
+    aot = 100 * ( (rowSums(across(aot_e_1:aot_e_8)) - 8*1) / (8*6 - 8*1) )
+  ) 
+```
+
+# Pivoting longer for all topics 
+
+```{r}
+consensus_belief <- consensus_wide %>%
+  select(c(1:31)) %>%
+  pivot_longer(!ResponseId, names_to = "topic", values_to = "belief") %>%
+  mutate(
+    belief = recode_factor(
+      belief,
+      "Strongly disagree" = "1",
+      "Disagree" = "2", 
+      "Somewhat disagree" = "3",
+      "Neither disagree nor agree" = "4",
+      "Somewhat agree" = "5",
+      "Agree" = "6",
+      "Strongly agree" = "7"
+    )
+  )
+
+consensus_consensus <- consensus_wide %>%
+  select(ResponseId, vars_select(names(consensus_wide), contains('consensus')), -Condition) %>%
+  pivot_longer(!ResponseId, names_to = "topic", values_to = "consensus_judgement") %>%
+  mutate(
+    topic = str_remove(topic, "_consensus")
+    # topic = sub("_[^_]+$", "", topic) # longer way to do it 
+  )
+
+consensus_estimate <- consensus_wide %>%
+  select(ResponseId, vars_select(names(consensus_wide), contains('estimate'))) %>%
+  pivot_longer(!ResponseId, names_to = "topic", values_to = "estimate") %>%
+  mutate(
+    topic = str_remove(topic, "_estimate")
+  )
+```
+
+# Joining all dataframes together 
+
+```{r}
+consensus_long <- purrr::reduce(list(
+  consensus_belief,
+  consensus_consensus,
+  consensus_estimate),
+  dplyr::left_join,
+  by = c("ResponseId", "topic")) %>%
+  inner_join(select(consensus_wide, c(ResponseId, gender, age, Condition, ih, aot)),
+             by = "ResponseId") %>%
+  inner_join(select(consensus_topicdata, c(topic, decimal, percentage_ratio, type, testimony)), by = "topic") %>%
+  mutate(
+    Condition = ifelse(Condition == "", "lack of consensus", Condition)
+  ) %>%
+  filter(belief != "") # To change 
+head(consensus_long)
+```
+
+# Reformating data 
+
+```{r}
+consensus_df <- consensus_long %>%
+  mutate(
+    consensus_judgement = case_when(
+      Condition == "lack of consensus" & consensus_judgement == "Agree" ~ "Disagree",
+      Condition == "lack of consensus" & consensus_judgement == "Disagree" ~ "Agree",
+      .default = consensus_judgement
+      ), # Swapping consensus judgements if participant was in "lack of consensus" condition 
+    across(c(ResponseId, topic, consensus_judgement, gender, type, testimony), function(x) as.factor(x)),
+    across(c(belief, estimate, age, ih, aot), function(x) as.numeric(x)),
+    consensus_judgement = fct_relevel(consensus_judgement, c("Disagree", "Agree")),
+    type = fct_relevel(type, c("moral", "factual")),
+    testimony = fct_relevel(
+      str_trim(testimony, side = c("right")), 
+      c("adults", "experts")
+      )
+  ) %>%
+  filter(consensus_judgement != "") # To change 
+head(consensus_df)
+consensus_df$consensus_judgement <- droplevels(consensus_df$consensus_judgement)
+levels(consensus_df$consensus_judgement)
+```
+
+# non-hierarchical models
+
+```{r}
+consensus_mdl00 <- glm(consensus_judgement ~ 1 + belief + ih  + type + testimony,
+                       data = consensus_df,
+                       family = "binomial")
+summary(consensus_mdl00)
+```
+```{r}
+consensus_mdl01 <- glm(consensus_judgement ~ 1 + belief + aot  + type + testimony,
+                       data = consensus_df,
+                       family = "binomial")
+summary(consensus_mdl01)
+```
+
+# Non-hierarchical interaction model
+
+```{r}
+consensus_mdl02 <- glm(consensus_judgement ~ 1 + belief * ih  + type + testimony,
+                       data = consensus_df,
+                       family = "binomial")
+summary(consensus_mdl02)
+```
+
+```{r}
+plot_model(consensus_mdl02)
+```
+
+
+```{r}
+consensus_mdl02 <- glm(consensus_judgement ~ 1 + belief * aot  + type + testimony,
+                       data = consensus_df,
+                       family = "binomial")
+summary(consensus_mdl02)
+```
+
+
+
+
+
+
+# Consensus model (mixed effects)  
+
+```{r}
+consensus_mdl1 <- glmer(consensus_judgement ~ 1 + type + testimony + belief * ih + 
+                         (1 | ResponseId) + (1 | topic), 
+                       data = consensus_df,
+                       family = "binomial",
+                       control = glmerControl(optimizer = "bobyqa"))
+```
+
+```{r}
+consensus_mdl2 <- glmer(consensus_judgement ~ 1 + type + testimony + belief * aot + 
+                         (1 | ResponseId) + (1 | topic),
+                        data = consensus_df,
+                       family = "binomial",
+                       control = glmerControl(optimizer = "bobyqa"))
+```
+
+Run two separate models (ih and aot could be correlated, run checks?) [preregister]
+
+```{r}
+consensus_mdl_full <- glmer(consensus_judgement ~ 1 + belief * ih + gender + age + type + testimony + 
+                         (1 + type + testimony | ResponseId) + (1 + belief | topic), 
+                       data = consensus_df,
+                       family = "binomial",
+                       control = glmerControl(optimizer = "bobyqa"))
+```
+
+# Estimation model 
+
+```{r}
+estimation_mdl <- lmer(estimate ~ 1 + belief + gender + age + type + testimony + (1 + belief | topic) + (1 + belief | ResponseId),
+                       data = consensus_df,
+                       control = lmerControl(optimizer = "bobyqa"))
+```
+

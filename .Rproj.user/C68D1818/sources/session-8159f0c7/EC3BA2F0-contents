@@ -1,0 +1,669 @@
+---
+title: "sarc_cogsci_v1"
+output: html_document
+date: "2024-01-30"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Setup & Corpus Pre-processing 
+
+### Reading packages 
+
+```{r}
+library(tidyverse)
+library(tidytext)
+library(patchwork)
+library(SnowballC)
+library(sentimentr)
+library(magrittr)
+library(rvest)
+library(caret)
+library(readxl)
+library(mlbench)
+library(LogicReg)
+library(tm)
+library(rjson)
+library(purrr)
+library(ROSE)
+library(vader)
+library(cld2)
+```
+
+### Parsing the dataset
+
+```{r}
+sarc_raw <- read_csv("train-balanced-sarcasm.csv")
+```
+
+### Subset the dataset to only r/AskReddit
+
+```{r}
+sarc_raw2 <- sarc_raw %>%
+  filter(subreddit == "AskReddit") %>%
+  mutate(
+    label = as.factor(label), 
+    n_words = str_count(comment, '\\w+'),
+    n_parentwords = str_count(parent_comment, '\\w+')
+  ) %>%
+  filter(n_words > 10 & n_words < 100 & n_parentwords > 10 & n_parentwords < 100) %>% # Filter out short comments and overly long comments
+  na.omit()
+
+sarc_raw2 %>%
+  count(label)  
+```
+
+```{r}
+sarc_raw_balanced <- ovun.sample(label ~ ., data = sarc_raw2, p = 0.5, # Undersampling majority class to balance the classes 
+                                seed = 3245, method = "under")$data
+
+sarc_df <- sarc_raw_balanced %>%
+  mutate(
+    id = row_number() # Adding id 
+  )
+    
+  #   , 
+  #   language = detect_language(comment, plain_text = TRUE, lang_code = FALSE),
+  #   language2 = detect_language(parent_comment, plain_text = TRUE, lang_code = FALSE)
+  # ) %>%
+  # filter((language == "ENGLISH" | is.na(language)) & (language2 == "ENGLISH" | is.na(language2))) # Removing non-english comments 
+```
+
+# Syntactic features model 
+
+Dictionaries 
+-Hyperbolic (exaggerations) words (chatgpt)
+-Negations (chatgpt)
+-Interjections (Website)
+-Reddit slang (r/theoryofreddit)
+-Internet slang (kaggle)
+-Emoticons (kaggle)
+-Top Adverbs: clearly, obviously, totally, only, actually (adapted from tfidf, svm top weights & qualitative observations)
+-"Yeah" and "yea" (taken from sentiment analysis)
+-Stop words 
+
+## Loading the dictionaries 
+
+### Chatgpt dictionaries (mainly grammar features)
+
+```{r}
+# Negations
+negations_dict <- data.frame(words = "Not, No, Never, None, Nobody, Nowhere, Nothing, Neither, Nor, Non, Without") %>%
+  separate_rows("words", sep=", ") %>%
+  mutate(
+    words = tolower(words)
+  )
+
+# Exaggerations
+exaggeration_dict <- data.frame(words = "Very, Extremely, Incredibly, Unbelievably, Exceptionally, Exceedingly, Tremendously, Overwhelmingly, Astoundingly, Outrageously, Unusually, Intensely, Remarkably, Extraordinarily, Absurdly, Enormously, Monumentally, Unimaginably, Inordinately, Absolutely, Utterly, Completely, Unbearably, Stunningly, Ridiculously, Insanely, Epic, Monstrous, Gargantuan, Mega, Gigantic, Colossal, Mammoth, Literally, Amazing, Mind-blowing, Unbelievable, Insane, Incredible, Awesome, Crazy, Mind-boggling, Spectacular, Fantastic, Outrageous, Phenomenal, Unreal, Legendary, Game-changing") %>%
+  separate_rows("words", sep=", ") %>%
+  mutate(
+    words = tolower(words)
+  ) %>%
+  distinct(words)
+```
+
+### Interjection Dictionary (html)
+
+```{r}
+interjections_html <- read_html("https://www.vidarholen.net/contents/interjections/")
+interjections_section <- html_node(interjections_html, xpath = '//*[@id="it"]')
+interjections_raw <- html_table(interjections_section)
+
+interjections1 <- interjections_raw %>%
+  separate_rows("Alternate/ Similar", sep=", ") %>%
+  select(2) %>%
+  rename(Word = "Alternate/ Similar") %>%
+  mutate(
+    Word = str_replace(Word, regex("[:punct:]+"), ""),
+    Word = str_replace(Word, regex("-"), ""),
+    Word = str_replace(Word, " ", "")
+  ) %>%
+  filter(!Word == "") %>%
+  select(Word)
+
+interjections_dict <- interjections_raw %>%
+  mutate(
+    Word = str_replace(Word, regex("[:punct:]+"), ""), 
+    Word = str_replace(Word, regex("-"), "")
+  ) %>% 
+  select(Word) %>%
+  rbind(interjections1) %>%
+  filter(!Word == "yeah") %>%
+  distinct() %>%
+  rename(words = Word)
+```
+
+### CSV dictionaries 
+
+```{r}
+# Emoticon Dictionary (kaggle)
+emoticon_raw <- fromJSON(file = "emoticon_dict.json")
+emoticon_dict <- data.frame(words = names(emoticon_raw)) 
+
+# Internet slang (kaggle)
+internetslang_raw <- read.csv("slang.csv") %>%
+  rename(words = acronym)
+
+# Reddit Slang (r/theoryofreddit)
+redditslang_raw <- read.csv("redditslang.csv")
+redditslang_raw$Words <- tolower(redditslang_raw$Words)
+
+redditslang_dict <- redditslang_raw %>% 
+  rename(words = Words) %>%
+  separate_rows(words, sep = " or ") %>% # Splitting words with alternate spellings 
+  filter(str_detect(words, " ") == FALSE) %>% # Removing bigrams
+  mutate(
+    words = str_replace(words, regex("[^\\w\\s]"), "") # Removing punctuations 
+  )
+
+# Removing overlap between both slang dictionaries 
+slang_overlap <- internetslang_raw %>% 
+  inner_join(redditslang_dict, by = "words") 
+
+internetslang_dict <- internetslang_raw %>%
+  anti_join(slang_overlap, by = "words") %>%
+  distinct(words)
+```
+
+### Adverbs
+
+```{r}
+# Top adverbs
+adverb_dict <- data.frame(words = c("clearly", "obviously", "totally", "only", "actually")) 
+```
+
+
+## Feature Extraction 
+
+### Sentence level
+
+```{r}
+sarc_features1 <- sarc_df %>%
+  mutate( 
+    n_excessive_punct = str_count(comment, regex("([^\\w\\s])\\1\\1+")), # Excessive punctuation >3
+    b_quotations = str_detect(comment, regex("\\s([\\p{quotation mark}'*~@])(\\w\\s?)+\\1\\s")), # Use of quotations: "qwerty", 'qwerty qwerty', *qwerty, qwerty qwerty*
+    b_quotations = as.factor(b_quotations),
+    n_elongated = str_count(comment, regex("[a-zA-Z]*(?i)([a-z])\\1\\1[a-zA-Z]*")), # Elongated words (two or more consecutive letters)
+    n_fullycapitalised = str_count(comment, regex("\\b[A-Z]{2,}\\b")), # Fully Capitalised words
+    n_negations1 = str_count(comment, regex("n't")) # Part 1 of negations: words that end with "n't" like aren't or wouldn't 
+  ) %>%
+  select(id, n_excessive_punct, b_quotations, n_elongated, n_fullycapitalised, n_negations1)
+```
+
+### Number of emoticons with separate_rows function 
+
+```{r}
+sarc_features2 <- sarc_df %>%
+  separate_rows(comment, sep = " ") %>%
+  inner_join(emoticon_dict, by = c("comment" = "words")) %>%
+  count(id) %>%
+  rename(b_emoticons = n) %>%
+  full_join(sarc_df, by = "id") %>%
+  mutate(
+    b_emoticons = ifelse(is.na(b_emoticons), FALSE, TRUE),
+    b_emoticons = as.factor(b_emoticons)
+  ) %>%
+  select(id, b_emoticons)
+```
+
+## Token level 
+
+```{r}
+sarc_tidy1 <- sarc_df %>%
+  unnest_tokens(words, comment) %>%
+  drop_na(words) %>%
+  filter(!str_detect(words, "[:digit:]")) 
+
+sarc_stem <- sarc_tidy1 %>%
+  mutate(
+    words = wordStem(words, language = "en")
+  ) 
+```
+
+### Stopwords 
+
+```{r}
+stopwords <- distinct(stop_words, word) %>% # Stopwords 
+  rename(words = word)
+  
+
+sarc_features3 <- sarc_tidy1 %>%
+  inner_join(stopwords, by = "words") %>%
+  count(id, name = "n_stopwords") %>%
+  full_join(sarc_df, by = "id") %>%
+  mutate(
+    n_stopwords = ifelse(is.na(n_stopwords), 0, n_stopwords)
+  ) %>%
+  select(id, n_stopwords)
+```
+
+### Negations (part 2)
+
+```{r}
+sarc_features4 <- sarc_tidy1 %>%
+  inner_join(negations_dict, by = "words") %>%
+  count(id, name = "n_negations2") %>%
+  full_join(sarc_df, by = "id") %>%
+  mutate(
+    n_negations2 = ifelse(is.na(n_negations2), 0, n_negations2)
+  ) %>%
+  select(id, n_negations2)
+```
+
+### Interjections 
+
+```{r}
+sarc_features5 <- sarc_tidy1 %>%
+  inner_join(interjections_dict, by = "words") %>%
+  count(id, name = "n_interjections") %>%
+  full_join(sarc_df, by = "id") %>%
+  mutate(
+    n_interjections = ifelse(is.na(n_interjections), 0, n_interjections)
+  ) %>%
+  select(id, n_interjections)
+```
+
+### Internet Slang 
+
+```{r}
+sarc_features6 <- sarc_tidy1 %>%
+  inner_join(internetslang_dict, by = "words") %>%
+  count(id, name = "b_internetslang") %>%
+  full_join(sarc_df, by = "id") %>%
+  mutate(
+    b_internetslang = ifelse(is.na(b_internetslang), FALSE, TRUE),
+    b_internetslang = as.factor(b_internetslang)
+  ) %>% 
+  select(id, b_internetslang)
+```
+
+### Reddit Slang 
+
+```{r}
+sarc_features7 <- sarc_tidy1 %>%
+  inner_join(redditslang_dict, by = "words") %>%
+  count(id, name = "b_redditslang") %>%
+  full_join(sarc_df, by = "id") %>%
+  mutate(
+    b_redditslang = ifelse(is.na(b_redditslang), FALSE, TRUE),
+    b_redditslang = as.factor(b_redditslang)
+  ) %>%
+  select(id, b_redditslang)
+```
+
+### Exaggerated words 
+
+```{r}
+sarc_features8 <- sarc_tidy1 %>%
+  inner_join(exaggeration_dict, by = "words") %>%
+  count(id, name = "n_exaggeration") %>%
+  full_join(sarc_df, by = "id") %>%
+  mutate(
+    n_exaggeration = ifelse(is.na(n_exaggeration), 0, n_exaggeration)
+  ) %>%
+  select(id, n_exaggeration)
+```
+
+### "Yeah" and "yea" 
+
+```{r}
+yeah_dict <- data.frame(words = c("yeah", "yea")) 
+
+sarc_features9 <- sarc_tidy1 %>%
+  inner_join(yeah_dict, by = "words") %>%
+  count(id, name = "n_yeah") %>%
+  full_join(sarc_df, by = "id") %>%
+  mutate(
+    n_yeah = ifelse(is.na(n_yeah), 0, TRUE)
+  ) %>%
+  select(id, n_yeah)
+```
+
+### Adverbs 
+
+```{r}
+sarc_features10 <- sarc_tidy1 %>%
+  inner_join(adverb_dict, by = "words") %>%
+  count(id, name = "b_adverbs") %>%
+  full_join(sarc_df, by = "id") %>%
+  mutate(
+    b_adverbs = ifelse(is.na(b_adverbs), FALSE, TRUE),
+    b_adverbs = as.factor(b_adverbs)
+  ) %>%
+  select(id, b_adverbs)
+```
+
+### Combining all features into one dataframe 
+
+```{r}
+sarc_label <- sarc_df %>%
+  select(id, label)
+sarc_features_full <- purrr::reduce(list(sarc_label, 
+                                         sarc_features1,
+                                         sarc_features2,
+                                         sarc_features3,
+                                         sarc_features4,
+                                         sarc_features5,
+                                         sarc_features6,
+                                         sarc_features7,
+                                         sarc_features8,
+                                         sarc_features9,
+                                         sarc_features10), 
+                                    dplyr::left_join, 
+                                    by = "id") %>%
+  mutate(
+    n_negations = n_negations1 + n_negations2 
+  ) %>%
+  select(!c(n_negations1, n_negations2)) 
+head(sarc_features_full)
+```
+
+### Some Descriptive Stats
+
+```{r}
+sarc_features_full %>%
+  group_by(label) %>%
+  summarise(
+    mean_punct = mean(n_excessive_punct),
+    n_quotations = sum(b_quotations == TRUE),
+    mean_elon = mean(n_elongated),
+    mean_cap = mean(n_fullycapitalised),
+    n_emoticons = sum(b_emoticons == TRUE),
+    mean_stop = mean(n_stopwords),
+    mean_int = mean(n_interjections),
+    n_internetslang = sum(b_internetslang == TRUE),
+    n_redditslang = sum(b_redditslang == TRUE),
+    mean_ex = mean(n_exaggeration),
+    mean_yeah = mean(n_yeah == TRUE),
+    n_adverbs = sum(b_adverbs == TRUE),
+    mean_neg = mean(n_negations)
+  ) 
+```
+
+# Sentiment Analysis with Vader Package 
+
+```{r}
+sarc_sent <- sarc_df$comment %>%
+  vader_df() 
+
+sarc_sent_label <- sarc_sent %>%
+  select(-text) %>%
+  cbind(sarc_df[, c("label","id")]) %>%
+  na.omit() 
+```
+
+### Exposition 
+
+Compound variable: the normalized, weighted composite score of each sentence. 
+Positive sentiment: compound score >= 0.05
+Neutral sentiment: (compound score > -0.05) and (compound score < 0.05)
+Negative sentiment: compound score <= -0.05
+
+### Compound Scores
+
+```{r}
+sarc_sent_label %>%
+  select(compound, label) %>%
+  group_by(label) %>%
+  summarise(
+    n = n(),
+    mean = mean(compound),
+    sd = sd(compound)
+  )
+```
+
+### Categorising the compound scores
+
+```{r}
+sarc_sent_cat <- sarc_sent_label %>%
+  mutate(
+    cat = as.factor(ifelse(compound >= 0.05, "positive", ifelse(compound <= -0.05, "negative", "neutral")))
+  ) %>%
+  select(cat, label) %>%
+  group_by(label, cat) %>%
+  count(cat)
+sarc_sent_cat
+```
+
+The pos, neu, and neg scores are ratios for proportions of text that fall in each category (so these should all add up to be 1... or close to it with float operation)
+
+### Comparison of positive scores for sarcastic and regular comments 
+
+```{r}
+sarc_sent_label %>%
+  select(pos, label) %>%
+  group_by(label) %>%
+  summarise(
+    n = n(),
+    mean = mean(pos),
+    sd = sd(pos)
+  )
+```
+
+### Comparison of neutral scores for sarcastic and regular comments 
+
+```{r}
+sarc_sent_label %>%
+  select(neu, label) %>%
+  group_by(label) %>%
+  summarise(
+    n = n(),
+    mean = mean(neu),
+    sd = sd(neu)
+  )
+```
+
+### Comparison of negative scores for sarcastic and regular comments 
+
+```{r}
+sarc_sent_label %>%
+  select(neg, label) %>%
+  group_by(label) %>%
+  summarise(
+    n = n(),
+    mean = mean(neg),
+    sd = sd(neg)
+  )
+```
+
+# Dictionary based sociomoral topic tagging/annotating  
+
+### Importing the dictionaries 
+
+```{r}
+# Creating the function that cleans the dictionary, only taking unigrams for now, no lemmatizing 
+clean_dict <- function(df){
+  df <- rename(df, words = "V1") %>%
+    mutate(
+    words = tolower(words),
+    n_words = str_count(words, '\\w+')
+  ) %>%
+  filter(n_words == 1) %>%
+  select(words)
+  return(df)
+}
+
+politics_dict <- read.delim("politics_sarc.txt", header = FALSE) %>%
+  clean_dict()
+
+hot_topics_dict <- read.delim("hot_topics_sarc.txt", header = FALSE) %>%
+  clean_dict()
+
+gender_dict <- read.delim("gender_sarc.txt", header = FALSE) %>%
+  clean_dict()
+
+race_dict <- read.delim("race_sarc.txt", header = FALSE) %>%
+  clean_dict()
+
+religion_dict <- read.delim("religion_sarc.txt", header = FALSE) %>%
+  clean_dict()
+
+lgbt_dict <- read.delim("lgbt_sarc.txt", header = FALSE) %>%
+  clean_dict()
+
+moral_dict <- read.delim("moral_sarc.txt", header = FALSE) %>%
+  clean_dict()
+```
+
+### Joining the dictionaries to the tokens 
+
+```{r}
+sarc_df_comb <- sarc_df %>%
+  unite(combined, comment, parent_comment, sep = " ")
+
+sarc_comb_tokens <- sarc_df_comb %>%
+  unnest_tokens(words, combined) %>%
+  drop_na(words) %>%
+  filter(!str_detect(words, "[:digit:]")) 
+
+# Creating a function that counts the occurrences of the words from the dictionary specified in the comment
+join_dict <- function(dict_df) {
+  sarc_comb_tokens %>%
+    inner_join(dict_df, by = "words") %>%
+  count(id) %>%
+  full_join(sarc_df_comb, by = "id") %>%
+  mutate(
+    n = ifelse(is.na(n), 0, 1)
+  ) %>%
+  select(id, n)
+}
+
+# Using the reduce function from purrr package to combine all dfs with occurrences together, and aggregating them to see if a sociomoral topic occurs in that comment 
+sarc_comb_label <- sarc_df_comb %>%
+  select(id, label)
+sarc_topics_full <- purrr::reduce(list(sarc_comb_label, 
+                                       join_dict(politics_dict),
+                                       join_dict(hot_topics_dict),
+                                       join_dict(gender_dict),
+                                       join_dict(race_dict),
+                                       join_dict(religion_dict),
+                                       join_dict(lgbt_dict)), 
+                                    dplyr::left_join, 
+                                    by = "id") %>%
+  rename(
+    politics = "n.x",
+    hot_topics = "n.y",
+    gender = "n.x.x",
+    race = "n.y.y",
+    religion = "n.x.x.x",
+    lgbt = "n.y.y.y"
+    ) %>%
+  mutate(
+    sociomoral = ifelse((politics + hot_topics + gender + race + religion + lgbt) > 0, 1, 0)
+  )
+
+sarc_topics_full %>%
+  count(label, sociomoral)
+
+# Descriptive stats 
+sarc_topics_full %>% 
+  pivot_longer(cols = c(politics, hot_topics, gender, race, religion, lgbt, sociomoral), names_to = "topic") %>%
+  group_by(label, topic) %>%
+  summarise(
+    n = sum(value)
+  ) %>%
+  pivot_wider(names_from = topic, values_from = n)
+```
+
+# Appending the semantic features (compound sentiment score and topic of discourse) onto the syntactic model 
+
+```{r}
+sarc_final_features <- purrr::reduce(list(sarc_features_full, 
+                                         select(sarc_sent_label, c(id,compound)),
+                                         select(sarc_topics_full, -label)), 
+                                    dplyr::left_join, 
+                                    by = "id") %>%
+  na.omit() %>%
+  mutate(
+    b_politics = as.factor(politics),
+    b_hot_topics = as.factor(hot_topics),
+    b_gender = as.factor(gender),
+    b_race = as.factor(race),
+    b_religion = as.factor(religion),
+    b_lgbt = as.factor(lgbt),
+    b_sociomoral = as.factor(sociomoral)
+  ) %>%
+  rename(sentiment = compound) %>%
+  select(-c(politics, hot_topics, gender, race, religion, lgbt, sociomoral))
+head(sarc_final_features)
+
+write.csv(sarc_final_features, "sarcasm_processed.csv")
+```
+
+<!-- # Example sociomoral and non-sociomoral sarcastic comments  -->
+
+<!-- ```{r} -->
+<!-- sarc_sociomoral_examples <- sarc_final_features %>% -->
+<!--   select(id, c(b_politics:b_sociomoral)) %>% -->
+<!--   inner_join(select(sarc_df, id, label, comment), by = "id") %>% -->
+<!--   filter(label == 1) -->
+<!-- examplepolitics <- sarc_sociomoral_examples %>% -->
+<!--   filter(b_politics == 1) -->
+<!-- examplerace <- sarc_sociomoral_examples %>% -->
+<!--   filter(b_race == 1) -->
+<!-- examplenonsociomoral <- sarc_sociomoral_examples %>% -->
+<!--   filter(b_sociomoral == 0) -->
+<!-- ``` -->
+
+<!-- # Temporal change in /s use  -->
+
+<!-- ### Spliting timedate column to year and month  -->
+
+<!-- ```{r} -->
+<!-- sarc_temp <- sarc_df %>% -->
+<!--   select(id, date, comment, parent_comment) %>% -->
+<!--   inner_join(sarc_final_features, by = "id") %>% -->
+<!--   separate(date, c("year", "month"), sep = "-")  -->
+<!-- ``` -->
+
+<!-- ```{r} -->
+<!-- sarc_temp %>% -->
+<!--   group_by(year) %>% -->
+<!--   count() -->
+<!-- ``` -->
+
+<!-- ### Filtering for political comments  -->
+
+<!-- ```{r} -->
+<!-- sarc_pol <- sarc_temp %>% -->
+<!--   filter(label == 1 & b_politics == 1) %>% -->
+<!--   select(1:5) -->
+<!-- sarc_pol %>% -->
+<!--   group_by(year) %>% -->
+<!--   count() -->
+<!-- ``` -->
+
+<!-- ### Randomly selecting 20 comments for each year  -->
+
+<!-- ```{r} -->
+<!-- sarc_pol %>% -->
+<!--   write.csv("sarcpolfull.csv", row.names=TRUE) -->
+
+<!-- set.seed(3255) -->
+
+<!-- sample_sarc <- function(pol_year) { -->
+<!--   sarc_pol %>% -->
+<!--     filter(year == pol_year) %>% -->
+<!--     sample_n(20) -->
+<!-- } -->
+
+<!-- sarc_pol_subsetfull <- rbind(filter(sarc_pol, year == "2009"), -->
+<!--                              filter(sarc_pol, year == "2010"), -->
+<!--                              sample_sarc("2011"), -->
+<!--                              sample_sarc("2012"), -->
+<!--                              sample_sarc("2013"), -->
+<!--                              sample_sarc("2014"), -->
+<!--                              sample_sarc("2015"), -->
+<!--                              sample_sarc("2016")) -->
+
+<!-- sarc_pol_subsetfull %>% -->
+<!--   write.csv("sarcpolsubsetfull.csv", row.names = TRUE) -->
+<!-- ``` -->
+
+
+
+
+
