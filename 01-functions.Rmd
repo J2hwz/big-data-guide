@@ -84,6 +84,7 @@ psych_df %>%
   select(title, score, flair)
 ```
 
+## For working with text
 
 
 
