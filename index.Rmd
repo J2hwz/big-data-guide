@@ -24,7 +24,13 @@ github-repo: rstudio/bookdown-demo
 
 ## General strategies for the course
 
-This course is hard so prepare to kiss your first class honours goodbye.
+This course is hard so prepare to kiss your first class honours goodbye. But if you put the effort in, it's highly rewarding, no matter what mark you get.
+
+ - The main part of the course is your research project, which is grounded in what you learn in the lectures and tutorials (so you better show up to them).
+
+ - Participate, ask questions, talk to Zach, he's there to help (and we are here too).
+
+ - You will learn by doing (and googling when things don't work - follow on to the next section).
 
 ## How to search for stuff you don't understand 
 
@@ -37,6 +43,7 @@ This course is hard so prepare to kiss your first class honours goodbye.
 
 ## About us 
 
+We survived the course.
 
 
 <!-- This is a _sample_ book written in **Markdown**. You can use anything that Pandoc's Markdown supports; for example, a math equation $a^2 + b^2 = c^2$. -->
