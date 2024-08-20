@@ -2,7 +2,6 @@
 
 ```{r include=FALSE}
 library(tidyverse)
-library(quoted)
 ```
 
 
@@ -86,12 +85,7 @@ psych_df %>%
 ```
 
 
-## For working with text 
 
-```{r}
-wendy(1)
-zach(1)
-```
 
 
 
