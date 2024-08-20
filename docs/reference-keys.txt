@@ -4,8 +4,8 @@ general-strategies-for-the-course
 how-to-search-for-stuff-you-dont-understand
 about-us
 common-functions
-for-working-with-text
 for-working-with-dataframes
+for-working-with-text
 useful-packages
 tutorials
 writing-functions-in-r
@@ -17,3 +17,6 @@ datasets
 project-ideas
 what-to-look-for-in-a-project
 useful-resources
+url-your-book-url-like-httpsbookdown.orgyihuibookdown
+select
+filter

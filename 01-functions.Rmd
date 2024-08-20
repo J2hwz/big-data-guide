@@ -1,10 +1,100 @@
 # Common Functions 
 
+```{r include=FALSE}
+library(tidyverse)
+library(quoted)
+```
+
+
+## For working with dataframes
+
+I've scraped some data from r/psychologystudents so we can explore what we like to complain about. 
+
+```{r include=FALSE}
+psych_df <- read.csv("data/psychologystudents_20240820.csv")
+```
+
+```{r}
+head(psych_df)
+```
+
+That's a bit chunky, why not we get rid of some variables? 
+
+### select()
+
+The select() function allows you retain specific columns (variables) by name from a dataframe. 
+
+```{r}
+psych_df %>%
+  select(title) %>%
+  head()
+```
+
+You can also pick out multiple columns by adding more arguments to the select() function.
+
+```{r}
+psych_df %>%
+  select(score, id, subreddit) %>%
+  head()
+```
+
+You can also retain columns by their numerical order. Here, the score, id, and subreddit are columns 3, 4, and 5 respectively.
+
+```{r eval=FALSE}
+psych_df %>%
+  select(c(3:5)) %>%
+  head()
+```
+
+### filter()
+
+Recall that to call upon specific rows we can do this: 
+
+```{r}
+psych_df[4:7,] %>%
+  select(title)
+```
+
+Which outputs rows 4 to 7.  
+
+The filter function allows you to select specific rows that fit one or multiple criterion in your dataframe.
+
+To get titles that have a Reddit score of 25 or more:
+
+```{r}
+psych_df %>%
+  filter(score > 25) %>%
+  select(title, score)
+
+```
+
+You can also input multiple logical conditions by adding more operators such as & or |. 
+For a score of more than 25 and a "Discussion" flair. 
+
+```{r}
+psych_df %>%
+  filter(score > 25 & flair == "Discussion") %>%
+  select(title, score, flair) 
+```
+
+For a score of 100 or more OR a "Study Megathread" flair. 
+
+```{r}
+psych_df %>%
+  filter(score >= 100 | flair == "Study Megathread") %>%
+  select(title, score, flair)
+```
+
 
 ## For working with text 
 
+```{r}
+wendy(1)
+zach(1)
+```
 
 
-## For working with dataframes 
+
+
 
 
