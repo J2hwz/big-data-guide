@@ -4,8 +4,10 @@ general-strategies-for-the-course
 how-to-search-for-stuff-you-dont-understand
 about-us
 common-functions
-for-working-with-text
 for-working-with-dataframes
+select
+filter
+for-working-with-text
 useful-packages
 tutorials
 writing-functions-in-r
