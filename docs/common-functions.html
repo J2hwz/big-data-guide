@@ -29,7 +29,7 @@ set in the _output.yml file.</p>" />
 <meta name="author" content="Joshua Hew and Jana Tomastikova" />
 
 
-<meta name="date" content="2024-08-20" />
+<meta name="date" content="2024-08-28" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -62,7 +62,7 @@ set in the _output.yml file.</p>" />
 
 <style type="text/css">
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -202,7 +202,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="for-working-with-dataframes" class="section level2 hasAnchor" number="2.1">
 <h2><span class="header-section-number">2.1</span> For working with dataframes<a href="common-functions.html#for-working-with-dataframes" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>I’ve scraped some data from r/psychologystudents so we can explore what we like to complain about.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="common-functions.html#cb1-1" tabindex="-1"></a><span class="fu">head</span>(psych_df)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="common-functions.html#cb3-1" tabindex="-1"></a><span class="fu">head</span>(psych_df)</span></code></pre></div>
 <pre><code>##                                                                                                                   title
 ## 1                                                [USA] Read this if you are interested in a career in mental healthcare
 ## 2 [May 2024] Post Study Participation Requests Here (Link/Text posts on their own will be removed) - Monthly Megathread
@@ -256,9 +256,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="select" class="section level3 hasAnchor" number="2.1.1">
 <h3><span class="header-section-number">2.1.1</span> select()<a href="common-functions.html#select" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>The select() function allows you retain specific columns (variables) by name from a dataframe.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="common-functions.html#cb3-1" tabindex="-1"></a>psych_df <span class="sc">%&gt;%</span></span>
-<span id="cb3-2"><a href="common-functions.html#cb3-2" tabindex="-1"></a>  <span class="fu">select</span>(title) <span class="sc">%&gt;%</span></span>
-<span id="cb3-3"><a href="common-functions.html#cb3-3" tabindex="-1"></a>  <span class="fu">head</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="common-functions.html#cb5-1" tabindex="-1"></a>psych_df <span class="sc">%&gt;%</span></span>
+<span id="cb5-2"><a href="common-functions.html#cb5-2" tabindex="-1"></a>  <span class="fu">select</span>(title) <span class="sc">%&gt;%</span></span>
+<span id="cb5-3"><a href="common-functions.html#cb5-3" tabindex="-1"></a>  <span class="fu">head</span>()</span></code></pre></div>
 <pre><code>##                                                                                                                   title
 ## 1                                                [USA] Read this if you are interested in a career in mental healthcare
 ## 2 [May 2024] Post Study Participation Requests Here (Link/Text posts on their own will be removed) - Monthly Megathread
@@ -267,9 +267,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 5                                                             can i be a psychiatric nurse practitioner and get a PhD? 
 ## 6                                                                                 How to memorize regions of the brain?</code></pre>
 <p>You can also pick out multiple columns by adding more arguments to the select() function.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="common-functions.html#cb5-1" tabindex="-1"></a>psych_df <span class="sc">%&gt;%</span></span>
-<span id="cb5-2"><a href="common-functions.html#cb5-2" tabindex="-1"></a>  <span class="fu">select</span>(score, id, subreddit) <span class="sc">%&gt;%</span></span>
-<span id="cb5-3"><a href="common-functions.html#cb5-3" tabindex="-1"></a>  <span class="fu">head</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="common-functions.html#cb7-1" tabindex="-1"></a>psych_df <span class="sc">%&gt;%</span></span>
+<span id="cb7-2"><a href="common-functions.html#cb7-2" tabindex="-1"></a>  <span class="fu">select</span>(score, id, subreddit) <span class="sc">%&gt;%</span></span>
+<span id="cb7-3"><a href="common-functions.html#cb7-3" tabindex="-1"></a>  <span class="fu">head</span>()</span></code></pre></div>
 <pre><code>##   score      id          subreddit
 ## 1   384  y4av45 psychologystudents
 ## 2    10 1ci42y4 psychologystudents
@@ -278,15 +278,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 5     3 1ewo4id psychologystudents
 ## 6     6 1ewhy1m psychologystudents</code></pre>
 <p>You can also retain columns by their numerical order. Here, the score, id, and subreddit are columns 3, 4, and 5 respectively.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="common-functions.html#cb7-1" tabindex="-1"></a>psych_df <span class="sc">%&gt;%</span></span>
-<span id="cb7-2"><a href="common-functions.html#cb7-2" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">c</span>(<span class="dv">3</span><span class="sc">:</span><span class="dv">5</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb7-3"><a href="common-functions.html#cb7-3" tabindex="-1"></a>  <span class="fu">head</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="common-functions.html#cb9-1" tabindex="-1"></a>psych_df <span class="sc">%&gt;%</span></span>
+<span id="cb9-2"><a href="common-functions.html#cb9-2" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">c</span>(<span class="dv">3</span><span class="sc">:</span><span class="dv">5</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb9-3"><a href="common-functions.html#cb9-3" tabindex="-1"></a>  <span class="fu">head</span>()</span></code></pre></div>
 </div>
 <div id="filter" class="section level3 hasAnchor" number="2.1.2">
 <h3><span class="header-section-number">2.1.2</span> filter()<a href="common-functions.html#filter" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Recall that to call upon specific rows we can do this:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="common-functions.html#cb8-1" tabindex="-1"></a>psych_df[<span class="dv">4</span><span class="sc">:</span><span class="dv">7</span>,] <span class="sc">%&gt;%</span></span>
-<span id="cb8-2"><a href="common-functions.html#cb8-2" tabindex="-1"></a>  <span class="fu">select</span>(title)</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="common-functions.html#cb10-1" tabindex="-1"></a>psych_df[<span class="dv">4</span><span class="sc">:</span><span class="dv">7</span>,] <span class="sc">%&gt;%</span></span>
+<span id="cb10-2"><a href="common-functions.html#cb10-2" tabindex="-1"></a>  <span class="fu">select</span>(title)</span></code></pre></div>
 <pre><code>##                                                       title
 ## 4                      Any Organisational Psychlogist here?
 ## 5 can i be a psychiatric nurse practitioner and get a PhD? 
@@ -295,9 +295,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Which outputs rows 4 to 7.</p>
 <p>The filter function allows you to select specific rows that fit one or multiple criterion in your dataframe.</p>
 <p>To get titles that have a Reddit score of 25 or more:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="common-functions.html#cb10-1" tabindex="-1"></a>psych_df <span class="sc">%&gt;%</span></span>
-<span id="cb10-2"><a href="common-functions.html#cb10-2" tabindex="-1"></a>  <span class="fu">filter</span>(score <span class="sc">&gt;</span> <span class="dv">25</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb10-3"><a href="common-functions.html#cb10-3" tabindex="-1"></a>  <span class="fu">select</span>(title, score)</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="common-functions.html#cb12-1" tabindex="-1"></a>psych_df <span class="sc">%&gt;%</span></span>
+<span id="cb12-2"><a href="common-functions.html#cb12-2" tabindex="-1"></a>  <span class="fu">filter</span>(score <span class="sc">&gt;</span> <span class="dv">25</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb12-3"><a href="common-functions.html#cb12-3" tabindex="-1"></a>  <span class="fu">select</span>(title, score)</span></code></pre></div>
 <pre><code>##                                                                             title
 ## 1          [USA] Read this if you are interested in a career in mental healthcare
 ## 2 Why do clinical psychologists get paid so little compared to other professions?
@@ -310,15 +310,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 4   115</code></pre>
 <p>You can also input multiple logical conditions by adding more operators such as &amp; or |.
 For a score of more than 25 and a “Discussion” flair.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="common-functions.html#cb12-1" tabindex="-1"></a>psych_df <span class="sc">%&gt;%</span></span>
-<span id="cb12-2"><a href="common-functions.html#cb12-2" tabindex="-1"></a>  <span class="fu">filter</span>(score <span class="sc">&gt;</span> <span class="dv">25</span> <span class="sc">&amp;</span> flair <span class="sc">==</span> <span class="st">&quot;Discussion&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb12-3"><a href="common-functions.html#cb12-3" tabindex="-1"></a>  <span class="fu">select</span>(title, score, flair) </span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="common-functions.html#cb14-1" tabindex="-1"></a>psych_df <span class="sc">%&gt;%</span></span>
+<span id="cb14-2"><a href="common-functions.html#cb14-2" tabindex="-1"></a>  <span class="fu">filter</span>(score <span class="sc">&gt;</span> <span class="dv">25</span> <span class="sc">&amp;</span> flair <span class="sc">==</span> <span class="st">&quot;Discussion&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb14-3"><a href="common-functions.html#cb14-3" tabindex="-1"></a>  <span class="fu">select</span>(title, score, flair) </span></code></pre></div>
 <pre><code>##                               title score      flair
 ## 1 I regret not choosing Psychology     96 Discussion</code></pre>
 <p>For a score of 100 or more OR a “Study Megathread” flair.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="common-functions.html#cb14-1" tabindex="-1"></a>psych_df <span class="sc">%&gt;%</span></span>
-<span id="cb14-2"><a href="common-functions.html#cb14-2" tabindex="-1"></a>  <span class="fu">filter</span>(score <span class="sc">&gt;=</span> <span class="dv">100</span> <span class="sc">|</span> flair <span class="sc">==</span> <span class="st">&quot;Study Megathread&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb14-3"><a href="common-functions.html#cb14-3" tabindex="-1"></a>  <span class="fu">select</span>(title, score, flair)</span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="common-functions.html#cb16-1" tabindex="-1"></a>psych_df <span class="sc">%&gt;%</span></span>
+<span id="cb16-2"><a href="common-functions.html#cb16-2" tabindex="-1"></a>  <span class="fu">filter</span>(score <span class="sc">&gt;=</span> <span class="dv">100</span> <span class="sc">|</span> flair <span class="sc">==</span> <span class="st">&quot;Study Megathread&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb16-3"><a href="common-functions.html#cb16-3" tabindex="-1"></a>  <span class="fu">select</span>(title, score, flair)</span></code></pre></div>
 <pre><code>##                                                                                                                   title
 ## 1                                                [USA] Read this if you are interested in a career in mental healthcare
 ## 2 [May 2024] Post Study Participation Requests Here (Link/Text posts on their own will be removed) - Monthly Megathread

@@ -29,7 +29,7 @@ set in the _output.yml file.</p>" />
 <meta name="author" content="Joshua Hew and Jana Tomastikova" />
 
 
-<meta name="date" content="2024-08-20" />
+<meta name="date" content="2024-08-28" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -62,7 +62,7 @@ set in the _output.yml file.</p>" />
 
 <style type="text/css">
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -200,12 +200,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="header">
 <h1 class="title">A Guide To Surviving Big Data and Psychological Science</h1>
 <p class="author"><em>Joshua Hew and Jana Tomastikova</em></p>
-<p class="date"><em>2024-08-20</em></p>
+<p class="date"><em>2024-08-28</em></p>
 </div>
 <div id="introduction" class="section level1 hasAnchor" number="1">
 <h1><span class="header-section-number">Chapter 1</span> Introduction<a href="index.html#introduction" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>There’s courses you don’t have to worry about too much and then there is Big Data. This guide offers some basic tools and strategies that we think you might find useful, so that you can go on and put your amazing research ideas into work without getting stuck on the practical bits (although you will most likely get stuck anyways). This is by no means all you should know or all you should expext you should know (and not officially a part of the course content), just things that previous students on the course found important to know. We hope it helps.</p>
 <div id="how-to-use-this-guide" class="section level2 hasAnchor" number="1.1">
 <h2><span class="header-section-number">1.1</span> How to use this guide<a href="index.html#how-to-use-this-guide" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Just flick through the pages and find whatever is useful to you. You might know all that’s here - that’s great, you can just move on and find other resources. You also might not be familiar with the things that are here and might not use it at all which is also fine (but we highly doubt that you won’t stumble upon these).</p>
 </div>
 <div id="general-strategies-for-the-course" class="section level2 hasAnchor" number="1.2">
 <h2><span class="header-section-number">1.2</span> General strategies for the course<a href="index.html#general-strategies-for-the-course" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -219,11 +221,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="how-to-search-for-stuff-you-dont-understand" class="section level2 hasAnchor" number="1.3">
 <h2><span class="header-section-number">1.3</span> How to search for stuff you don’t understand<a href="index.html#how-to-search-for-stuff-you-dont-understand" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <ol style="list-style-type: decimal">
-<li>Learn how to read documentation for libraries/functions, most can be found on CRAN.<br />
-</li>
-<li>Most packages have a tutorial or readme document that explains how and when to use them. (search for them!)</li>
-<li>Chatgpt can help with code but using it means you won’t actually understand the code. Better to just follow a tutorial and implement it yourself.</li>
-<li></li>
+<li>Learn how to read documentation for libraries/functions, most can be found on CRAN.</li>
+</ol>
+<ul>
+<li>you can search a function in the documentation by typing this into the console:</li>
+</ul>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="index.html#cb1-1" tabindex="-1"></a>?cor.test</span></code></pre></div>
+<ul>
+<li>you can also use two question marks to search the documentation for a word or a phrase:</li>
+</ul>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="index.html#cb2-1" tabindex="-1"></a>??tokenize</span></code></pre></div>
+<ol start="2" style="list-style-type: decimal">
+<li><p>Most packages have a tutorial or readme document that explains how and when to use them. (search for them!)</p></li>
+<li><p>ChatGPT can help with code but using it means you won’t actually understand the code. Better to just follow a tutorial and implement it yourself.</p></li>
 </ol>
 </div>
 <div id="about-us" class="section level2 hasAnchor" number="1.4">
@@ -247,7 +257,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <!-- As you work, you may start a local server to live preview this HTML book. This preview will update as you edit the book when you save individual .Rmd files. You can start the server in a work session by using the RStudio add-in "Preview book", or from the R console: -->
 <!-- ```{r eval=FALSE} -->
 <!-- bookdown::serve_book() -->
-<!-- ``` -->
+<!-- ``` 
+<!-- ```{r include=FALSE} -->
+<!-- # automatically create a bib database for R packages
+knitr::write_bib(c(
+  .packages(), 'bookdown', 'knitr', 'rmarkdown'
+), 'packages.bib')
+```
+
 
 </div>
 </div>
@@ -312,6 +329,5 @@ gitbook.start({
 </script>
 
 </body>
-
 
 </html>

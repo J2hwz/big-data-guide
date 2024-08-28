@@ -17,8 +17,11 @@ github-repo: rstudio/bookdown-demo
 
 # Introduction
 
+There's courses you don't have to worry about too much and then there is Big Data. This guide offers some basic tools and strategies that we think you might find useful, so that you can go on and put your amazing research ideas into work without getting stuck on the practical bits (although you will most likely get stuck anyways). This is by no means all you should know or all you should expext you should know (and not officially a part of the course content), just things that previous students on the course found important to know. We hope it helps.
+
 ## How to use this guide 
 
+Just flick through the pages and find whatever is useful to you. You might know all that's here - that's great, you can just move on and find other resources. You also might not be familiar with the things that are here and might not use it at all which is also fine (but we highly doubt that you won't stumble upon these).
 
 
 
@@ -34,10 +37,24 @@ This course is hard so prepare to kiss your first class honours goodbye. But if 
 
 ## How to search for stuff you don't understand 
 
-1. Learn how to read documentation for libraries/functions, most can be found on CRAN.  
+1. Learn how to read documentation for libraries/functions, most can be found on CRAN.
+
+  - you can search a function in the documentation by typing this into the console:
+
+```{r}
+?cor.test
+```
+
+  - you can also use two question marks to search the documentation for a word or a phrase:
+  
+```{r}
+??tokenize
+```
+
 2. Most packages have a tutorial or readme document that explains how and when to use them. (search for them!)
-3. Chatgpt can help with code but using it means you won't actually understand the code. Better to just follow a tutorial and implement it yourself. 
-4. 
+
+3. ChatGPT can help with code but using it means you won't actually understand the code. Better to just follow a tutorial and implement it yourself. 
+
 
 
 
@@ -78,11 +95,9 @@ We survived the course.
 
 <!-- ```{r eval=FALSE} -->
 <!-- bookdown::serve_book() -->
-<!-- ``` -->
-
-
-```{r include=FALSE}
-# automatically create a bib database for R packages
+<!-- ``` 
+<!-- ```{r include=FALSE} -->
+<!-- # automatically create a bib database for R packages
 knitr::write_bib(c(
   .packages(), 'bookdown', 'knitr', 'rmarkdown'
 ), 'packages.bib')
