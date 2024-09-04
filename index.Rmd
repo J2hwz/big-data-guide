@@ -17,11 +17,11 @@ github-repo: rstudio/bookdown-demo
 
 # Introduction
 
-There's courses you don't have to worry about too much and then there is Big Data. This guide offers some basic tools and strategies that we think you might find useful, so that you can go on and put your amazing research ideas into work without getting stuck on the practical bits (although you will most likely get stuck anyways). This is by no means all you should know or all you should expext you should know (and not officially a part of the course content), just things that previous students on the course found important to know. We hope it helps.
+There's courses you don't have to worry about too much and then there is Big Data. This guide offers some basic tools and strategies that we think you might find useful, so that you put your amazing research ideas into work without getting stuck on the practical bits (although you will most likely get stuck anyways). This is by no means all you should know or all you should expect you should know (and not officially a part of the course content). These are just some things that previous students on the course found important to know. We hope it helps.
 
 ## How to use this guide 
 
-Just flick through the pages and find whatever is useful to you. You might know all that's here - that's great, you can just move on and find other resources. You also might not be familiar with the things that are here and might not use it at all which is also fine (but we highly doubt that you won't stumble upon these).
+Just flick through the pages and find whatever is useful to you.
 
 
 

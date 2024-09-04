@@ -29,7 +29,7 @@ set in the _output.yml file.</p>" />
 <meta name="author" content="Joshua Hew and Jana Tomastikova" />
 
 
-<meta name="date" content="2024-08-28" />
+<meta name="date" content="2024-09-04" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -159,6 +159,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="2.1.1" data-path="common-functions.html"><a href="common-functions.html#select"><i class="fa fa-check"></i><b>2.1.1</b> select()</a></li>
 <li class="chapter" data-level="2.1.2" data-path="common-functions.html"><a href="common-functions.html#filter"><i class="fa fa-check"></i><b>2.1.2</b> filter()</a></li>
+<li class="chapter" data-level="2.1.3" data-path="common-functions.html"><a href="common-functions.html#arrange"><i class="fa fa-check"></i><b>2.1.3</b> arrange()</a></li>
 </ul></li>
 <li class="chapter" data-level="2.2" data-path="common-functions.html"><a href="common-functions.html#for-working-with-text"><i class="fa fa-check"></i><b>2.2</b> For working with text</a></li>
 </ul></li>
@@ -327,6 +328,44 @@ For a score of more than 25 and a “Discussion” flair.</p>
 ## 1   384   Resource/Study
 ## 2    10 Study Megathread
 ## 3   115         Question</code></pre>
+</div>
+<div id="arrange" class="section level3 hasAnchor" number="2.1.3">
+<h3><span class="header-section-number">2.1.3</span> arrange()<a href="common-functions.html#arrange" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Say I would like to look at 5 entries with the highest score. We can use arrange() and the function desc() to sort the text entries in a descending order:</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="common-functions.html#cb18-1" tabindex="-1"></a>psych_df <span class="sc">%&gt;%</span></span>
+<span id="cb18-2"><a href="common-functions.html#cb18-2" tabindex="-1"></a>  <span class="fu">select</span>(title, score) <span class="sc">%&gt;%</span></span>
+<span id="cb18-3"><a href="common-functions.html#cb18-3" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(score))<span class="sc">%&gt;%</span></span>
+<span id="cb18-4"><a href="common-functions.html#cb18-4" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">5</span>)</span></code></pre></div>
+<pre><code>##                                                                             title
+## 1          [USA] Read this if you are interested in a career in mental healthcare
+## 2                     people say a bachelor’s in psych is useless: true or false?
+## 3                                               I regret not choosing Psychology 
+## 4 Why do clinical psychologists get paid so little compared to other professions?
+## 5                              Can a social anxious introvert become a therapist?
+##   score
+## 1   384
+## 2   115
+## 3    96
+## 4    44
+## 5    25</code></pre>
+<p>5 lowest scoring entries? Arrange() sorts the dataframe in ascending order by default:</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="common-functions.html#cb20-1" tabindex="-1"></a>psych_df <span class="sc">%&gt;%</span></span>
+<span id="cb20-2"><a href="common-functions.html#cb20-2" tabindex="-1"></a>  <span class="fu">select</span>(title, score) <span class="sc">%&gt;%</span></span>
+<span id="cb20-3"><a href="common-functions.html#cb20-3" tabindex="-1"></a>  <span class="fu">arrange</span>((score))<span class="sc">%&gt;%</span></span>
+<span id="cb20-4"><a href="common-functions.html#cb20-4" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">5</span>)</span></code></pre></div>
+<pre><code>##                                                                title score
+## 1 Public Service Loan Forgiveness (PSLF) after finishing doctorates?     0
+## 2         I wish there was a Worldwide Accreditation - or is there?      0
+## 3                      Does an accredited graduate program matter?       0
+## 4                           Are tics just self-made body addictions?     0
+## 5                   Is it possible to study in a different country?      0</code></pre>
+<p>Oh, seems like there might be more than 5 entries that scored a zero. Let’s count how many using count():</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="common-functions.html#cb22-1" tabindex="-1"></a>psych_df <span class="sc">%&gt;%</span></span>
+<span id="cb22-2"><a href="common-functions.html#cb22-2" tabindex="-1"></a>  <span class="fu">filter</span>(score<span class="sc">==</span><span class="dv">0</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb22-3"><a href="common-functions.html#cb22-3" tabindex="-1"></a>  <span class="fu">count</span>(score)</span></code></pre></div>
+<pre><code>##   score n
+## 1     0 8</code></pre>
+<p>Seems like there are 8 entries with the score of 0.</p>
 </div>
 </div>
 <div id="for-working-with-text" class="section level2 hasAnchor" number="2.2">

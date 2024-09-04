@@ -84,7 +84,40 @@ psych_df %>%
   select(title, score, flair)
 ```
 
+### arrange()
+
+Say I would like to look at 5 entries with the highest score. We can use arrange() and the function desc() to sort the text entries in a descending order:
+
+```{r}
+psych_df %>%
+  select(title, score) %>%
+  arrange(desc(score))%>%
+  head(5)
+```
+
+5 lowest scoring entries? Arrange() sorts the dataframe in ascending order by default:
+
+```{r}
+psych_df %>%
+  select(title, score) %>%
+  arrange((score))%>%
+  head(5)
+```
+
+Oh, seems like there might be more than 5 entries that scored a zero. Let's count how many using count():
+
+```{r}
+psych_df %>%
+  filter(score==0) %>%
+  count(score)
+```
+
+Seems like there are 8 entries with the score of 0.
+
+
+
 ## For working with text
+
 
 
 
