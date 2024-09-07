@@ -10,6 +10,8 @@ filter
 arrange
 for-working-with-text
 useful-packages
+tidyverse
+ggplot2
 tutorials
 writing-functions-in-r
 working-with-different-datatypes-and-how-to-convert-between-them

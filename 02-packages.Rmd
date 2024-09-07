@@ -1,3 +1,66 @@
 # Useful Packages
 
+- don't forget that to install a package, you install.packages("tidyverse") and then run this to load the package:
+
+```{r}
+library(tidyverse)
+```
+
+Your good old friend:
+
+## Tidyverse
+
+is actually a package containing other packages that you will very likely use in most of your analyses. These core packages include:
+
+  - ggplot2
+  - dplyr
+  - tidyr
+  - readr
+  - purrr
+  - tibble
+  - stringr
+  - forcats
+  
+(but there's others too)
+  
+Let's have a look at some of the most useful ones.
+
+### ggplot2
+
+Great for plots! You have probably used it in DAPR already - you will use it in this course too. Usually, it starts with the function ggplot(), you then give it a dataset and specify what you want it to look like (aesthetic mapping) with aes(). Here is an example:
+
+```{r,include=FALSE}
+library(tidytext)
+
+unnested <- psych_df %>%
+  unnest_tokens(words,body)
+
+data(stop_words)
+
+stop_words <- stop_words %>%
+  rename("words" = "word")
+
+psych_words <- unnested %>%
+  anti_join(stop_words)
+
+psych_words <- psych_words %>%
+  count(words, sort=TRUE)
+
+psych_words <-  psych_words%>%
+  filter(n > 30)%>%
+  mutate(words = reorder(words,-n))
+
+```
+
+```{r}
+ggplot(psych_words,aes(x=words,y=n))+
+  geom_col(fill = "lightblue")+
+  labs(title ="Most common words in the psych dataset")
+```
+
+Boring, but this is a plot that shows the most used words in our previous dataset (I did some data wrangling beforehand to create the psych_words dataframe - by tokenizing psych_df!).
+
+Click here to find a nice Data Visualization with ggplot2 cheatsheet:
+
+https://github.com/rstudio/cheatsheets/blob/main/data-visualization.pdf
 
