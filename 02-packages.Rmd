@@ -1,12 +1,12 @@
 # Useful Packages
 
-- don't forget that to install a package, you install.packages("tidyverse") and then run this to load the package:
+- don't forget that to install a package, you type install.packages("tidyverse") into the console and then run this to load the package:
 
 ```{r}
 library(tidyverse)
 ```
 
-Your good old friend:
+First, your good old friend:
 
 ## Tidyverse
 
@@ -60,7 +60,84 @@ ggplot(psych_words,aes(x=words,y=n))+
 
 Boring, but this is a plot that shows the most used words in our previous dataset (I did some data wrangling beforehand to create the psych_words dataframe - by tokenizing psych_df!).
 
-Click here to find a nice Data Visualization with ggplot2 cheatsheet:
+Click [here](https://github.com/rstudio/cheatsheets/blob/main/data-visualization.pdf) to find a nice Data Visualization with ggplot2 cheatsheet.
 
-https://github.com/rstudio/cheatsheets/blob/main/data-visualization.pdf
+### dplyr
+
+A very very useful package for data handling. The most common functions from the package are:
+
+  - mutate() = adds a new variable (column) to the dataframe
+  - select() = picks out variables from a dataframe based on their name
+  - filter() = picks out cases based on a condition
+  - summarise() = gives you a summary of multiple values
+  - arrange() = arranges rows in a dataset (usually asceding or descending order)
+  
+Some other functions you might see Zach using are "join" functions, which help you combine dataframes and retain certain values from each, depending on what you need. They are a bit confusing, but hopefully this explanation helps:
+
+I have two dataframes here:
+
+```{r, include=FALSE}
+course <- c('DAPR2', 'Psych in Action', 'Big Data', 'Psych 1A', 'DAPR3')
+avg_sleep <- c('7', '10', '4', '9','6')
+sleep <- data.frame(course, avg_sleep)
+```
+
+```{r}
+sleep
+```
+
+```{r, include = FALSE}
+course <- c('DAPR2', 'Psych in Action', 'Big Data', 'Psych 1A', 'Critical Analysis')
+n_students <- c('250','163','39','300','161')
+students <- data.frame(course,n_students)
+```
+
+```{r}
+students
+```
+
+Now let's see what the join functions do:
+
+**1. inner_join()**
+
+- keeps observations from the first dataframe that have a matching key in the second dataframe (NOTE: join_by() specifies what variable should be our matching variable)
+
+```{r}
+inner_join(sleep, students, join_by(course))
+```
+
+This one put the two dataframes together but left out Critical Analysis and DAPR3, because they are only in one of the two dataframes.
+
+**2. left_join()**
+
+- keeps all observations in the first dataframe.
+
+```{r}
+left_join(sleep, students,join_by(course))
+```
+
+This time, Critical Analysis is left out because it is only in the second dataframe.
+
+**3. right_join()**
+
+- keeps all observations in the second dataframe
+
+```{r}
+right_join(sleep, students,join_by(course))
+```
+
+So, DAPR3 is left out because it is in the first dataframe.
+
+
+**4. full_join()**
+
+- keeps all observations from both dataframes
+
+```{r}
+full_join(sleep, students,join_by(course))
+```
+
+Now we've got all the observations, but some have got missing values.
+
+Again, you can check out a cheatsheet for the dplyr package [here](https://github.com/rstudio/cheatsheets/blob/main/data-transformation.pdf).
 

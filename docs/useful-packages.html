@@ -29,7 +29,7 @@ set in the _output.yml file.</p>" />
 <meta name="author" content="Joshua Hew and Jana Tomastikova" />
 
 
-<meta name="date" content="2024-09-07" />
+<meta name="date" content="2024-09-08" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -168,6 +168,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.1" data-path="useful-packages.html"><a href="useful-packages.html#tidyverse"><i class="fa fa-check"></i><b>3.1</b> Tidyverse</a>
 <ul>
 <li class="chapter" data-level="3.1.1" data-path="useful-packages.html"><a href="useful-packages.html#ggplot2"><i class="fa fa-check"></i><b>3.1.1</b> ggplot2</a></li>
+<li class="chapter" data-level="3.1.2" data-path="useful-packages.html"><a href="useful-packages.html#dplyr"><i class="fa fa-check"></i><b>3.1.2</b> dplyr</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="tutorials.html"><a href="tutorials.html"><i class="fa fa-check"></i><b>4</b> Tutorials</a>
@@ -207,10 +208,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="useful-packages" class="section level1 hasAnchor" number="3">
 <h1><span class="header-section-number">Chapter 3</span> Useful Packages<a href="useful-packages.html#useful-packages" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <ul>
-<li>don’t forget that to install a package, you install.packages(“tidyverse”) and then run this to load the package:</li>
+<li>don’t forget that to install a package, you type install.packages(“tidyverse”) into the console and then run this to load the package:</li>
 </ul>
 <div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="useful-packages.html#cb24-1" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
-<p>Your good old friend:</p>
+<p>First, your good old friend:</p>
 <div id="tidyverse" class="section level2 hasAnchor" number="3.1">
 <h2><span class="header-section-number">3.1</span> Tidyverse<a href="useful-packages.html#tidyverse" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>is actually a package containing other packages that you will very likely use in most of your analyses. These core packages include:</p>
@@ -234,8 +235,84 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb25-3"><a href="useful-packages.html#cb25-3" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span><span class="st">&quot;Most common words in the psych dataset&quot;</span>)</span></code></pre></div>
 <p><img src="_main_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
 <p>Boring, but this is a plot that shows the most used words in our previous dataset (I did some data wrangling beforehand to create the psych_words dataframe - by tokenizing psych_df!).</p>
-<p>Click here to find a nice Data Visualization with ggplot2 cheatsheet:</p>
-<p><a href="https://github.com/rstudio/cheatsheets/blob/main/data-visualization.pdf" class="uri">https://github.com/rstudio/cheatsheets/blob/main/data-visualization.pdf</a></p>
+<p>Click <a href="https://github.com/rstudio/cheatsheets/blob/main/data-visualization.pdf">here</a> to find a nice Data Visualization with ggplot2 cheatsheet.</p>
+</div>
+<div id="dplyr" class="section level3 hasAnchor" number="3.1.2">
+<h3><span class="header-section-number">3.1.2</span> dplyr<a href="useful-packages.html#dplyr" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>A very very useful package for data handling. The most common functions from the package are:</p>
+<ul>
+<li>mutate() = adds a new variable (column) to the dataframe</li>
+<li>select() = picks out variables from a dataframe based on their name</li>
+<li>filter() = picks out cases based on a condition</li>
+<li>summarise() = gives you a summary of multiple values</li>
+<li>arrange() = arranges rows in a dataset (usually asceding or descending order)</li>
+</ul>
+<p>Some other functions you might see Zach using are “join” functions, which help you combine dataframes and retain certain values from each, depending on what you need. They are a bit confusing, but hopefully this explanation helps:</p>
+<p>I have two dataframes here:</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="useful-packages.html#cb26-1" tabindex="-1"></a>sleep</span></code></pre></div>
+<pre><code>##            course avg_sleep
+## 1           DAPR2         7
+## 2 Psych in Action        10
+## 3        Big Data         4
+## 4        Psych 1A         9
+## 5           DAPR3         6</code></pre>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="useful-packages.html#cb28-1" tabindex="-1"></a>students</span></code></pre></div>
+<pre><code>##              course n_students
+## 1             DAPR2        250
+## 2   Psych in Action        163
+## 3          Big Data         39
+## 4          Psych 1A        300
+## 5 Critical Analysis        161</code></pre>
+<p>Now let’s see what the join functions do:</p>
+<p><strong>1. inner_join()</strong></p>
+<ul>
+<li>keeps observations from the first dataframe that have a matching key in the second dataframe (NOTE: join_by() specifies what variable should be our matching variable)</li>
+</ul>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="useful-packages.html#cb30-1" tabindex="-1"></a><span class="fu">inner_join</span>(sleep, students, <span class="fu">join_by</span>(course))</span></code></pre></div>
+<pre><code>##            course avg_sleep n_students
+## 1           DAPR2         7        250
+## 2 Psych in Action        10        163
+## 3        Big Data         4         39
+## 4        Psych 1A         9        300</code></pre>
+<p>This one put the two dataframes together but left out Critical Analysis and DAPR3, because they are only in one of the two dataframes.</p>
+<p><strong>2. left_join()</strong></p>
+<ul>
+<li>keeps all observations in the first dataframe.</li>
+</ul>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="useful-packages.html#cb32-1" tabindex="-1"></a><span class="fu">left_join</span>(sleep, students,<span class="fu">join_by</span>(course))</span></code></pre></div>
+<pre><code>##            course avg_sleep n_students
+## 1           DAPR2         7        250
+## 2 Psych in Action        10        163
+## 3        Big Data         4         39
+## 4        Psych 1A         9        300
+## 5           DAPR3         6       &lt;NA&gt;</code></pre>
+<p>This time, Critical Analysis is left out because it is only in the second dataframe.</p>
+<p><strong>3. right_join()</strong></p>
+<ul>
+<li>keeps all observations in the second dataframe</li>
+</ul>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="useful-packages.html#cb34-1" tabindex="-1"></a><span class="fu">right_join</span>(sleep, students,<span class="fu">join_by</span>(course))</span></code></pre></div>
+<pre><code>##              course avg_sleep n_students
+## 1             DAPR2         7        250
+## 2   Psych in Action        10        163
+## 3          Big Data         4         39
+## 4          Psych 1A         9        300
+## 5 Critical Analysis      &lt;NA&gt;        161</code></pre>
+<p>So, DAPR3 is left out because it is in the first dataframe.</p>
+<p><strong>4. full_join()</strong></p>
+<ul>
+<li>keeps all observations from both dataframes</li>
+</ul>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="useful-packages.html#cb36-1" tabindex="-1"></a><span class="fu">full_join</span>(sleep, students,<span class="fu">join_by</span>(course))</span></code></pre></div>
+<pre><code>##              course avg_sleep n_students
+## 1             DAPR2         7        250
+## 2   Psych in Action        10        163
+## 3          Big Data         4         39
+## 4          Psych 1A         9        300
+## 5             DAPR3         6       &lt;NA&gt;
+## 6 Critical Analysis      &lt;NA&gt;        161</code></pre>
+<p>Now we’ve got all the observations, but some have got missing values.</p>
+<p>Again, you can check out a cheatsheet for the dplyr package <a href="https://github.com/rstudio/cheatsheets/blob/main/data-transformation.pdf">here</a>.</p>
 
 </div>
 </div>
