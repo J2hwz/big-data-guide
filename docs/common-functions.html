@@ -382,7 +382,7 @@ For a score of more than 25 and a “Discussion” flair.</p>
 <p>This function is a super useful one. It binds rows of two or more dataframes together. Let’s say I have these two dataframes:</p>
 <div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="common-functions.html#cb24-1" tabindex="-1"></a>good_people</span></code></pre></div>
 <pre><code>##               name                 died
-## 1   Cedric Digorry       Goblet of Fire
+## 1   Cedric Diggory       Goblet of Fire
 ## 2      Remus Lupin      Deathly Hallows
 ## 3    Alastor Moody      Deathly Hallows
 ## 4 Albus Dumbledore    Half Blood Prince
@@ -398,7 +398,7 @@ For a score of more than 25 and a “Discussion” flair.</p>
 <div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="common-functions.html#cb28-1" tabindex="-1"></a>hp_characters <span class="ot">&lt;-</span> <span class="fu">rbind</span>(good_people,bad_people)</span>
 <span id="cb28-2"><a href="common-functions.html#cb28-2" tabindex="-1"></a>hp_characters</span></code></pre></div>
 <pre><code>##                   name                 died
-## 1       Cedric Digorry       Goblet of Fire
+## 1       Cedric Diggory       Goblet of Fire
 ## 2          Remus Lupin      Deathly Hallows
 ## 3        Alastor Moody      Deathly Hallows
 ## 4     Albus Dumbledore    Half Blood Prince
@@ -418,7 +418,7 @@ For a score of more than 25 and a “Discussion” flair.</p>
 <span id="cb30-7"><a href="common-functions.html#cb30-7" tabindex="-1"></a>hp_characters <span class="ot">&lt;-</span> <span class="fu">rbind</span>(good_people,bad_people)</span>
 <span id="cb30-8"><a href="common-functions.html#cb30-8" tabindex="-1"></a>hp_characters</span></code></pre></div>
 <pre><code>##                   name                 died identity
-## 1       Cedric Digorry       Goblet of Fire     good
+## 1       Cedric Diggory       Goblet of Fire     good
 ## 2          Remus Lupin      Deathly Hallows     good
 ## 3        Alastor Moody      Deathly Hallows     good
 ## 4     Albus Dumbledore    Half Blood Prince     good
@@ -449,7 +449,7 @@ For a score of more than 25 and a “Discussion” flair.</p>
 <div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="common-functions.html#cb34-1" tabindex="-1"></a>hp_characters_info <span class="ot">&lt;-</span> <span class="fu">cbind</span>(hp_characters,house_info)</span>
 <span id="cb34-2"><a href="common-functions.html#cb34-2" tabindex="-1"></a>hp_characters_info</span></code></pre></div>
 <pre><code>##                   name                 died identity       house
-## 1       Cedric Digorry       Goblet of Fire     good  Hufflepuff
+## 1       Cedric Diggory       Goblet of Fire     good  Hufflepuff
 ## 2          Remus Lupin      Deathly Hallows     good Gryffindoor
 ## 3        Alastor Moody      Deathly Hallows     good     Unknown
 ## 4     Albus Dumbledore    Half Blood Prince     good  Gryfindoor

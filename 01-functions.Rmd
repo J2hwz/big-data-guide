@@ -123,7 +123,7 @@ name <- c("Bellatrix Lestrange","Basilisk","Voldemort","Barty Crouch Sr.","Profe
 died <- c("Deathly Hallows","Chamber of Secrets","Deathly Hallows","Goblet of Fire","Philosopher's Stone")
 bad_people <- data.frame(name,died)
 
-name <- c("Cedric Digorry","Remus Lupin","Alastor Moody","Albus Dumbledore","Sirius Black")
+name <- c("Cedric Diggory","Remus Lupin","Alastor Moody","Albus Dumbledore","Sirius Black")
 died <- c("Goblet of Fire","Deathly Hallows","Deathly Hallows","Half Blood Prince","Order of the Phoenix")
 good_people <- data.frame(name,died)
 ```
