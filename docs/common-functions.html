@@ -29,7 +29,7 @@ set in the _output.yml file.</p>" />
 <meta name="author" content="Joshua Hew and Jana Tomastikova" />
 
 
-<meta name="date" content="2024-09-08" />
+<meta name="date" content="2024-09-15" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -160,6 +160,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="2.1.1" data-path="common-functions.html"><a href="common-functions.html#select"><i class="fa fa-check"></i><b>2.1.1</b> select()</a></li>
 <li class="chapter" data-level="2.1.2" data-path="common-functions.html"><a href="common-functions.html#filter"><i class="fa fa-check"></i><b>2.1.2</b> filter()</a></li>
 <li class="chapter" data-level="2.1.3" data-path="common-functions.html"><a href="common-functions.html#arrange"><i class="fa fa-check"></i><b>2.1.3</b> arrange()</a></li>
+<li class="chapter" data-level="2.1.4" data-path="common-functions.html"><a href="common-functions.html#rbind"><i class="fa fa-check"></i><b>2.1.4</b> rbind()</a></li>
+<li class="chapter" data-level="2.1.5" data-path="common-functions.html"><a href="common-functions.html#cbind"><i class="fa fa-check"></i><b>2.1.5</b> cbind()</a></li>
+<li class="chapter" data-level="2.1.6" data-path="common-functions.html"><a href="common-functions.html#write.csv"><i class="fa fa-check"></i><b>2.1.6</b> write.csv()</a></li>
 </ul></li>
 <li class="chapter" data-level="2.2" data-path="common-functions.html"><a href="common-functions.html#for-working-with-text"><i class="fa fa-check"></i><b>2.2</b> For working with text</a></li>
 </ul></li>
@@ -373,6 +376,97 @@ For a score of more than 25 and a “Discussion” flair.</p>
 <pre><code>##   score n
 ## 1     0 8</code></pre>
 <p>Seems like there are 8 entries with the score of 0.</p>
+</div>
+<div id="rbind" class="section level3 hasAnchor" number="2.1.4">
+<h3><span class="header-section-number">2.1.4</span> rbind()<a href="common-functions.html#rbind" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>This function is a super useful one. It binds rows of two or more dataframes together. Let’s say I have these two dataframes:</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="common-functions.html#cb24-1" tabindex="-1"></a>good_people</span></code></pre></div>
+<pre><code>##               name                 died
+## 1   Cedric Digorry       Goblet of Fire
+## 2      Remus Lupin      Deathly Hallows
+## 3    Alastor Moody      Deathly Hallows
+## 4 Albus Dumbledore    Half Blood Prince
+## 5     Sirius Black Order of the Phoenix</code></pre>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="common-functions.html#cb26-1" tabindex="-1"></a>bad_people</span></code></pre></div>
+<pre><code>##                  name                died
+## 1 Bellatrix Lestrange     Deathly Hallows
+## 2            Basilisk  Chamber of Secrets
+## 3           Voldemort     Deathly Hallows
+## 4    Barty Crouch Sr.      Goblet of Fire
+## 5  Professor Quirrell Philosopher&#39;s Stone</code></pre>
+<p>Now it’s time to use the rbind() function to bind the datasets together into one dataset. BUT, before we do that, it’s good practice to add</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="common-functions.html#cb28-1" tabindex="-1"></a>hp_characters <span class="ot">&lt;-</span> <span class="fu">rbind</span>(good_people,bad_people)</span>
+<span id="cb28-2"><a href="common-functions.html#cb28-2" tabindex="-1"></a>hp_characters</span></code></pre></div>
+<pre><code>##                   name                 died
+## 1       Cedric Digorry       Goblet of Fire
+## 2          Remus Lupin      Deathly Hallows
+## 3        Alastor Moody      Deathly Hallows
+## 4     Albus Dumbledore    Half Blood Prince
+## 5         Sirius Black Order of the Phoenix
+## 6  Bellatrix Lestrange      Deathly Hallows
+## 7             Basilisk   Chamber of Secrets
+## 8            Voldemort      Deathly Hallows
+## 9     Barty Crouch Sr.       Goblet of Fire
+## 10  Professor Quirrell  Philosopher&#39;s Stone</code></pre>
+<p>Great, so the rows of the second dataset (bad_people) were now added underneath the rows of the first dataset (good_people). But wait, what if someone doesn’t know the characters that well so can’t distinguish which characters are good or bad? It is good practice to add an extra column to each of the datasets beforehand so that you know where this data came from. Let’s do that again:</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="common-functions.html#cb30-1" tabindex="-1"></a>good_people <span class="ot">&lt;-</span> good_people<span class="sc">%&gt;%</span></span>
+<span id="cb30-2"><a href="common-functions.html#cb30-2" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">identity=</span><span class="st">&quot;good&quot;</span>)</span>
+<span id="cb30-3"><a href="common-functions.html#cb30-3" tabindex="-1"></a></span>
+<span id="cb30-4"><a href="common-functions.html#cb30-4" tabindex="-1"></a>bad_people <span class="ot">&lt;-</span> bad_people<span class="sc">%&gt;%</span></span>
+<span id="cb30-5"><a href="common-functions.html#cb30-5" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">identity=</span><span class="st">&quot;bad&quot;</span>)</span>
+<span id="cb30-6"><a href="common-functions.html#cb30-6" tabindex="-1"></a></span>
+<span id="cb30-7"><a href="common-functions.html#cb30-7" tabindex="-1"></a>hp_characters <span class="ot">&lt;-</span> <span class="fu">rbind</span>(good_people,bad_people)</span>
+<span id="cb30-8"><a href="common-functions.html#cb30-8" tabindex="-1"></a>hp_characters</span></code></pre></div>
+<pre><code>##                   name                 died identity
+## 1       Cedric Digorry       Goblet of Fire     good
+## 2          Remus Lupin      Deathly Hallows     good
+## 3        Alastor Moody      Deathly Hallows     good
+## 4     Albus Dumbledore    Half Blood Prince     good
+## 5         Sirius Black Order of the Phoenix     good
+## 6  Bellatrix Lestrange      Deathly Hallows      bad
+## 7             Basilisk   Chamber of Secrets      bad
+## 8            Voldemort      Deathly Hallows      bad
+## 9     Barty Crouch Sr.       Goblet of Fire      bad
+## 10  Professor Quirrell  Philosopher&#39;s Stone      bad</code></pre>
+<p>That’s better.</p>
+</div>
+<div id="cbind" class="section level3 hasAnchor" number="2.1.5">
+<h3><span class="header-section-number">2.1.5</span> cbind()<a href="common-functions.html#cbind" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>This function is similar to rbind(), but instead of rows, it binds the columns (the c in cbind) of the datasets together. I have another dataset (actually just a column) that contains info about the house each of these characters are in:</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="common-functions.html#cb32-1" tabindex="-1"></a>house_info</span></code></pre></div>
+<pre><code>##          house
+## 1   Hufflepuff
+## 2  Gryffindoor
+## 3      Unknown
+## 4   Gryfindoor
+## 5  Gryffindoor
+## 6    Slytherin
+## 7           NA
+## 8    Slytherin
+## 9      Unknown
+## 10   Ravenclaw</code></pre>
+<p>Let’s add it to the hp_characters dataset.</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="common-functions.html#cb34-1" tabindex="-1"></a>hp_characters_info <span class="ot">&lt;-</span> <span class="fu">cbind</span>(hp_characters,house_info)</span>
+<span id="cb34-2"><a href="common-functions.html#cb34-2" tabindex="-1"></a>hp_characters_info</span></code></pre></div>
+<pre><code>##                   name                 died identity       house
+## 1       Cedric Digorry       Goblet of Fire     good  Hufflepuff
+## 2          Remus Lupin      Deathly Hallows     good Gryffindoor
+## 3        Alastor Moody      Deathly Hallows     good     Unknown
+## 4     Albus Dumbledore    Half Blood Prince     good  Gryfindoor
+## 5         Sirius Black Order of the Phoenix     good Gryffindoor
+## 6  Bellatrix Lestrange      Deathly Hallows      bad   Slytherin
+## 7             Basilisk   Chamber of Secrets      bad          NA
+## 8            Voldemort      Deathly Hallows      bad   Slytherin
+## 9     Barty Crouch Sr.       Goblet of Fire      bad     Unknown
+## 10  Professor Quirrell  Philosopher&#39;s Stone      bad   Ravenclaw</code></pre>
+<p>Note: Make sure that the number of rows match, otherwise you will get an error :/.</p>
+<p>Also, both the rows and the columns just get appended in the order that they are in. So make sure you double check that the data is as you want it to be.</p>
+</div>
+<div id="write.csv" class="section level3 hasAnchor" number="2.1.6">
+<h3><span class="header-section-number">2.1.6</span> write.csv()<a href="common-functions.html#write.csv" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>This function is good for when you want to save a dataset that you have created/cleaned in R to your computer as a csv file (which you can then put on OSF or something). This is the syntax:</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="common-functions.html#cb36-1" tabindex="-1"></a><span class="fu">write.csv</span>(hp_characters_info,<span class="st">&quot;./data/filename.csv&quot;</span>)</span></code></pre></div>
+<p>Note: The “./data/filename.csv” part of the argument specifies the path to the directory where you want to save it, ending with your chosen file name. If you don’t specify the path, it will save it in your current directory.</p>
 </div>
 </div>
 <div id="for-working-with-text" class="section level2 hasAnchor" number="2.2">

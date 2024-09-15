@@ -8,6 +8,9 @@ for-working-with-dataframes
 select
 filter
 arrange
+rbind
+cbind
+write.csv
 for-working-with-text
 useful-packages
 tidyverse

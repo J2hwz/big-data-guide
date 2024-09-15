@@ -114,6 +114,82 @@ psych_df %>%
 
 Seems like there are 8 entries with the score of 0.
 
+### rbind()
+
+This function is a super useful one. It binds rows of two or more dataframes together. Let's say I have these two dataframes:
+
+```{r, include=FALSE}
+name <- c("Bellatrix Lestrange","Basilisk","Voldemort","Barty Crouch Sr.","Professor Quirrell")
+died <- c("Deathly Hallows","Chamber of Secrets","Deathly Hallows","Goblet of Fire","Philosopher's Stone")
+bad_people <- data.frame(name,died)
+
+name <- c("Cedric Digorry","Remus Lupin","Alastor Moody","Albus Dumbledore","Sirius Black")
+died <- c("Goblet of Fire","Deathly Hallows","Deathly Hallows","Half Blood Prince","Order of the Phoenix")
+good_people <- data.frame(name,died)
+```
+
+```{r}
+good_people
+```
+```{r}
+bad_people
+```
+Now it's time to use the rbind() function to bind the datasets together into one dataset. BUT, before we do that, it's good practice to add 
+
+
+```{r}
+hp_characters <- rbind(good_people,bad_people)
+hp_characters
+```
+Great, so the rows of the second dataset (bad_people) were now added underneath the rows of the first dataset (good_people). But wait, what if someone doesn't know the characters that well so can't distinguish which characters are good or bad? It is good practice to add an extra column to each of the datasets beforehand so that you know where this data came from. Let's do that again:
+
+```{r}
+good_people <- good_people%>%
+  mutate(identity="good")
+
+bad_people <- bad_people%>%
+  mutate(identity="bad")
+
+hp_characters <- rbind(good_people,bad_people)
+hp_characters
+```
+
+That's better.
+
+### cbind()
+
+This function is similar to rbind(), but instead of rows, it binds the columns (the c in cbind) of the datasets together. I have another dataset (actually just a column) that contains info about the house each of these characters are in:
+
+```{r, include = FALSE}
+house <- c("Hufflepuff","Gryffindoor","Unknown","Gryfindoor","Gryffindoor","Slytherin","NA","Slytherin","Unknown","Ravenclaw")
+
+house_info <- data.frame(house)
+```
+
+```{r}
+house_info
+```
+
+Let's add it to the hp_characters dataset.
+
+```{r}
+hp_characters_info <- cbind(hp_characters,house_info)
+hp_characters_info
+```
+
+Note: Make sure that the number of rows match, otherwise you will get an error :/. 
+
+Also, both the rows and the columns just get appended in the order that they are in. So make sure you double check that the data is as you want it to be.
+
+### write.csv()
+
+This function is good for when you want to save a dataset that you have created/cleaned in R to your computer as a csv file (which you can then put on OSF or something). This is the syntax:
+
+```{r}
+write.csv(hp_characters_info,"./data/filename.csv")
+```
+
+Note: The "./data/filename.csv" part of the argument specifies the path to the directory where you want to save it, ending with your chosen file name. If you don't specify the path, it will save it in your current directory.
 
 
 ## For working with text
