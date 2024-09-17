@@ -29,7 +29,7 @@ set in the _output.yml file.</p>" />
 <meta name="author" content="Joshua Hew and Jana Tomastikova" />
 
 
-<meta name="date" content="2024-09-15" />
+<meta name="date" content="2024-09-17" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -164,7 +164,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="2.1.5" data-path="common-functions.html"><a href="common-functions.html#cbind"><i class="fa fa-check"></i><b>2.1.5</b> cbind()</a></li>
 <li class="chapter" data-level="2.1.6" data-path="common-functions.html"><a href="common-functions.html#write.csv"><i class="fa fa-check"></i><b>2.1.6</b> write.csv()</a></li>
 </ul></li>
-<li class="chapter" data-level="2.2" data-path="common-functions.html"><a href="common-functions.html#for-working-with-text"><i class="fa fa-check"></i><b>2.2</b> For working with text</a></li>
+<li class="chapter" data-level="2.2" data-path="common-functions.html"><a href="common-functions.html#for-working-with-text"><i class="fa fa-check"></i><b>2.2</b> For working with text</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="common-functions.html"><a href="common-functions.html#gsub"><i class="fa fa-check"></i><b>2.2.1</b> gsub()</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="useful-packages.html"><a href="useful-packages.html"><i class="fa fa-check"></i><b>3</b> Useful Packages</a>
 <ul>
@@ -179,7 +182,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4.1" data-path="tutorials.html"><a href="tutorials.html#writing-functions-in-r"><i class="fa fa-check"></i><b>4.1</b> Writing functions in R</a></li>
 <li class="chapter" data-level="4.2" data-path="tutorials.html"><a href="tutorials.html#working-with-different-datatypes-and-how-to-convert-between-them"><i class="fa fa-check"></i><b>4.2</b> Working with different datatypes (and how to convert between them)</a></li>
 <li class="chapter" data-level="4.3" data-path="tutorials.html"><a href="tutorials.html#regular-expressions-in-r"><i class="fa fa-check"></i><b>4.3</b> Regular expressions in R</a></li>
-<li class="chapter" data-level="4.4" data-path="tutorials.html"><a href="tutorials.html#scraping-data-from-html"><i class="fa fa-check"></i><b>4.4</b> Scraping data from HTML</a></li>
+<li class="chapter" data-level="4.4" data-path="tutorials.html"><a href="tutorials.html#scraping-data-from-html"><i class="fa fa-check"></i><b>4.4</b> Scraping data from HTML</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="tutorials.html"><a href="tutorials.html#what-if-you-wanted-other-information-contained-within-a-page"><i class="fa fa-check"></i><b>4.4.1</b> What if you wanted other information contained within a page?</a></li>
+<li class="chapter" data-level="4.4.2" data-path="tutorials.html"><a href="tutorials.html#some-caveats"><i class="fa fa-check"></i><b>4.4.2</b> Some caveats</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="datasets-and-potential-project-ideas.html"><a href="datasets-and-potential-project-ideas.html"><i class="fa fa-check"></i><b>5</b> Datasets and Potential Project Ideas</a>
 <ul>
@@ -471,7 +478,23 @@ For a score of more than 25 and a “Discussion” flair.</p>
 </div>
 <div id="for-working-with-text" class="section level2 hasAnchor" number="2.2">
 <h2><span class="header-section-number">2.2</span> For working with text<a href="common-functions.html#for-working-with-text" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Let’s go back to the r/psychologystudents dataset and see what tools or working with text we can use.</p>
+<div id="gsub" class="section level3 hasAnchor" number="2.2.1">
+<h3><span class="header-section-number">2.2.1</span> gsub()<a href="common-functions.html#gsub" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>This function let’s you substitute a string or the characters in a vector or a dataframe with another string. It’s very useful for data cleaning. For example, many big datasets of online comments usually contain a lot of links (starting with <a href="https://" class="uri">https://</a> …). In most cases, we are not interested in those links, as they might interfere with our analyses (although sometimes they might also be interesting). There is a way to get rid of/replace things we are not interested in.</p>
+<p>The syntax of gsub() is the following:</p>
+<p><strong>gsub(pattern, replacement, x)</strong></p>
+<ul>
+<li>pattern: The pattern or the string that you want to replace</li>
+<li>replacement: A string you want to input instead of the pattern.</li>
+<li>x: the dataset/column you want the replacement to happen</li>
+</ul>
+<p>If we wanted to replace all hashtags with a blank space (basically just get rid of them) in the body column of our dataframe, we could do this:</p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="common-functions.html#cb37-1" tabindex="-1"></a>psych_df<span class="sc">$</span>body <span class="ot">&lt;-</span> <span class="fu">gsub</span>(<span class="st">&quot;#&quot;</span>,<span class="st">&quot;&quot;</span>,psych_df<span class="sc">$</span>body)</span></code></pre></div>
+<p>It gets more complicated if you want to do more complex things.</p>
+<p>…</p>
 
+</div>
 </div>
 </div>
             </section>

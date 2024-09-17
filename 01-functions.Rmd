@@ -194,8 +194,31 @@ Note: The "./data/filename.csv" part of the argument specifies the path to the d
 
 ## For working with text
 
+Let's go back to the r/psychologystudents dataset and see what tools or working with text we can use.
+
+### gsub()
+
+This function let's you substitute a string or the characters in a vector or a dataframe with another string. It's very useful for data cleaning. For example, many big datasets of online comments usually contain a lot of links (starting with https:// ...). In most cases, we are not interested in those links, as they might interfere with our analyses (although sometimes they might also be interesting). There is a way to get rid of/replace things we are not interested in.
+
+The syntax of gsub() is the following:
+
+**gsub(pattern, replacement, x)**
+  
+  - pattern: The pattern or the string that you want to replace
+  - replacement: A string you want to input instead of the pattern.
+  - x: the dataset/column you want the replacement to happen
 
 
+If we wanted to replace all hashtags with a blank space (basically just get rid of them) in the body column of our dataframe, we could do this:
+
+```{r}
+psych_df$body <- gsub("#","",psych_df$body)
+```
+
+
+It gets more complicated if you want to do more complex things. 
+
+... 
 
 
 

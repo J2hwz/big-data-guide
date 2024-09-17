@@ -12,6 +12,7 @@ rbind
 cbind
 write.csv
 for-working-with-text
+gsub
 useful-packages
 tidyverse
 ggplot2
@@ -21,11 +22,10 @@ writing-functions-in-r
 working-with-different-datatypes-and-how-to-convert-between-them
 regular-expressions-in-r
 scraping-data-from-html
+what-if-you-wanted-other-information-contained-within-a-page
+some-caveats
 datasets-and-potential-project-ideas
 datasets
 project-ideas
 what-to-look-for-in-a-project
 useful-resources
-url-your-book-url-like-httpsbookdown.orgyihuibookdown
-what-if-you-wanted-other-information-contained-within-a-page
-some-caveats
