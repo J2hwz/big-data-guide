@@ -8,7 +8,7 @@
   <meta name="description" content="<p>This is a minimal example of using the bookdown package to write a book.
 The HTML output format for this example is bookdown::gitbook,
 set in the _output.yml file.</p>" />
-  <meta name="generator" content="bookdown 0.36 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.40 and GitBook 2.6.7" />
 
   <meta property="og:title" content="A Guide To Surviving Big Data and Psychological Science" />
   <meta property="og:type" content="book" />
@@ -29,7 +29,7 @@ set in the _output.yml file.</p>" />
 <meta name="author" content="Joshua Hew and Jana Tomastikova" />
 
 
-<meta name="date" content="2024-09-15" />
+<meta name="date" content="2024-09-17" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -62,7 +62,7 @@ set in the _output.yml file.</p>" />
 
 <style type="text/css">
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -179,7 +179,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4.1" data-path="tutorials.html"><a href="tutorials.html#writing-functions-in-r"><i class="fa fa-check"></i><b>4.1</b> Writing functions in R</a></li>
 <li class="chapter" data-level="4.2" data-path="tutorials.html"><a href="tutorials.html#working-with-different-datatypes-and-how-to-convert-between-them"><i class="fa fa-check"></i><b>4.2</b> Working with different datatypes (and how to convert between them)</a></li>
 <li class="chapter" data-level="4.3" data-path="tutorials.html"><a href="tutorials.html#regular-expressions-in-r"><i class="fa fa-check"></i><b>4.3</b> Regular expressions in R</a></li>
-<li class="chapter" data-level="4.4" data-path="tutorials.html"><a href="tutorials.html#scraping-data-from-html"><i class="fa fa-check"></i><b>4.4</b> Scraping data from HTML</a></li>
+<li class="chapter" data-level="4.4" data-path="tutorials.html"><a href="tutorials.html#scraping-data-from-html"><i class="fa fa-check"></i><b>4.4</b> Scraping data from HTML</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="tutorials.html"><a href="tutorials.html#what-if-you-wanted-other-information-contained-within-a-page"><i class="fa fa-check"></i><b>4.4.1</b> What if you wanted other information contained within a page?</a></li>
+<li class="chapter" data-level="4.4.2" data-path="tutorials.html"><a href="tutorials.html#some-caveats"><i class="fa fa-check"></i><b>4.4.2</b> Some caveats</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="datasets-and-potential-project-ideas.html"><a href="datasets-and-potential-project-ideas.html"><i class="fa fa-check"></i><b>5</b> Datasets and Potential Project Ideas</a>
 <ul>
@@ -211,11 +215,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="header">
 <h1 class="title">A Guide To Surviving Big Data and Psychological Science</h1>
 <p class="author"><em>Joshua Hew and Jana Tomastikova</em></p>
-<p class="date"><em>2024-09-15</em></p>
+<p class="date"><em>2024-09-17</em></p>
 </div>
 <div id="introduction" class="section level1 hasAnchor" number="1">
 <h1><span class="header-section-number">Chapter 1</span> Introduction<a href="index.html#introduction" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>There’s courses you don’t have to worry about too much and then there is Big Data. This guide offers some basic tools and strategies that we think you might find useful, so that you put your amazing research ideas into work without getting stuck on the practical bits (although you will most likely get stuck anyways). This is by no means all you should know or all you should expect you should know (and not officially a part of the course content). These are just some things that previous students on the course found important to know. We hope it helps.</p>
+<p>There’s courses you don’t have to worry about too much and then there is Big Data. This (unofficial) guide offers some basic tools and strategies that we think you might find useful, so that you put your amazing research ideas into work without getting stuck on the practical bits (although you will most likely get stuck anyways). This is by no means all you should know or all you should expect you should know (and not officially a part of the course content). These are just some things that previous students on the course found important to know. We hope it helps.</p>
 <div id="how-to-use-this-guide" class="section level2 hasAnchor" number="1.1">
 <h2><span class="header-section-number">1.1</span> How to use this guide<a href="index.html#how-to-use-this-guide" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Just flick through the pages and find whatever is useful to you.</p>
@@ -249,7 +253,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="about-us" class="section level2 hasAnchor" number="1.4">
 <h2><span class="header-section-number">1.4</span> About us<a href="index.html#about-us" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>We survived the course.</p>
+<p><img src="assets/joshua_pic.jpg" width="350px" style="display: block; margin: auto;" /></p>
+<center>
+Joshua (<a href="mailto:s2144522@ed.ac.uk" class="email">s2144522@ed.ac.uk</a>)
+</center>
+<p><br></p>
+<p><img src="assets/jana_pic.jpeg" width="350px" style="display: block; margin: auto;" /></p>
+<center>
+<p>Jana (<a href="mailto:s2158655@ed.ac.uk" class="email">s2158655@ed.ac.uk</a>)
+<br><br></p>
+<p>Do let us know if there are errors on this guidebook. We basically live in 7GS so feel free to approach whenever.</p>
+Also, we survived the course.
+</center>
 <!-- This is a _sample_ book written in **Markdown**. You can use anything that Pandoc's Markdown supports; for example, a math equation $a^2 + b^2 = c^2$. -->
 <!-- ## Usage  -->
 <!-- Each **bookdown** chapter is an .Rmd file, and each .Rmd file can contain one (and only one) chapter. A chapter *must* start with a first-level heading: `# A good chapter`, and can contain one (and only one) first-level heading. -->

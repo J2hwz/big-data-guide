@@ -8,7 +8,7 @@
   <meta name="description" content="<p>This is a minimal example of using the bookdown package to write a book.
 The HTML output format for this example is bookdown::gitbook,
 set in the _output.yml file.</p>" />
-  <meta name="generator" content="bookdown 0.36 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.40 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 4 Tutorials | A Guide To Surviving Big Data and Psychological Science" />
   <meta property="og:type" content="book" />
@@ -29,7 +29,7 @@ set in the _output.yml file.</p>" />
 <meta name="author" content="Joshua Hew and Jana Tomastikova" />
 
 
-<meta name="date" content="2024-09-15" />
+<meta name="date" content="2024-09-17" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -62,7 +62,7 @@ set in the _output.yml file.</p>" />
 
 <style type="text/css">
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -146,7 +146,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><a href="./">Big Data Guidebook</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> url: your book url like https://bookdown.org/yihui/bookdown</a>
 <ul>
 <li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#how-to-use-this-guide"><i class="fa fa-check"></i><b>1.1</b> How to use this guide</a></li>
 <li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#general-strategies-for-the-course"><i class="fa fa-check"></i><b>1.2</b> General strategies for the course</a></li>
@@ -179,7 +179,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4.1" data-path="tutorials.html"><a href="tutorials.html#writing-functions-in-r"><i class="fa fa-check"></i><b>4.1</b> Writing functions in R</a></li>
 <li class="chapter" data-level="4.2" data-path="tutorials.html"><a href="tutorials.html#working-with-different-datatypes-and-how-to-convert-between-them"><i class="fa fa-check"></i><b>4.2</b> Working with different datatypes (and how to convert between them)</a></li>
 <li class="chapter" data-level="4.3" data-path="tutorials.html"><a href="tutorials.html#regular-expressions-in-r"><i class="fa fa-check"></i><b>4.3</b> Regular expressions in R</a></li>
-<li class="chapter" data-level="4.4" data-path="tutorials.html"><a href="tutorials.html#scraping-data-from-html"><i class="fa fa-check"></i><b>4.4</b> Scraping data from HTML</a></li>
+<li class="chapter" data-level="4.4" data-path="tutorials.html"><a href="tutorials.html#scraping-data-from-html"><i class="fa fa-check"></i><b>4.4</b> Scraping data from HTML</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="tutorials.html"><a href="tutorials.html#what-if-you-wanted-other-information-contained-within-a-page"><i class="fa fa-check"></i><b>4.4.1</b> What if you wanted other information contained within a page?</a></li>
+<li class="chapter" data-level="4.4.2" data-path="tutorials.html"><a href="tutorials.html#some-caveats"><i class="fa fa-check"></i><b>4.4.2</b> Some caveats</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="datasets-and-potential-project-ideas.html"><a href="datasets-and-potential-project-ideas.html"><i class="fa fa-check"></i><b>5</b> Datasets and Potential Project Ideas</a>
 <ul>
@@ -221,7 +225,67 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="scraping-data-from-html" class="section level2 hasAnchor" number="4.4">
 <h2><span class="header-section-number">4.4</span> Scraping data from HTML<a href="tutorials.html#scraping-data-from-html" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>This tutorial is adapted from <a href="https://cbail.github.io/textasdata/screenscraping/rmarkdown/Screenscraping_in_R.html">Screen-scraping in R (Chris Bail)</a> &amp; <a href="https://r4ds.hadley.nz/webscraping">R for Data Science</a>.</p>
+<p>We’ll be using the package <a href="https://rvest.tidyverse.org/index.html">rvest</a> to scrape information from html pages, which is useful for information contained within tables such as this <a href="https://cran.r-project.org/web/packages/rvest/vignettes/rvest.html">Interjection dictionary</a> or the top movies on <a href="https://www.imdb.com/chart/top/">IMDB</a>.</p>
+<p>Let’s start with the table in <a href="https://cran.r-project.org/web/packages/rvest/vignettes/rvest.html">Interjection dictionary</a>.</p>
+<p>First, we’ll read the entire html source code from the website we are interest into R.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="tutorials.html#cb1-1" tabindex="-1"></a>interjections_html <span class="ot">&lt;-</span> <span class="fu">read_html</span>(<span class="st">&quot;https://www.vidarholen.net/contents/interjections/&quot;</span>) <span class="co"># Reading the entire page into R </span></span>
+<span id="cb1-2"><a href="tutorials.html#cb1-2" tabindex="-1"></a>interjections_html</span></code></pre></div>
+<pre><code>## {html_document}
+## &lt;html&gt;
+## [1] &lt;head&gt;\n&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=UTF-8 ...
+## [2] &lt;body&gt;\n    &lt;h1&gt;Dictionary of Interjections&lt;/h1&gt;\n    Here is a list of E ...</code></pre>
+<p>The result is html code, which is the programming language web developers use to define the structure and content of the website. In Google, you can inspect the html code of any website by right clicking with your cursor and pressing the “inspect” tab. Importantly, HTML code has a nested structure, typically including “head” a “body” sections of the webpage. The content are mostly contained within tags such as “p” (paragraph) and “h1” (heading 1), I won’t go into too much detail what these are but feel free to look up any HTML tutorial to learn more about these elements.</p>
+<p><img src="assets/html_inspect_screenshot.png" width="800px" style="display: block; margin: auto;" /></p>
+<p>Once you have the html code in R, you can use the html_nodes() function to specify what sort of elements you want to extract. For our purpose, we will specify “table”:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="tutorials.html#cb3-1" tabindex="-1"></a>interjections_dict1 <span class="ot">&lt;-</span> interjections_html <span class="sc">%&gt;%</span> </span>
+<span id="cb3-2"><a href="tutorials.html#cb3-2" tabindex="-1"></a>  <span class="fu">html_nodes</span>(<span class="st">&quot;table&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb3-3"><a href="tutorials.html#cb3-3" tabindex="-1"></a>  .[[<span class="dv">1</span>]] <span class="sc">%&gt;%</span> <span class="co"># Which table you want to extract (if there are multiple tables on a webpage)</span></span>
+<span id="cb3-4"><a href="tutorials.html#cb3-4" tabindex="-1"></a>  <span class="fu">html_table</span>()</span>
+<span id="cb3-5"><a href="tutorials.html#cb3-5" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="tutorials.html#cb3-6" tabindex="-1"></a><span class="fu">head</span>(interjections_dict1) <span class="co"># This gives you a dataframe that you can work with! </span></span></code></pre></div>
+<pre><code>## # A tibble: 6 × 5
+##   Word  `Alternate/ Similar` Translation              Example            Meaning
+##   &lt;chr&gt; &lt;chr&gt;                &lt;chr&gt;                    &lt;chr&gt;              &lt;chr&gt;  
+## 1 aah!  &quot;aaah, aaaahh&quot;       &quot;\&quot;Help!\&quot;&quot;              &quot;\&quot;Aaaah! It&#39;s ea… &quot;Frigh…
+## 2 aha   &quot;a-ha&quot;               &quot;\&quot;I understand\&quot;&quot;       &quot;\&quot;Aha! So you to… &quot;Under…
+## 3 ahem  &quot;&quot;                   &quot;\&quot;Attention, please!\&quot;&quot; &quot;\&quot;Ahem! Swearing… &quot;The s…
+## 4 ahh   &quot;ahhh, ohh&quot;          &quot;\&quot;Ok, I see\&quot;&quot;          &quot;\&quot;Ahh, yes, I un… &quot;Reali…
+## 5 ahh   &quot;ahhh..&quot;             &quot;\&quot;So relaxing\&quot;&quot;        &quot;\&quot;Ahh... This ho… &quot;Relie…
+## 6 argh  &quot;augh&quot;               &quot;\&quot;Damn!\&quot;&quot;              &quot;\&quot;Argh, the car … &quot;Annoy…</code></pre>
+<p>Alternatively, you can specify an xpath to directly call the specific element you want to turn into a dataframe. You can find the xpath of an element by hovering over the HTML code that highlights the part of the website you want. For instance:</p>
+<p><img src="assets/html_xpath_screenshot.png" width="800px" style="display: block; margin: auto;" /></p>
+<p>Learn more about xpaths <a href="https://www.w3schools.com/xml/xpath_syntax.asp">here</a>.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="tutorials.html#cb5-1" tabindex="-1"></a>interjections_dict2 <span class="ot">&lt;-</span> <span class="fu">html_node</span>(interjections_html, <span class="at">xpath =</span> <span class="st">&#39;//*[@id=&quot;it&quot;]&#39;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-2"><a href="tutorials.html#cb5-2" tabindex="-1"></a>  <span class="fu">html_table</span>()</span>
+<span id="cb5-3"><a href="tutorials.html#cb5-3" tabindex="-1"></a><span class="fu">head</span>(interjections_dict2)</span></code></pre></div>
+<pre><code>## # A tibble: 6 × 5
+##   Word  `Alternate/ Similar` Translation              Example            Meaning
+##   &lt;chr&gt; &lt;chr&gt;                &lt;chr&gt;                    &lt;chr&gt;              &lt;chr&gt;  
+## 1 aah!  &quot;aaah, aaaahh&quot;       &quot;\&quot;Help!\&quot;&quot;              &quot;\&quot;Aaaah! It&#39;s ea… &quot;Frigh…
+## 2 aha   &quot;a-ha&quot;               &quot;\&quot;I understand\&quot;&quot;       &quot;\&quot;Aha! So you to… &quot;Under…
+## 3 ahem  &quot;&quot;                   &quot;\&quot;Attention, please!\&quot;&quot; &quot;\&quot;Ahem! Swearing… &quot;The s…
+## 4 ahh   &quot;ahhh, ohh&quot;          &quot;\&quot;Ok, I see\&quot;&quot;          &quot;\&quot;Ahh, yes, I un… &quot;Reali…
+## 5 ahh   &quot;ahhh..&quot;             &quot;\&quot;So relaxing\&quot;&quot;        &quot;\&quot;Ahh... This ho… &quot;Relie…
+## 6 argh  &quot;augh&quot;               &quot;\&quot;Damn!\&quot;&quot;              &quot;\&quot;Argh, the car … &quot;Annoy…</code></pre>
+<div id="what-if-you-wanted-other-information-contained-within-a-page" class="section level3 hasAnchor" number="4.4.1">
+<h3><span class="header-section-number">4.4.1</span> What if you wanted other information contained within a page?<a href="tutorials.html#what-if-you-wanted-other-information-contained-within-a-page" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>You can scrape specific elements of a webpage, depending on the HTML element you specify. Let’s say you want to scrape all the text within paragraphs (“p”) of <a href="https://en.wikipedia.org/wiki/Sigmund_Freud">Sigmund Freud’s Wikipedia</a> website.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="tutorials.html#cb7-1" tabindex="-1"></a>freud_html <span class="ot">&lt;-</span> <span class="fu">read_html</span>(<span class="st">&quot;https://en.wikipedia.org/wiki/Sigmund_Freud&quot;</span>) <span class="sc">%&gt;%</span> <span class="co"># Reading the entire wiki page into R </span></span>
+<span id="cb7-2"><a href="tutorials.html#cb7-2" tabindex="-1"></a>  <span class="fu">html_elements</span>(<span class="st">&quot;p&quot;</span>) <span class="sc">%&gt;%</span> <span class="co"># Specify all &quot;p&quot; elements in the webpage</span></span>
+<span id="cb7-3"><a href="tutorials.html#cb7-3" tabindex="-1"></a>  <span class="fu">html_text2</span>() <span class="co"># Extract the text content of the HTML elements </span></span>
+<span id="cb7-4"><a href="tutorials.html#cb7-4" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="tutorials.html#cb7-5" tabindex="-1"></a>freud_html[[<span class="dv">3</span>]] <span class="co"># This gives you a list of all the paragraph text on the webpage</span></span></code></pre></div>
+<pre><code>## [1] &quot;Freud was born to Galician Jewish parents in the Moravian town of Freiberg, in the Austrian Empire. He qualified as a doctor of medicine in 1881 at the University of Vienna.[5][6] Upon completing his habilitation in 1885, he was appointed a docent in neuropathology and became an affiliated professor in 1902.[7] Freud lived and worked in Vienna having set up his clinical practice there in 1886. Following the German annexation of Austria in March 1938, Freud left Austria to escape Nazi persecution. He died in exile in the United Kingdom in 1939.&quot;</code></pre>
+</div>
+<div id="some-caveats" class="section level3 hasAnchor" number="4.4.2">
+<h3><span class="header-section-number">4.4.2</span> Some caveats<a href="tutorials.html#some-caveats" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><b> Legality </b></p>
+<p>If the data is public, non-personal, and factual, it should be fine to scrape*. You should cite the websites you use, and always read the terms of conditions if present.</p>
+<p><b> APIs </b></p>
+<p>This short tutorial doesn’t cover more dynamic websites, or websites that utilise an Application Programming Interface (API), which are a set of functions or procedures the website has specified to access their data.</p>
 
+</div>
 </div>
 </div>
             </section>

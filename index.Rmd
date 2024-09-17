@@ -17,13 +17,11 @@ github-repo: rstudio/bookdown-demo
 
 # Introduction
 
-There's courses you don't have to worry about too much and then there is Big Data. This guide offers some basic tools and strategies that we think you might find useful, so that you put your amazing research ideas into work without getting stuck on the practical bits (although you will most likely get stuck anyways). This is by no means all you should know or all you should expect you should know (and not officially a part of the course content). These are just some things that previous students on the course found important to know. We hope it helps.
+There's courses you don't have to worry about too much and then there is Big Data. This (unofficial) guide offers some basic tools and strategies that we think you might find useful, so that you put your amazing research ideas into work without getting stuck on the practical bits (although you will most likely get stuck anyways). This is by no means all you should know or all you should expect you should know (and not officially a part of the course content). These are just some things that previous students on the course found important to know. We hope it helps.
 
 ## How to use this guide 
 
 Just flick through the pages and find whatever is useful to you.
-
-
 
 ## General strategies for the course
 
@@ -60,7 +58,28 @@ This course is hard so prepare to kiss your first class honours goodbye. But if 
 
 ## About us 
 
-We survived the course.
+```{r echo=FALSE, out.width = '350px', fig.align='center'}
+knitr::include_graphics('./assets/joshua_pic.jpg')
+```
+
+<center>
+Joshua (s2144522@ed.ac.uk)
+</center>
+<br>
+
+```{r echo=FALSE, out.width = '350px', fig.align='center'}
+knitr::include_graphics('./assets/jana_pic.jpeg')
+```
+
+<center>
+Jana (s2158655@ed.ac.uk)
+<br><br>
+
+Do let us know if there are errors on this guidebook. We basically live in 7GS so feel free to approach whenever. 
+
+Also, we survived the course.
+</center>
+
 
 
 <!-- This is a _sample_ book written in **Markdown**. You can use anything that Pandoc's Markdown supports; for example, a math equation $a^2 + b^2 = c^2$. -->

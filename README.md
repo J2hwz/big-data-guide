@@ -1,13 +1,3 @@
-Welcome! 
+This is the source code for [A Guide To Surviving Big Data and Psychological Science](https://j2hwz.github.io/big-data-guide/). This is an unofficial handbook/cheatsheet for the [Big Data and Psychological Science course](http://www.drps.ed.ac.uk/24-25/dpt/cxpsyl10178.htm) offered by the School of Psychology at the University of Edinburgh. This guide is maintained by the 2024/25 TAs of the course, Joshua Hew and Jana Tomastikova. 
 
-This is a minimal example of a book based on R Markdown and **bookdown** (https://github.com/rstudio/bookdown). 
 
-This template provides a skeleton file structure that you can edit to create your book. 
-
-The contents inside the .Rmd files provide some pointers to help you get started, but feel free to also delete the content in each file and start fresh.
-
-Additional resources:
-
-The **bookdown** book: https://bookdown.org/yihui/bookdown/
-
-The **bookdown** package reference site: https://pkgs.rstudio.com/bookdown
