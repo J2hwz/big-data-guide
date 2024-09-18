@@ -29,7 +29,7 @@ set in the _output.yml file.</p>" />
 <meta name="author" content="Joshua Hew and Jana Tomastikova" />
 
 
-<meta name="date" content="2024-09-17" />
+<meta name="date" content="2024-09-18" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -232,8 +232,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>We’ll be using the package <a href="https://rvest.tidyverse.org/index.html">rvest</a> to scrape information from html pages, which is useful for information contained within tables such as this <a href="https://cran.r-project.org/web/packages/rvest/vignettes/rvest.html">Interjection dictionary</a> or the top movies on <a href="https://www.imdb.com/chart/top/">IMDB</a>.</p>
 <p>Let’s start with the table in <a href="https://cran.r-project.org/web/packages/rvest/vignettes/rvest.html">Interjection dictionary</a>.</p>
 <p>First, we’ll read the entire html source code from the website we are interest into R.</p>
-<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="tutorials.html#cb52-1" tabindex="-1"></a>interjections_html <span class="ot">&lt;-</span> <span class="fu">read_html</span>(<span class="st">&quot;https://www.vidarholen.net/contents/interjections/&quot;</span>) <span class="co"># Reading the entire page into R </span></span>
-<span id="cb52-2"><a href="tutorials.html#cb52-2" tabindex="-1"></a>interjections_html</span></code></pre></div>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="tutorials.html#cb53-1" tabindex="-1"></a>interjections_html <span class="ot">&lt;-</span> <span class="fu">read_html</span>(<span class="st">&quot;https://www.vidarholen.net/contents/interjections/&quot;</span>) <span class="co"># Reading the entire page into R </span></span>
+<span id="cb53-2"><a href="tutorials.html#cb53-2" tabindex="-1"></a>interjections_html</span></code></pre></div>
 <pre><code>## {html_document}
 ## &lt;html&gt;
 ## [1] &lt;head&gt;\n&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=UTF-8 ...
@@ -241,12 +241,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>The result is html code, which is the programming language web developers use to define the structure and content of the website. In Google, you can inspect the html code of any website by right clicking with your cursor and pressing the “inspect” tab. Importantly, HTML code has a nested structure, typically including “head” a “body” sections of the webpage. The content are mostly contained within tags such as “p” (paragraph) and “h1” (heading 1), I won’t go into too much detail what these are but feel free to look up any HTML tutorial to learn more about these elements.</p>
 <p><img src="assets/html_inspect_screenshot.png" width="800px" style="display: block; margin: auto;" /></p>
 <p>Once you have the html code in R, you can use the html_nodes() function to specify what sort of elements you want to extract. For our purpose, we will specify “table”:</p>
-<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="tutorials.html#cb54-1" tabindex="-1"></a>interjections_dict1 <span class="ot">&lt;-</span> interjections_html <span class="sc">%&gt;%</span> </span>
-<span id="cb54-2"><a href="tutorials.html#cb54-2" tabindex="-1"></a>  <span class="fu">html_nodes</span>(<span class="st">&quot;table&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb54-3"><a href="tutorials.html#cb54-3" tabindex="-1"></a>  .[[<span class="dv">1</span>]] <span class="sc">%&gt;%</span> <span class="co"># Which table you want to extract (if there are multiple tables on a webpage)</span></span>
-<span id="cb54-4"><a href="tutorials.html#cb54-4" tabindex="-1"></a>  <span class="fu">html_table</span>()</span>
-<span id="cb54-5"><a href="tutorials.html#cb54-5" tabindex="-1"></a></span>
-<span id="cb54-6"><a href="tutorials.html#cb54-6" tabindex="-1"></a><span class="fu">head</span>(interjections_dict1) <span class="co"># This gives you a dataframe that you can work with! </span></span></code></pre></div>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="tutorials.html#cb55-1" tabindex="-1"></a>interjections_dict1 <span class="ot">&lt;-</span> interjections_html <span class="sc">%&gt;%</span> </span>
+<span id="cb55-2"><a href="tutorials.html#cb55-2" tabindex="-1"></a>  <span class="fu">html_nodes</span>(<span class="st">&quot;table&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb55-3"><a href="tutorials.html#cb55-3" tabindex="-1"></a>  .[[<span class="dv">1</span>]] <span class="sc">%&gt;%</span> <span class="co"># Which table you want to extract (if there are multiple tables on a webpage)</span></span>
+<span id="cb55-4"><a href="tutorials.html#cb55-4" tabindex="-1"></a>  <span class="fu">html_table</span>()</span>
+<span id="cb55-5"><a href="tutorials.html#cb55-5" tabindex="-1"></a></span>
+<span id="cb55-6"><a href="tutorials.html#cb55-6" tabindex="-1"></a><span class="fu">head</span>(interjections_dict1) <span class="co"># This gives you a dataframe that you can work with! </span></span></code></pre></div>
 <pre><code>## # A tibble: 6 × 5
 ##   Word  `Alternate/ Similar` Translation              Example            Meaning
 ##   &lt;chr&gt; &lt;chr&gt;                &lt;chr&gt;                    &lt;chr&gt;              &lt;chr&gt;  
@@ -259,9 +259,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Alternatively, you can specify an xpath to directly call the specific element you want to turn into a dataframe. You can find the xpath of an element by hovering over the HTML code that highlights the part of the website you want. For instance:</p>
 <p><img src="assets/html_xpath_screenshot.png" width="800px" style="display: block; margin: auto;" /></p>
 <p>Learn more about xpaths <a href="https://www.w3schools.com/xml/xpath_syntax.asp">here</a>.</p>
-<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="tutorials.html#cb56-1" tabindex="-1"></a>interjections_dict2 <span class="ot">&lt;-</span> <span class="fu">html_node</span>(interjections_html, <span class="at">xpath =</span> <span class="st">&#39;//*[@id=&quot;it&quot;]&#39;</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb56-2"><a href="tutorials.html#cb56-2" tabindex="-1"></a>  <span class="fu">html_table</span>()</span>
-<span id="cb56-3"><a href="tutorials.html#cb56-3" tabindex="-1"></a><span class="fu">head</span>(interjections_dict2)</span></code></pre></div>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="tutorials.html#cb57-1" tabindex="-1"></a>interjections_dict2 <span class="ot">&lt;-</span> <span class="fu">html_node</span>(interjections_html, <span class="at">xpath =</span> <span class="st">&#39;//*[@id=&quot;it&quot;]&#39;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb57-2"><a href="tutorials.html#cb57-2" tabindex="-1"></a>  <span class="fu">html_table</span>()</span>
+<span id="cb57-3"><a href="tutorials.html#cb57-3" tabindex="-1"></a><span class="fu">head</span>(interjections_dict2)</span></code></pre></div>
 <pre><code>## # A tibble: 6 × 5
 ##   Word  `Alternate/ Similar` Translation              Example            Meaning
 ##   &lt;chr&gt; &lt;chr&gt;                &lt;chr&gt;                    &lt;chr&gt;              &lt;chr&gt;  
@@ -274,11 +274,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="what-if-you-wanted-other-information-contained-within-a-page" class="section level3 hasAnchor" number="4.4.1">
 <h3><span class="header-section-number">4.4.1</span> What if you wanted other information contained within a page?<a href="tutorials.html#what-if-you-wanted-other-information-contained-within-a-page" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>You can scrape specific elements of a webpage, depending on the HTML element you specify. Let’s say you want to scrape all the text within paragraphs (“p”) of <a href="https://en.wikipedia.org/wiki/Sigmund_Freud">Sigmund Freud’s Wikipedia</a> website.</p>
-<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="tutorials.html#cb58-1" tabindex="-1"></a>freud_html <span class="ot">&lt;-</span> <span class="fu">read_html</span>(<span class="st">&quot;https://en.wikipedia.org/wiki/Sigmund_Freud&quot;</span>) <span class="sc">%&gt;%</span> <span class="co"># Reading the entire wiki page into R </span></span>
-<span id="cb58-2"><a href="tutorials.html#cb58-2" tabindex="-1"></a>  <span class="fu">html_elements</span>(<span class="st">&quot;p&quot;</span>) <span class="sc">%&gt;%</span> <span class="co"># Specify all &quot;p&quot; elements in the webpage</span></span>
-<span id="cb58-3"><a href="tutorials.html#cb58-3" tabindex="-1"></a>  <span class="fu">html_text2</span>() <span class="co"># Extract the text content of the HTML elements </span></span>
-<span id="cb58-4"><a href="tutorials.html#cb58-4" tabindex="-1"></a></span>
-<span id="cb58-5"><a href="tutorials.html#cb58-5" tabindex="-1"></a>freud_html[[<span class="dv">3</span>]] <span class="co"># This gives you a list of all the paragraph text on the webpage</span></span></code></pre></div>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="tutorials.html#cb59-1" tabindex="-1"></a>freud_html <span class="ot">&lt;-</span> <span class="fu">read_html</span>(<span class="st">&quot;https://en.wikipedia.org/wiki/Sigmund_Freud&quot;</span>) <span class="sc">%&gt;%</span> <span class="co"># Reading the entire wiki page into R </span></span>
+<span id="cb59-2"><a href="tutorials.html#cb59-2" tabindex="-1"></a>  <span class="fu">html_elements</span>(<span class="st">&quot;p&quot;</span>) <span class="sc">%&gt;%</span> <span class="co"># Specify all &quot;p&quot; elements in the webpage</span></span>
+<span id="cb59-3"><a href="tutorials.html#cb59-3" tabindex="-1"></a>  <span class="fu">html_text2</span>() <span class="co"># Extract the text content of the HTML elements </span></span>
+<span id="cb59-4"><a href="tutorials.html#cb59-4" tabindex="-1"></a></span>
+<span id="cb59-5"><a href="tutorials.html#cb59-5" tabindex="-1"></a>freud_html[[<span class="dv">3</span>]] <span class="co"># This gives you a list of all the paragraph text on the webpage</span></span></code></pre></div>
 <pre><code>## [1] &quot;Freud was born to Galician Jewish parents in the Moravian town of Freiberg, in the Austrian Empire. He qualified as a doctor of medicine in 1881 at the University of Vienna.[5][6] Upon completing his habilitation in 1885, he was appointed a docent in neuropathology and became an affiliated professor in 1902.[7] Freud lived and worked in Vienna having set up his clinical practice there in 1886. Following the German annexation of Austria in March 1938, Freud left Austria to escape Nazi persecution. He died in exile in the United Kingdom in 1939.&quot;</code></pre>
 </div>
 <div id="some-caveats" class="section level3 hasAnchor" number="4.4.2">

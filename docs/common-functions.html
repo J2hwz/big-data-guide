@@ -29,7 +29,7 @@ set in the _output.yml file.</p>" />
 <meta name="author" content="Joshua Hew and Jana Tomastikova" />
 
 
-<meta name="date" content="2024-09-17" />
+<meta name="date" content="2024-09-18" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -478,10 +478,10 @@ For a score of more than 25 and a “Discussion” flair.</p>
 </div>
 <div id="for-working-with-text" class="section level2 hasAnchor" number="2.2">
 <h2><span class="header-section-number">2.2</span> For working with text<a href="common-functions.html#for-working-with-text" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Let’s go back to the r/psychologystudents dataset and see what tools or working with text we can use.</p>
+<p>Let’s go back to the r/psychologystudents dataset and see what tools for working with text we can use.</p>
 <div id="gsub" class="section level3 hasAnchor" number="2.2.1">
 <h3><span class="header-section-number">2.2.1</span> gsub()<a href="common-functions.html#gsub" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>This function let’s you substitute a string or the characters in a vector or a dataframe with another string. It’s very useful for data cleaning. For example, many big datasets of online comments usually contain a lot of links (starting with <a href="https://" class="uri">https://</a> …). In most cases, we are not interested in those links, as they might interfere with our analyses (although sometimes they might also be interesting). There is a way to get rid of/replace things we are not interested in.</p>
+<p>This function let’s you substitute a string or the characters in a vector or a dataframe with another string. It’s very useful for data cleaning. For example, many big datasets of online comments usually contain a lot of links (URLs). In most cases, we are not interested in those links, as they might interfere with our analyses (although sometimes they might also be interesting). There is a way to get rid of/replace things we are not interested in.</p>
 <p>The syntax of gsub() is the following:</p>
 <p><strong>gsub(pattern, replacement, x)</strong></p>
 <ul>
@@ -491,8 +491,27 @@ For a score of more than 25 and a “Discussion” flair.</p>
 </ul>
 <p>If we wanted to replace all hashtags with a blank space (basically just get rid of them) in the body column of our dataframe, we could do this:</p>
 <div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="common-functions.html#cb37-1" tabindex="-1"></a>psych_df<span class="sc">$</span>body <span class="ot">&lt;-</span> <span class="fu">gsub</span>(<span class="st">&quot;#&quot;</span>,<span class="st">&quot;&quot;</span>,psych_df<span class="sc">$</span>body)</span></code></pre></div>
-<p>It gets more complicated if you want to do more complex things.</p>
-<p>…</p>
+<p>It gets more complicated if you want to do more complex things. You can replace multiple patterns, or work with something called Regular Expressions (we have a separate tab on what regular expressions are because it sort of has its own lore).</p>
+<p>For some more advanced pattern matching with gsub(), click <a href="https://sqlpad.io/tutorial/mastering-pattern-replacement-gsub/">here</a> or surf the internet.</p>
+<p>Here is an example for how to get rid of URLs in the psych_df dataset:</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="common-functions.html#cb38-1" tabindex="-1"></a>psych_df<span class="sc">$</span>body <span class="ot">&lt;-</span> <span class="fu">gsub</span>(<span class="st">&quot;http</span><span class="sc">\\</span><span class="st">S+|www</span><span class="sc">\\</span><span class="st">S+|https</span><span class="sc">\\</span><span class="st">S+&quot;</span>, <span class="st">&quot;&quot;</span>, psych_df<span class="sc">$</span>body)</span></code></pre></div>
+<p>Breakdown of the syntax:</p>
+<ol style="list-style-type: decimal">
+<li><p><code>http</code>: This matches the literal string “http”.</p></li>
+<li><p><code>\\S+</code>:</p></li>
+</ol>
+<ul>
+<li><code>\\S</code> matches any non-whitespace character. (In R, the backslash is escaped by doubling it, so \S becomes in regex, where S stands for non-whitespace.)</li>
+<li>The <code>+</code> means “one or more” of the preceding character (i.e., one or more non-whitespace characters). This matches the rest of the URL after “http” (like <a href="http://example.com" class="uri">http://example.com</a>).</li>
+</ul>
+<ol start="3" style="list-style-type: decimal">
+<li><p><code>|</code> (OR operator): This allows for multiple patterns to be matched. It means “or”, so the regex will match either the first part before |, or the part after it.</p></li>
+<li><p><code>www:</code> This matches the literal string “www”. This pattern is to catch URLs that start with “www” but might not have “http” or “https” at the beginning.</p></li>
+<li><p><code>\\S+</code> (again): Similar to the explanation above, this matches the non-whitespace part of the URL after “www”.</p></li>
+<li><p><code>https</code>: This matches the literal string “https”.</p></li>
+<li><p><code>\\S+</code>: Again, this matches the rest of the URL after “https”.</p></li>
+</ol>
+<p>The gsub() function then removes these matches (i.e., replaces them with an empty string ““).</p>
 
 </div>
 </div>

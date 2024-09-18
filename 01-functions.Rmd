@@ -194,11 +194,11 @@ Note: The "./data/filename.csv" part of the argument specifies the path to the d
 
 ## For working with text
 
-Let's go back to the r/psychologystudents dataset and see what tools or working with text we can use.
+Let's go back to the r/psychologystudents dataset and see what tools for working with text we can use.
 
 ### gsub()
 
-This function let's you substitute a string or the characters in a vector or a dataframe with another string. It's very useful for data cleaning. For example, many big datasets of online comments usually contain a lot of links (starting with https:// ...). In most cases, we are not interested in those links, as they might interfere with our analyses (although sometimes they might also be interesting). There is a way to get rid of/replace things we are not interested in.
+This function let's you substitute a string or the characters in a vector or a dataframe with another string. It's very useful for data cleaning. For example, many big datasets of online comments usually contain a lot of links (URLs). In most cases, we are not interested in those links, as they might interfere with our analyses (although sometimes they might also be interesting). There is a way to get rid of/replace things we are not interested in.
 
 The syntax of gsub() is the following:
 
@@ -216,12 +216,36 @@ psych_df$body <- gsub("#","",psych_df$body)
 ```
 
 
-It gets more complicated if you want to do more complex things. 
+It gets more complicated if you want to do more complex things. You can replace multiple patterns, or work with something called Regular Expressions (we have a separate tab on what regular expressions are because it sort of has its own lore).
 
-... 
+For some more advanced pattern matching with gsub(), click [here](https://sqlpad.io/tutorial/mastering-pattern-replacement-gsub/) or surf the internet.
 
 
+Here is an example for how to get rid of URLs in the psych_df dataset:
 
+```{r}
+psych_df$body <- gsub("http\\S+|www\\S+|https\\S+", "", psych_df$body)
+```
+
+Breakdown of the syntax:
+
+1. `http`: This matches the literal string "http".
+
+2. `\\S+`:
+  - `\\S` matches any non-whitespace character. (In R, the backslash is escaped by doubling it, so \\S becomes \S in regex, where S stands for non-whitespace.)
+  - The `+` means "one or more" of the preceding character (i.e., one or more non-whitespace characters). This matches the rest of the URL after "http" (like http://example.com).
+  
+3. `|` (OR operator): This allows for multiple patterns to be matched. It means "or", so the regex will match either the first part before |, or the part after it.
+
+4. `www:` This matches the literal string "www". This pattern is to catch URLs that start with "www" but might not have "http" or "https" at the beginning.
+
+5. `\\S+` (again): Similar to the explanation above, this matches the non-whitespace part of the URL after "www".
+
+6. `https`: This matches the literal string "https".
+
+7. `\\S+`: Again, this matches the rest of the URL after "https".
+
+The gsub() function then removes these matches (i.e., replaces them with an empty string "").
 
 
 
