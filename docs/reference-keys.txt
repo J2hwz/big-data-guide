@@ -29,3 +29,7 @@ datasets
 project-ideas
 what-to-look-for-in-a-project
 useful-resources
+url-your-book-url-like-httpsbookdown.orgyihuibookdown
+others-potential-datasets-project-ideas-and-useful-resources
+reference
+other-useful-resources
