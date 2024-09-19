@@ -8,17 +8,17 @@ library(rvest)
 
 ## Writing functions in R 
 
-
+TBD
 
 
 ## Working with different datatypes (and how to convert between them)
 
-
+TBD
 
 
 ## Regular expressions in R 
 
-
+TBD
 
 
 ## Scraping data from HTML 
