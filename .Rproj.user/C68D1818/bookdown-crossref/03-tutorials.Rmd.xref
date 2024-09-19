@@ -3,4 +3,6 @@ h2:writing-functions-in-r Writing functions in R
 h2:working-with-different-datatypes-and-how-to-convert-between-them Working with different datatypes (and how to convert between them)
 h2:regular-expressions-in-r Regular expressions in R
 h2:scraping-data-from-html Scraping data from HTML
+h3:what-if-you-wanted-other-information-contained-within-a-page What if you wanted other information contained within a page?
+h3:some-caveats Some caveats
 

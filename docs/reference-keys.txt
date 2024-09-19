@@ -24,12 +24,10 @@ regular-expressions-in-r
 scraping-data-from-html
 what-if-you-wanted-other-information-contained-within-a-page
 some-caveats
-datasets-and-potential-project-ideas
+others-potential-datasets-project-ideas-and-useful-resources
+what-to-look-for-in-a-project
 datasets
 project-ideas
-what-to-look-for-in-a-project
 useful-resources
-url-your-book-url-like-httpsbookdown.orgyihuibookdown
-others-potential-datasets-project-ideas-and-useful-resources
 reference
 other-useful-resources
