@@ -4,13 +4,13 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 3 Useful Packages | A Guide To Surviving Big Data and Psychological Science</title>
+  <title>Chapter 5 Others: Potential Datasets, Project Ideas, and Useful Resources | A Guide To Surviving Big Data and Psychological Science</title>
   <meta name="description" content="<p>This is a minimal example of using the bookdown package to write a book.
 The HTML output format for this example is bookdown::gitbook,
 set in the _output.yml file.</p>" />
   <meta name="generator" content="bookdown 0.40 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 3 Useful Packages | A Guide To Surviving Big Data and Psychological Science" />
+  <meta property="og:title" content="Chapter 5 Others: Potential Datasets, Project Ideas, and Useful Resources | A Guide To Surviving Big Data and Psychological Science" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="<p>This is a minimal example of using the bookdown package to write a book.
@@ -19,7 +19,7 @@ set in the _output.yml file.</p>" />
   <meta name="github-repo" content="rstudio/bookdown-demo" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 3 Useful Packages | A Guide To Surviving Big Data and Psychological Science" />
+  <meta name="twitter:title" content="Chapter 5 Others: Potential Datasets, Project Ideas, and Useful Resources | A Guide To Surviving Big Data and Psychological Science" />
   
   <meta name="twitter:description" content="<p>This is a minimal example of using the bookdown package to write a book.
 The HTML output format for this example is bookdown::gitbook,
@@ -36,8 +36,8 @@ set in the _output.yml file.</p>" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="common-functions.html"/>
-<link rel="next" href="tutorials.html"/>
+<link rel="prev" href="tutorials.html"/>
+
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -219,114 +219,76 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="useful-packages" class="section level1 hasAnchor" number="3">
-<h1><span class="header-section-number">Chapter 3</span> Useful Packages<a href="useful-packages.html#useful-packages" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="others-potential-datasets-project-ideas-and-useful-resources" class="section level1 hasAnchor" number="5">
+<h1><span class="header-section-number">Chapter 5</span> Others: Potential Datasets, Project Ideas, and Useful Resources<a href="others-potential-datasets-project-ideas-and-useful-resources.html#others-potential-datasets-project-ideas-and-useful-resources" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="what-to-look-for-in-a-project" class="section level2 hasAnchor" number="5.1">
+<h2><span class="header-section-number">5.1</span> What to look for in a project<a href="others-potential-datasets-project-ideas-and-useful-resources.html#what-to-look-for-in-a-project" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <ul>
-<li>don’t forget that to install a package, you type install.packages(“tidyverse”) into the console and then run this to load the package:</li>
-</ul>
-<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="useful-packages.html#cb39-1" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
-<p>First, your good old friend:</p>
-<div id="tidyverse" class="section level2 hasAnchor" number="3.1">
-<h2><span class="header-section-number">3.1</span> Tidyverse<a href="useful-packages.html#tidyverse" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>is actually a package containing other packages that you will very likely use in most of your analyses. These core packages include:</p>
+<li><p>In general, start by looking for a dataset you’re interested in. Why? Your findings are only as good as your data. If your data is bad, or if it’s going to be really hard to clean up your data to get a nice dataframe to work with, our advice would be to look for something else. Luckily there’s really so much data out there and you can find plenty of avenues to get started below.</p></li>
+<li><p>Once you have your data, start to think about the following:</p>
 <ul>
-<li>ggplot2</li>
-<li>dplyr</li>
-<li>tidyr</li>
-<li>readr</li>
-<li>purrr</li>
-<li>tibble</li>
-<li>stringr</li>
-<li>forcats</li>
+<li><p>What psychological questions can I ask with the data?</p></li>
+<li><p>What psychological theories can I test with the data? (note: This is really important for a cohesive project!)</p></li>
+<li><p>Is the data mainly text- or numerical- based? What sort of methods/analysis can I run on the data and what results do I anticipate from them?</p></li>
+</ul></li>
+<li><p>This advice is by no means exhaustive, but hopefully it is helpful to get you started!</p></li>
 </ul>
-<p>(but there’s others too)</p>
-<p>Let’s have a look at some of the most useful ones.</p>
-<div id="ggplot2" class="section level3 hasAnchor" number="3.1.1">
-<h3><span class="header-section-number">3.1.1</span> ggplot2<a href="useful-packages.html#ggplot2" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>Great for plots! You have probably used it in DAPR already - you will use it in this course too. Usually, it starts with the function ggplot(), you then give it a dataset and specify what you want it to look like (aesthetic mapping) with aes(). Here is an example:</p>
-<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="useful-packages.html#cb40-1" tabindex="-1"></a><span class="fu">ggplot</span>(psych_words,<span class="fu">aes</span>(<span class="at">x=</span>words,<span class="at">y=</span>n))<span class="sc">+</span></span>
-<span id="cb40-2"><a href="useful-packages.html#cb40-2" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">fill =</span> <span class="st">&quot;lightblue&quot;</span>)<span class="sc">+</span></span>
-<span id="cb40-3"><a href="useful-packages.html#cb40-3" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span><span class="st">&quot;Most common words in the psych dataset&quot;</span>)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-31-1.png" width="672" /></p>
-<p>Boring, but this is a plot that shows the most used words in our previous dataset (I did some data wrangling beforehand to create the psych_words dataframe - by tokenizing psych_df!).</p>
-<p>Click <a href="https://github.com/rstudio/cheatsheets/blob/main/data-visualization.pdf">here</a> to find a nice Data Visualization with ggplot2 cheatsheet.</p>
 </div>
-<div id="dplyr" class="section level3 hasAnchor" number="3.1.2">
-<h3><span class="header-section-number">3.1.2</span> dplyr<a href="useful-packages.html#dplyr" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>A very very useful package for data handling. The most common functions from the package are:</p>
+<div id="datasets" class="section level2 hasAnchor" number="5.2">
+<h2><span class="header-section-number">5.2</span> Datasets<a href="others-potential-datasets-project-ideas-and-useful-resources.html#datasets" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>BROAD</p>
+<ol style="list-style-type: decimal">
+<li><p>Kaggle</p></li>
+<li><p><a href="https://github.com/niderhoff/nlp-datasets">Niderhoff’s repository of NLP datasets</a></p></li>
+<li><p><a href="https://github.com/awesomedata/awesome-public-datasets">Awesome Public Datasets repository</a></p></li>
+<li><p><a href="https://www.reddit.com/r/datasets/comments/shbzwe/is_there_a_master_list_of_places_to_look_for/">u/Istrakh’s Reddit post</a></p></li>
+<li><p><a href="https://github.com/public-apis/public-apis?tab=readme-ov-file">Public APIs repository</a></p></li>
+<li><p><a href="https://www.reddit.com/r/datasets/comments/3bxlg7/i_have_every_publicly_available_reddit_comment/">u/Stuck_In_The_Matrix’s Reddit comments datasets</a></p></li>
+</ol>
+<p>SPECIFIC</p>
+<ol start="7" style="list-style-type: decimal">
+<li><p><a href="https://github.com/NLPrinceton/SARC?tab=readme-ov-file">Khodak et al. (2018) Reddit /s sarcasm</a></p></li>
+<li><p><a href="https://www.kaggle.com/datasets/jianloongliew/reddit">Dataset of r/AmITheAsshole comments</a></p></li>
+<li><p><a href="https://github.com/samarthbhargav/tomt-data?tab=readme-ov-file">Dataset of r/TipOfMyTongue</a></p></li>
+</ol>
+</div>
+<div id="project-ideas" class="section level2 hasAnchor" number="5.3">
+<h2><span class="header-section-number">5.3</span> Project Ideas<a href="others-potential-datasets-project-ideas-and-useful-resources.html#project-ideas" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Start looking at hot topics from computational social science journals such as:</p>
 <ul>
-<li>mutate() = adds a new variable (column) to the dataframe</li>
-<li>select() = picks out variables from a dataframe based on their name</li>
-<li>filter() = picks out cases based on a condition</li>
-<li>summarise() = gives you a summary of multiple values</li>
-<li>arrange() = arranges rows in a dataset (usually asceding or descending order)</li>
+<li><p><a href="https://link.springer.com/journal/42001">Computational Social Science</a></p></li>
+<li><p><a href="https://journals.sagepub.com/home/bds">Big data and society</a></p></li>
+<li><p><a href="https://journals.sagepub.com/home/sms">Social media and society</a></p></li>
+<li><p><a href="https://link.springer.com/journal/13278">Social network analysis and mining</a></p></li>
 </ul>
-<p>Some other functions you might see Zach using are “join” functions, which help you combine dataframes and retain certain values from each, depending on what you need. They are a bit confusing, but hopefully this explanation helps:</p>
-<p>I have two dataframes here:</p>
-<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="useful-packages.html#cb41-1" tabindex="-1"></a>sleep</span></code></pre></div>
-<pre><code>##            course avg_sleep
-## 1           DAPR2         7
-## 2 Psych in Action        10
-## 3        Big Data         4
-## 4        Psych 1A         9
-## 5           DAPR3         6</code></pre>
-<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="useful-packages.html#cb43-1" tabindex="-1"></a>students</span></code></pre></div>
-<pre><code>##              course n_students
-## 1             DAPR2        250
-## 2   Psych in Action        163
-## 3          Big Data         39
-## 4          Psych 1A        300
-## 5 Critical Analysis        161</code></pre>
-<p>Now let’s see what the join functions do:</p>
-<p><strong>1. inner_join()</strong></p>
+<p>Don’t copy, just get inspired</p>
+<p>Some ideas we came up with (will add more if we get creative):</p>
 <ul>
-<li>keeps observations from the first dataframe that have a matching key in the second dataframe (NOTE: join_by() specifies what variable should be our matching variable)</li>
+<li>r/TipOfMyTongue and link it to the actual memory literature to see which sorts of events it predicts to be most memorable</li>
 </ul>
-<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="useful-packages.html#cb45-1" tabindex="-1"></a><span class="fu">inner_join</span>(sleep, students, <span class="fu">join_by</span>(course))</span></code></pre></div>
-<pre><code>##            course avg_sleep n_students
-## 1           DAPR2         7        250
-## 2 Psych in Action        10        163
-## 3        Big Data         4         39
-## 4        Psych 1A         9        300</code></pre>
-<p>This one put the two dataframes together but left out Critical Analysis and DAPR3, because they are only in one of the two dataframes.</p>
-<p><strong>2. left_join()</strong></p>
+</div>
+<div id="useful-resources" class="section level2 hasAnchor" number="5.4">
+<h2><span class="header-section-number">5.4</span> Useful Resources<a href="others-potential-datasets-project-ideas-and-useful-resources.html#useful-resources" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="reference" class="section level3 hasAnchor" number="5.4.1">
+<h3><span class="header-section-number">5.4.1</span> Reference<a href="others-potential-datasets-project-ideas-and-useful-resources.html#reference" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <ul>
-<li>keeps all observations in the first dataframe.</li>
+<li><a href="https://www.tidytextmining.com/">Text Mining with R: A Tidy Approach (Julia Silge &amp; David Robinson)</a></li>
+<li><a href="https://cbail.github.io/textasdata/Text_as_Data.html">Text As Data (Chris Bail)</a></li>
+<li><a href="https://bookdown.org/f_lennert/text-mining-book/">Text Mining for Social Scientists (Felix Lennert)</a></li>
+<li><a href="https://smltar.com/">Supervised Machine Learning for Text Analysis in R (Emil Hvitfeldt &amp; Julia Silge)</a></li>
+<li><a href="https://posit.co/resources/cheatsheets/">R cheatsheets</a></li>
+<li><a href="https://www.statlearning.com/">An introduction to statistical learning with applications in R (easier)</a></li>
+<li><a href="https://link.springer.com/book/10.1007/978-0-387-84858-7">Elements of statistical learning (harder)</a></li>
+<li><a href="https://daviddalpiaz.github.io/r4sl/">R for statistical learning (David Dalpiaz)</a></li>
 </ul>
-<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="useful-packages.html#cb47-1" tabindex="-1"></a><span class="fu">left_join</span>(sleep, students,<span class="fu">join_by</span>(course))</span></code></pre></div>
-<pre><code>##            course avg_sleep n_students
-## 1           DAPR2         7        250
-## 2 Psych in Action        10        163
-## 3        Big Data         4         39
-## 4        Psych 1A         9        300
-## 5           DAPR3         6       &lt;NA&gt;</code></pre>
-<p>This time, Critical Analysis is left out because it is only in the second dataframe.</p>
-<p><strong>3. right_join()</strong></p>
+</div>
+<div id="other-useful-resources" class="section level3 hasAnchor" number="5.4.2">
+<h3><span class="header-section-number">5.4.2</span> Other useful resources<a href="others-potential-datasets-project-ideas-and-useful-resources.html#other-useful-resources" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <ul>
-<li>keeps all observations in the second dataframe</li>
+<li><a href="https://app.diagrams.net/">Flowchart Maker</a></li>
+<li>OSF (To host project files)</li>
+<li>Latex overleaf (To format documents)</li>
 </ul>
-<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="useful-packages.html#cb49-1" tabindex="-1"></a><span class="fu">right_join</span>(sleep, students,<span class="fu">join_by</span>(course))</span></code></pre></div>
-<pre><code>##              course avg_sleep n_students
-## 1             DAPR2         7        250
-## 2   Psych in Action        10        163
-## 3          Big Data         4         39
-## 4          Psych 1A         9        300
-## 5 Critical Analysis      &lt;NA&gt;        161</code></pre>
-<p>So, DAPR3 is left out because it is in the first dataframe.</p>
-<p><strong>4. full_join()</strong></p>
-<ul>
-<li>keeps all observations from both dataframes</li>
-</ul>
-<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="useful-packages.html#cb51-1" tabindex="-1"></a><span class="fu">full_join</span>(sleep, students,<span class="fu">join_by</span>(course))</span></code></pre></div>
-<pre><code>##              course avg_sleep n_students
-## 1             DAPR2         7        250
-## 2   Psych in Action        10        163
-## 3          Big Data         4         39
-## 4          Psych 1A         9        300
-## 5             DAPR3         6       &lt;NA&gt;
-## 6 Critical Analysis      &lt;NA&gt;        161</code></pre>
-<p>Now we’ve got all the observations, but some have got missing values.</p>
-<p>Again, you can check out a cheatsheet for the dplyr package <a href="https://github.com/rstudio/cheatsheets/blob/main/data-transformation.pdf">here</a>.</p>
 
 </div>
 </div>
@@ -336,8 +298,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           </div>
         </div>
       </div>
-<a href="common-functions.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="tutorials.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="tutorials.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -368,7 +330,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/USERNAME/REPO/edit/BRANCH/02-packages.Rmd",
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/04-datasets.Rmd",
 "text": "Edit"
 },
 "history": {

@@ -1,17 +1,80 @@
-# Datasets and Potential Project Ideas 
-
-There's so much data to work with online. 
-
-## Datasets 
-
-
-
-## Project Ideas 
-
+# Others: Potential Datasets, Project Ideas, and Useful Resources
 
 ## What to look for in a project 
 
-- In general, start with a dataset before determining your project idea or research question. Your findings are as good as your data. 
+* In general, start by looking for a dataset you're interested in. Why? Your findings are only as good as your data. If your data is bad, or if it's going to be really hard to clean up your data to get a nice dataframe to work with, our advice would be to look for something else. Luckily there's really so much data out there and you can find plenty of avenues to get started below. 
+
+* Once you have your data, start to think about the following: 
+
+  - What psychological questions can I ask with the data? 
+
+  - What psychological theories can I test with the data? (note: This is really important for a cohesive project!)
+
+  - Is the data mainly text- or numerical- based? What sort of methods/analysis can I run on the data and what results do I anticipate from them? 
+
+* This advice is by no means exhaustive, but hopefully it is helpful to get you started! 
+
+## Datasets 
+
+BROAD
+
+1. Kaggle
+
+2. [Niderhoff's repository of NLP datasets](https://github.com/niderhoff/nlp-datasets)
+
+3. [Awesome Public Datasets repository](https://github.com/awesomedata/awesome-public-datasets)
+
+4. [u/Istrakh's Reddit post](https://www.reddit.com/r/datasets/comments/shbzwe/is_there_a_master_list_of_places_to_look_for/)
+
+5. [Public APIs repository](https://github.com/public-apis/public-apis?tab=readme-ov-file)
+
+6. [u/Stuck_In_The_Matrix's Reddit comments datasets](https://www.reddit.com/r/datasets/comments/3bxlg7/i_have_every_publicly_available_reddit_comment/)
+
+SPECIFIC
+
+7. [Khodak et al. (2018) Reddit /s sarcasm](https://github.com/NLPrinceton/SARC?tab=readme-ov-file)
+
+8. [Dataset of r/AmITheAsshole comments](https://www.kaggle.com/datasets/jianloongliew/reddit)
+
+9. [Dataset of r/TipOfMyTongue](https://github.com/samarthbhargav/tomt-data?tab=readme-ov-file)
+
+## Project Ideas 
+
+Start looking at hot topics from computational social science journals such as: 
+
+- [Computational Social Science](https://link.springer.com/journal/42001) 
+
+- [Big data and society](https://journals.sagepub.com/home/bds)
+
+- [Social media and society](https://journals.sagepub.com/home/sms)
+
+- [Social network analysis and mining](https://link.springer.com/journal/13278)
+
+Don’t copy, just get inspired 
+
+Some ideas we came up with (will add more if we get creative): 
+
+- r/TipOfMyTongue and link it to the actual memory literature to see which sorts of events it predicts to be most memorable 
+
+## Useful Resources 
+
+### Reference 
+
+- [Text Mining with R: A Tidy Approach (Julia Silge & David Robinson)](https://www.tidytextmining.com/)
+- [Text As Data (Chris Bail)](https://cbail.github.io/textasdata/Text_as_Data.html)
+- [Text Mining for Social Scientists (Felix Lennert)](https://bookdown.org/f_lennert/text-mining-book/)
+- [Supervised Machine Learning for Text Analysis in R (Emil Hvitfeldt & Julia Silge)](https://smltar.com/)
+- [R cheatsheets](https://posit.co/resources/cheatsheets/)
+- [An introduction to statistical learning with applications in R (easier)](https://www.statlearning.com/)
+- [Elements of statistical learning (harder)](https://link.springer.com/book/10.1007/978-0-387-84858-7)
+- [R for statistical learning (David Dalpiaz)](https://daviddalpiaz.github.io/r4sl/)
+
+### Other useful resources
+
+- [Flowchart Maker](https://app.diagrams.net/)
+- OSF (To host project files)
+- Latex overleaf (To format documents)
+
 
 
 

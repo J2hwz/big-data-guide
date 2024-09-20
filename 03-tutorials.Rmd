@@ -8,17 +8,17 @@ library(rvest)
 
 ## Writing functions in R 
 
-
+TBD
 
 
 ## Working with different datatypes (and how to convert between them)
 
-
+TBD
 
 
 ## Regular expressions in R 
 
-
+TBD
 
 
 ## Scraping data from HTML 
@@ -36,7 +36,7 @@ interjections_html <- read_html("https://www.vidarholen.net/contents/interjectio
 interjections_html
 ```
 
-The result is html code, which is the programming language web developers use to define the structure and content of the website. In Google, you can inspect the html code of any website by right clicking with your cursor and pressing the "inspect" tab. Importantly, HTML code has a nested structure, typically including "head" a "body" sections of the webpage. The content are mostly contained within tags such as "p" (paragraph) and "h1" (heading 1), I won't go into too much detail what these are but feel free to look up any HTML tutorial to learn more about these elements.
+The result is HTML code, which is the programming language web developers use to define the structure and content of the website. In Google, you can inspect the html code of any website by right clicking with your cursor and pressing the "inspect" tab. Importantly, HTML code has a nested structure, typically including "head" a "body" sections of the webpage. The content are mostly contained within tags such as "p" (paragraph) and "h1" (heading 1), I won't go into too much detail what these are but feel free to look up any HTML tutorial to learn more about these elements.
 
 ```{r echo=FALSE, out.width = '800px', fig.align='center'}
 knitr::include_graphics('./assets/html_inspect_screenshot.png')

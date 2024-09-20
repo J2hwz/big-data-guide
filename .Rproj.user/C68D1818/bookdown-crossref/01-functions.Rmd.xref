@@ -2,5 +2,10 @@ h1:common-functions Common Functions
 h2:for-working-with-dataframes For working with dataframes
 h3:select select()
 h3:filter filter()
+h3:arrange arrange()
+h3:rbind rbind()
+h3:cbind cbind()
+h3:write.csv write.csv()
 h2:for-working-with-text For working with text
+h3:gsub gsub()
 

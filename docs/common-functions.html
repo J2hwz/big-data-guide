@@ -8,7 +8,7 @@
   <meta name="description" content="<p>This is a minimal example of using the bookdown package to write a book.
 The HTML output format for this example is bookdown::gitbook,
 set in the _output.yml file.</p>" />
-  <meta name="generator" content="bookdown 0.36 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.40 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 2 Common Functions | A Guide To Surviving Big Data and Psychological Science" />
   <meta property="og:type" content="book" />
@@ -29,7 +29,7 @@ set in the _output.yml file.</p>" />
 <meta name="author" content="Joshua Hew and Jana Tomastikova" />
 
 
-<meta name="date" content="2024-09-18" />
+<meta name="date" content="2024-09-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -62,7 +62,7 @@ set in the _output.yml file.</p>" />
 
 <style type="text/css">
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -188,13 +188,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4.4.2" data-path="tutorials.html"><a href="tutorials.html#some-caveats"><i class="fa fa-check"></i><b>4.4.2</b> Some caveats</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="datasets-and-potential-project-ideas.html"><a href="datasets-and-potential-project-ideas.html"><i class="fa fa-check"></i><b>5</b> Datasets and Potential Project Ideas</a>
+<li class="chapter" data-level="5" data-path="others-potential-datasets-project-ideas-and-useful-resources.html"><a href="others-potential-datasets-project-ideas-and-useful-resources.html"><i class="fa fa-check"></i><b>5</b> Others: Potential Datasets, Project Ideas, and Useful Resources</a>
 <ul>
-<li class="chapter" data-level="5.1" data-path="datasets-and-potential-project-ideas.html"><a href="datasets-and-potential-project-ideas.html#datasets"><i class="fa fa-check"></i><b>5.1</b> Datasets</a></li>
-<li class="chapter" data-level="5.2" data-path="datasets-and-potential-project-ideas.html"><a href="datasets-and-potential-project-ideas.html#project-ideas"><i class="fa fa-check"></i><b>5.2</b> Project Ideas</a></li>
-<li class="chapter" data-level="5.3" data-path="datasets-and-potential-project-ideas.html"><a href="datasets-and-potential-project-ideas.html#what-to-look-for-in-a-project"><i class="fa fa-check"></i><b>5.3</b> What to look for in a project</a></li>
+<li class="chapter" data-level="5.1" data-path="others-potential-datasets-project-ideas-and-useful-resources.html"><a href="others-potential-datasets-project-ideas-and-useful-resources.html#what-to-look-for-in-a-project"><i class="fa fa-check"></i><b>5.1</b> What to look for in a project</a></li>
+<li class="chapter" data-level="5.2" data-path="others-potential-datasets-project-ideas-and-useful-resources.html"><a href="others-potential-datasets-project-ideas-and-useful-resources.html#datasets"><i class="fa fa-check"></i><b>5.2</b> Datasets</a></li>
+<li class="chapter" data-level="5.3" data-path="others-potential-datasets-project-ideas-and-useful-resources.html"><a href="others-potential-datasets-project-ideas-and-useful-resources.html#project-ideas"><i class="fa fa-check"></i><b>5.3</b> Project Ideas</a></li>
+<li class="chapter" data-level="5.4" data-path="others-potential-datasets-project-ideas-and-useful-resources.html"><a href="others-potential-datasets-project-ideas-and-useful-resources.html#useful-resources"><i class="fa fa-check"></i><b>5.4</b> Useful Resources</a>
+<ul>
+<li class="chapter" data-level="5.4.1" data-path="others-potential-datasets-project-ideas-and-useful-resources.html"><a href="others-potential-datasets-project-ideas-and-useful-resources.html#reference"><i class="fa fa-check"></i><b>5.4.1</b> Reference</a></li>
+<li class="chapter" data-level="5.4.2" data-path="others-potential-datasets-project-ideas-and-useful-resources.html"><a href="others-potential-datasets-project-ideas-and-useful-resources.html#other-useful-resources"><i class="fa fa-check"></i><b>5.4.2</b> Other useful resources</a></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="useful-resources.html"><a href="useful-resources.html"><i class="fa fa-check"></i><b>6</b> Useful Resources</a></li>
+</ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 
@@ -316,16 +320,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="common-functions.html#cb12-1" tabindex="-1"></a>psych_df <span class="sc">%&gt;%</span></span>
 <span id="cb12-2"><a href="common-functions.html#cb12-2" tabindex="-1"></a>  <span class="fu">filter</span>(score <span class="sc">&gt;</span> <span class="dv">25</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb12-3"><a href="common-functions.html#cb12-3" tabindex="-1"></a>  <span class="fu">select</span>(title, score)</span></code></pre></div>
-<pre><code>##                                                                             title
-## 1          [USA] Read this if you are interested in a career in mental healthcare
-## 2 Why do clinical psychologists get paid so little compared to other professions?
-## 3                                               I regret not choosing Psychology 
-## 4                     people say a bachelor’s in psych is useless: true or false?
-##   score
-## 1   384
-## 2    44
-## 3    96
-## 4   115</code></pre>
+<pre><code>##                                                                             title score
+## 1          [USA] Read this if you are interested in a career in mental healthcare   384
+## 2 Why do clinical psychologists get paid so little compared to other professions?    44
+## 3                                               I regret not choosing Psychology     96
+## 4                     people say a bachelor’s in psych is useless: true or false?   115</code></pre>
 <p>You can also input multiple logical conditions by adding more operators such as &amp; or |.
 For a score of more than 25 and a “Discussion” flair.</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="common-functions.html#cb14-1" tabindex="-1"></a>psych_df <span class="sc">%&gt;%</span></span>
@@ -353,18 +352,12 @@ For a score of more than 25 and a “Discussion” flair.</p>
 <span id="cb18-2"><a href="common-functions.html#cb18-2" tabindex="-1"></a>  <span class="fu">select</span>(title, score) <span class="sc">%&gt;%</span></span>
 <span id="cb18-3"><a href="common-functions.html#cb18-3" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(score))<span class="sc">%&gt;%</span></span>
 <span id="cb18-4"><a href="common-functions.html#cb18-4" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">5</span>)</span></code></pre></div>
-<pre><code>##                                                                             title
-## 1          [USA] Read this if you are interested in a career in mental healthcare
-## 2                     people say a bachelor’s in psych is useless: true or false?
-## 3                                               I regret not choosing Psychology 
-## 4 Why do clinical psychologists get paid so little compared to other professions?
-## 5                              Can a social anxious introvert become a therapist?
-##   score
-## 1   384
-## 2   115
-## 3    96
-## 4    44
-## 5    25</code></pre>
+<pre><code>##                                                                             title score
+## 1          [USA] Read this if you are interested in a career in mental healthcare   384
+## 2                     people say a bachelor’s in psych is useless: true or false?   115
+## 3                                               I regret not choosing Psychology     96
+## 4 Why do clinical psychologists get paid so little compared to other professions?    44
+## 5                              Can a social anxious introvert become a therapist?    25</code></pre>
 <p>5 lowest scoring entries? Arrange() sorts the dataframe in ascending order by default:</p>
 <div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="common-functions.html#cb20-1" tabindex="-1"></a>psych_df <span class="sc">%&gt;%</span></span>
 <span id="cb20-2"><a href="common-functions.html#cb20-2" tabindex="-1"></a>  <span class="fu">select</span>(title, score) <span class="sc">%&gt;%</span></span>
