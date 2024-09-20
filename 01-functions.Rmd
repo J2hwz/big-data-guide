@@ -247,5 +247,65 @@ Breakdown of the syntax:
 
 The gsub() function then removes these matches (i.e., replaces them with an empty string "").
 
+### unnest_tokens()
 
+This is a very handy one and Zach for sure had already mentioned it. Unnest_tokens() splits your desired text column into "tokens", one token per row. A token could be one word, or two words, or three, or sentences, or so on. This function is a good start for when you want to, say, count the instances of certain words, or do more interesting analyses, like find which words are unique to specific groups or datasets.
+
+
+The basic syntax looks like this:
+
+**unnest_tokens(dataframe, output, input)**
+
+  - output: Output column to be created as string or symbol. This is usually something like "words" or "ngram".
+  - input: Input column that gets split as string or symbol. This is the name of your column you want split, usually "text" or "body".
+  
+Let's try it on our psych_df data:
+
+```{r}
+library(tidytext) # this is where the function comes from
+
+unnested <- psych_df %>%
+  unnest_tokens(word,body)
+```
+
+Let's have a look at the first 10 rows of our newly created words column.
+
+```{r}
+head(unnested,10)%>%
+  select(word)
+```
+
+Each word has it's own row now.
+
+Cool, let's count the words and look at the most used ones:
+
+```{r}
+unnested %>%
+  count(words, sort=TRUE)%>%
+  top_n(10, n) # selects the top 10 by the count
+```
+
+Wow, amazing insights. Anyways.
+(this is where stop words come in)
+
+Let's load in a dataset with stop words (a set of commonly used words that are usually not interesting)
+
+```{r}
+data(stop_words)
+```
+
+Now, we will delete these stop words from our dataset by using the anti_join() function (see the dplyr package in the Useful Package section).
+
+```{r}
+unnested <- unnested %>%
+  anti_join(stop_words)
+```
+
+Let's see what the most used words are now:
+
+```{r}
+unnested %>%
+  count(word, sort=TRUE)%>%
+  top_n(10, n)
+```
 

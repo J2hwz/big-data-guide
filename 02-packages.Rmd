@@ -139,5 +139,14 @@ full_join(sleep, students,join_by(course))
 
 Now we've got all the observations, but some have got missing values.
 
+**5. anti_join()**
+
+- keeps all observations from the first dataframe without a match in the second one.
+
+```{r}
+anti_join(sleep, students ,join_by(course))
+```
+Just DAPR3 is left from the first dataframe.
+
 Again, you can check out a cheatsheet for the dplyr package [here](https://github.com/rstudio/cheatsheets/blob/main/data-transformation.pdf).
 
