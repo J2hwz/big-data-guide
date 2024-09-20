@@ -29,7 +29,7 @@ set in the _output.yml file.</p>" />
 <meta name="author" content="Joshua Hew and Jana Tomastikova" />
 
 
-<meta name="date" content="2024-09-19" />
+<meta name="date" content="2024-09-20" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -167,6 +167,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="2.2" data-path="common-functions.html"><a href="common-functions.html#for-working-with-text"><i class="fa fa-check"></i><b>2.2</b> For working with text</a>
 <ul>
 <li class="chapter" data-level="2.2.1" data-path="common-functions.html"><a href="common-functions.html#gsub"><i class="fa fa-check"></i><b>2.2.1</b> gsub()</a></li>
+<li class="chapter" data-level="2.2.2" data-path="common-functions.html"><a href="common-functions.html#unnest_tokens"><i class="fa fa-check"></i><b>2.2.2</b> unnest_tokens()</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="useful-packages.html"><a href="useful-packages.html"><i class="fa fa-check"></i><b>3</b> Useful Packages</a>
@@ -505,6 +506,74 @@ For a score of more than 25 and a “Discussion” flair.</p>
 <li><p><code>\\S+</code>: Again, this matches the rest of the URL after “https”.</p></li>
 </ol>
 <p>The gsub() function then removes these matches (i.e., replaces them with an empty string ““).</p>
+</div>
+<div id="unnest_tokens" class="section level3 hasAnchor" number="2.2.2">
+<h3><span class="header-section-number">2.2.2</span> unnest_tokens()<a href="common-functions.html#unnest_tokens" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>This is a very handy one and Zach for sure had already mentioned it. Unnest_tokens() splits your desired text column into “tokens”, one token per row. A token could be one word, or two words, or three, or sentences, or so on. This function is a good start for when you want to, say, count the instances of certain words, or do more interesting analyses, like find which words are unique to specific groups or datasets.</p>
+<p>The basic syntax looks like this:</p>
+<p><strong>unnest_tokens(dataframe, output, input)</strong></p>
+<ul>
+<li>output: Output column to be created as string or symbol. This is usually something like “words” or “ngram”.</li>
+<li>input: Input column that gets split as string or symbol. This is the name of your column you want split, usually “text” or “body”.</li>
+</ul>
+<p>Let’s try it on our psych_df data:</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="common-functions.html#cb39-1" tabindex="-1"></a><span class="fu">library</span>(tidytext) <span class="co"># this is where the function comes from</span></span>
+<span id="cb39-2"><a href="common-functions.html#cb39-2" tabindex="-1"></a></span>
+<span id="cb39-3"><a href="common-functions.html#cb39-3" tabindex="-1"></a>unnested <span class="ot">&lt;-</span> psych_df <span class="sc">%&gt;%</span></span>
+<span id="cb39-4"><a href="common-functions.html#cb39-4" tabindex="-1"></a>  <span class="fu">unnest_tokens</span>(word,body)</span></code></pre></div>
+<p>Let’s have a look at the first 10 rows of our newly created words column.</p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="common-functions.html#cb40-1" tabindex="-1"></a><span class="fu">head</span>(unnested,<span class="dv">10</span>)<span class="sc">%&gt;%</span></span>
+<span id="cb40-2"><a href="common-functions.html#cb40-2" tabindex="-1"></a>  <span class="fu">select</span>(word)</span></code></pre></div>
+<pre><code>##          word
+## 1          if
+## 2         you
+## 3         are
+## 4  interested
+## 5          in
+## 6    pursuing
+## 7           a
+## 8      career
+## 9          in
+## 10     mental</code></pre>
+<p>Each word has it’s own row now.</p>
+<p>Cool, let’s count the words and look at the most used ones:</p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="common-functions.html#cb42-1" tabindex="-1"></a>unnested <span class="sc">%&gt;%</span></span>
+<span id="cb42-2"><a href="common-functions.html#cb42-2" tabindex="-1"></a>  <span class="fu">count</span>(word, <span class="at">sort=</span><span class="cn">TRUE</span>)<span class="sc">%&gt;%</span></span>
+<span id="cb42-3"><a href="common-functions.html#cb42-3" tabindex="-1"></a>  <span class="fu">top_n</span>(<span class="dv">10</span>, n) <span class="co"># selects the top 10 by the count</span></span></code></pre></div>
+<pre><code>##    word   n
+## 1     i 489
+## 2    to 426
+## 3     a 309
+## 4   and 295
+## 5   the 272
+## 6    in 264
+## 7    my 209
+## 8    of 194
+## 9   for 138
+## 10   is 128</code></pre>
+<p>Wow, amazing insights. Anyways.
+(this is where stop words come in)</p>
+<p>Let’s load in a dataset with stop words (a set of commonly used words that are usually not interesting)</p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="common-functions.html#cb44-1" tabindex="-1"></a><span class="fu">data</span>(stop_words)</span></code></pre></div>
+<p>Now, we will delete these stop words from our dataset by using the anti_join() function (see the dplyr package in the Useful Package section).</p>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="common-functions.html#cb45-1" tabindex="-1"></a>unnested <span class="ot">&lt;-</span> unnested <span class="sc">%&gt;%</span></span>
+<span id="cb45-2"><a href="common-functions.html#cb45-2" tabindex="-1"></a>  <span class="fu">anti_join</span>(stop_words)</span></code></pre></div>
+<pre><code>## Joining with `by = join_by(word)`</code></pre>
+<p>Let’s see what the most used words are now:</p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="common-functions.html#cb47-1" tabindex="-1"></a>unnested <span class="sc">%&gt;%</span></span>
+<span id="cb47-2"><a href="common-functions.html#cb47-2" tabindex="-1"></a>  <span class="fu">count</span>(word, <span class="at">sort=</span><span class="cn">TRUE</span>)<span class="sc">%&gt;%</span></span>
+<span id="cb47-3"><a href="common-functions.html#cb47-3" tabindex="-1"></a>  <span class="fu">top_n</span>(<span class="dv">10</span>, n)</span></code></pre></div>
+<pre><code>##          word  n
+## 1  psychology 94
+## 2         i’m 58
+## 3  university 49
+## 4      school 46
+## 5      degree 41
+## 6     masters 39
+## 7       psych 37
+## 8     program 35
+## 9        time 34
+## 10   research 32</code></pre>
 
 </div>
 </div>

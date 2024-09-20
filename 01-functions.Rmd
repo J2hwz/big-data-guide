@@ -281,7 +281,7 @@ Cool, let's count the words and look at the most used ones:
 
 ```{r}
 unnested %>%
-  count(words, sort=TRUE)%>%
+  count(word, sort=TRUE)%>%
   top_n(10, n) # selects the top 10 by the count
 ```
 

@@ -30,6 +30,8 @@ BROAD
 
 6. [u/Stuck_In_The_Matrix's Reddit comments datasets](https://www.reddit.com/r/datasets/comments/3bxlg7/i_have_every_publicly_available_reddit_comment/)
 
+7. [Gallup's Global Datasets for Public Use](https://www.gallup.com/analytics/318923/world-poll-public-datasets.aspx)
+
 SPECIFIC
 
 7. [Khodak et al. (2018) Reddit /s sarcasm](https://github.com/NLPrinceton/SARC?tab=readme-ov-file)
