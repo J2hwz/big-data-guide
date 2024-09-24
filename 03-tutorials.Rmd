@@ -18,7 +18,7 @@ TBD
 
 ## Regular expressions in R 
 
-Like Zach, I'm not good at Regex so I'm just going to add examples that I previously used in my projects. See this [cheatsheet](https://evoldyn.gitlab.io/evomics-2018/ref-sheets/R_strings.pdf) or this [cheatsheet](https://github.com/rstudio/cheatsheets/blob/main/regex.pdf) for some useful guidance I wish I new. 
+Like Zach, I'm not good at Regex so I'm just going to add examples that I previously used in my projects. See this [cheatsheet](https://evoldyn.gitlab.io/evomics-2018/ref-sheets/R_strings.pdf) or this [cheatsheet](https://github.com/rstudio/cheatsheets/blob/main/regex.pdf) for some useful guidance I wish I knew. 
 
 ### Punctuations 
 
@@ -27,8 +27,6 @@ Let's filter for titles that contain any type of punctuation. This code gives 5 
 ```{r echo=FALSE}
 psych_df <- read.csv("data/psychologystudents_20240820.csv")
 ```
-
-
 
 ```{r}
 psych_df %>%
@@ -68,8 +66,27 @@ str_split(basic_string, regex("[:punct:]+")) %>%
 
 str_trim gets rid of white space to the left, right, or both sides of the string. 
 
+### Fully capitalised words 
 
+Now lets try to count the number of fully capitalised words in a title. I staggered the counts to see what each part of the regex does. 
 
+```{r}
+psych_df %>%
+  mutate(
+    fullycapitalised1 = str_count(title, regex("[A-Z]")),
+    fullycapitalised2 = str_count(title, regex("[A-Z]{2,}")), 
+    fullycapitalised3 = str_count(title, regex("\\b[A-Z]{2,}\\b"))
+  ) %>%
+  arrange(desc(fullycapitalised3)) %>%
+  select(title, fullycapitalised1, fullycapitalised2, fullycapitalised3) %>%
+  head(5)
+```
+
+- The first regex code counts the number of upper case letters in the title. So for the first title there are U, B, C... 10 capital letters. 
+- The second regex code captures words with two or more consecutive capitalised letters. 
+- The third regex code adds white space (empty string) before and after the capture word so that words like "MEd" or "MSc" don't get counted.
+
+More examples tbd. 
 
 ## Scraping data from HTML 
 

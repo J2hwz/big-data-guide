@@ -23,6 +23,7 @@ writing-functions-in-r
 working-with-different-datatypes-and-how-to-convert-between-them
 regular-expressions-in-r
 punctuations
+fully-capitalised-words
 scraping-data-from-html
 what-if-you-wanted-other-information-contained-within-a-page
 some-caveats
