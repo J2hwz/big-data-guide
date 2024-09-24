@@ -18,7 +18,57 @@ TBD
 
 ## Regular expressions in R 
 
-TBD
+Like Zach, I'm not good at Regex so I'm just going to add examples that I previously used in my projects. See this [cheatsheet](https://evoldyn.gitlab.io/evomics-2018/ref-sheets/R_strings.pdf) or this [cheatsheet](https://github.com/rstudio/cheatsheets/blob/main/regex.pdf) for some useful guidance I wish I new. 
+
+### Punctuations 
+
+Let's filter for titles that contain any type of punctuation. This code gives 5 titles with punctuation: 
+
+```{r echo=FALSE}
+psych_df <- read.csv("data/psychologystudents_20240820.csv")
+```
+
+
+
+```{r}
+psych_df %>%
+  mutate(
+    punct = str_detect(title, regex("[:punct:]+"))
+  ) %>%
+  filter(punct == TRUE) %>%
+  select(title) %>%
+  head(5)
+```
+
+The "+" after [:punct:] will match punctuation at least once, so multiple punctuation in a row will be detected too e.g. "I<b>....</b>want to score well in DAPR3" 
+
+This code gives titles without any punctuation: 
+
+```{r}
+psych_df %>%
+  mutate(
+    punct = str_detect(title, regex("[:punct:]+"))
+  ) %>%
+  filter(punct == FALSE) %>%
+  select(title) %>%
+  head(5)
+```
+
+We can also use regex to separate strings into smaller ones by punctuation of any sort. 
+
+```{r}
+basic_string <- "I, kinda really - want to \ do well in BIG! Data! WOOO"
+
+str_split(basic_string, regex("[:punct:]+")) %>%
+  as.data.frame(col.names = "words") %>%
+  mutate(
+    words =   str_trim(words, side = "both")
+  )
+```
+
+str_trim gets rid of white space to the left, right, or both sides of the string. 
+
+
 
 
 ## Scraping data from HTML 

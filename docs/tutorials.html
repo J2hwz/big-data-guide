@@ -29,7 +29,7 @@ set in the _output.yml file.</p>" />
 <meta name="author" content="Joshua Hew and Jana Tomastikova" />
 
 
-<meta name="date" content="2024-09-20" />
+<meta name="date" content="2024-09-24" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -182,7 +182,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="4.1" data-path="tutorials.html"><a href="tutorials.html#writing-functions-in-r"><i class="fa fa-check"></i><b>4.1</b> Writing functions in R</a></li>
 <li class="chapter" data-level="4.2" data-path="tutorials.html"><a href="tutorials.html#working-with-different-datatypes-and-how-to-convert-between-them"><i class="fa fa-check"></i><b>4.2</b> Working with different datatypes (and how to convert between them)</a></li>
-<li class="chapter" data-level="4.3" data-path="tutorials.html"><a href="tutorials.html#regular-expressions-in-r"><i class="fa fa-check"></i><b>4.3</b> Regular expressions in R</a></li>
+<li class="chapter" data-level="4.3" data-path="tutorials.html"><a href="tutorials.html#regular-expressions-in-r"><i class="fa fa-check"></i><b>4.3</b> Regular expressions in R</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="tutorials.html"><a href="tutorials.html#punctuations"><i class="fa fa-check"></i><b>4.3.1</b> Punctuations</a></li>
+</ul></li>
 <li class="chapter" data-level="4.4" data-path="tutorials.html"><a href="tutorials.html#scraping-data-from-html"><i class="fa fa-check"></i><b>4.4</b> Scraping data from HTML</a>
 <ul>
 <li class="chapter" data-level="4.4.1" data-path="tutorials.html"><a href="tutorials.html#what-if-you-wanted-other-information-contained-within-a-page"><i class="fa fa-check"></i><b>4.4.1</b> What if you wanted other information contained within a page?</a></li>
@@ -232,7 +235,54 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="regular-expressions-in-r" class="section level2 hasAnchor" number="4.3">
 <h2><span class="header-section-number">4.3</span> Regular expressions in R<a href="tutorials.html#regular-expressions-in-r" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>TBD</p>
+<p>Like Zach, I’m not good at Regex so I’m just going to add examples that I previously used in my projects. See this <a href="https://evoldyn.gitlab.io/evomics-2018/ref-sheets/R_strings.pdf">cheatsheet</a> or this <a href="https://github.com/rstudio/cheatsheets/blob/main/regex.pdf">cheatsheet</a> for some useful guidance I wish I new.</p>
+<div id="punctuations" class="section level3 hasAnchor" number="4.3.1">
+<h3><span class="header-section-number">4.3.1</span> Punctuations<a href="tutorials.html#punctuations" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Let’s filter for titles that contain any type of punctuation. This code gives 5 titles with punctuation:</p>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="tutorials.html#cb65-1" tabindex="-1"></a>psych_df <span class="sc">%&gt;%</span></span>
+<span id="cb65-2"><a href="tutorials.html#cb65-2" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb65-3"><a href="tutorials.html#cb65-3" tabindex="-1"></a>    <span class="at">punct =</span> <span class="fu">str_detect</span>(title, <span class="fu">regex</span>(<span class="st">&quot;[:punct:]+&quot;</span>))</span>
+<span id="cb65-4"><a href="tutorials.html#cb65-4" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb65-5"><a href="tutorials.html#cb65-5" tabindex="-1"></a>  <span class="fu">filter</span>(punct <span class="sc">==</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb65-6"><a href="tutorials.html#cb65-6" tabindex="-1"></a>  <span class="fu">select</span>(title) <span class="sc">%&gt;%</span></span>
+<span id="cb65-7"><a href="tutorials.html#cb65-7" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">5</span>)</span></code></pre></div>
+<pre><code>##                                                                                                                   title
+## 1                                                [USA] Read this if you are interested in a career in mental healthcare
+## 2 [May 2024] Post Study Participation Requests Here (Link/Text posts on their own will be removed) - Monthly Megathread
+## 3                                          What are some decent paying jobs you can do with a bachelors in psychology? 
+## 4                                                                                  Any Organisational Psychlogist here?
+## 5                                                             can i be a psychiatric nurse practitioner and get a PhD?</code></pre>
+<p>The “+” after [:punct:] will match punctuation at least once, so multiple punctuation in a row will be detected too e.g. “I<b>….</b>want to score well in DAPR3”</p>
+<p>This code gives titles without any punctuation:</p>
+<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="tutorials.html#cb67-1" tabindex="-1"></a>psych_df <span class="sc">%&gt;%</span></span>
+<span id="cb67-2"><a href="tutorials.html#cb67-2" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb67-3"><a href="tutorials.html#cb67-3" tabindex="-1"></a>    <span class="at">punct =</span> <span class="fu">str_detect</span>(title, <span class="fu">regex</span>(<span class="st">&quot;[:punct:]+&quot;</span>))</span>
+<span id="cb67-4"><a href="tutorials.html#cb67-4" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb67-5"><a href="tutorials.html#cb67-5" tabindex="-1"></a>  <span class="fu">filter</span>(punct <span class="sc">==</span> <span class="cn">FALSE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb67-6"><a href="tutorials.html#cb67-6" tabindex="-1"></a>  <span class="fu">select</span>(title) <span class="sc">%&gt;%</span></span>
+<span id="cb67-7"><a href="tutorials.html#cb67-7" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">5</span>)</span></code></pre></div>
+<pre><code>##                                            title
+## 1      Borderline Personality Disorder Research 
+## 2 Studying psych in EU but working in Australia 
+## 3      Letters of Recommendation for grad school
+## 4              I regret not choosing Psychology 
+## 5       I just failed BLEPP 2024 and now am lost</code></pre>
+<p>We can also use regex to separate strings into smaller ones by punctuation of any sort.</p>
+<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="tutorials.html#cb69-1" tabindex="-1"></a>basic_string <span class="ot">&lt;-</span> <span class="st">&quot;I, kinda really - want to \ do well in BIG! Data! WOOO&quot;</span></span>
+<span id="cb69-2"><a href="tutorials.html#cb69-2" tabindex="-1"></a></span>
+<span id="cb69-3"><a href="tutorials.html#cb69-3" tabindex="-1"></a><span class="fu">str_split</span>(basic_string, <span class="fu">regex</span>(<span class="st">&quot;[:punct:]+&quot;</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb69-4"><a href="tutorials.html#cb69-4" tabindex="-1"></a>  <span class="fu">as.data.frame</span>(<span class="at">col.names =</span> <span class="st">&quot;words&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb69-5"><a href="tutorials.html#cb69-5" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb69-6"><a href="tutorials.html#cb69-6" tabindex="-1"></a>    <span class="at">words =</span>   <span class="fu">str_trim</span>(words, <span class="at">side =</span> <span class="st">&quot;both&quot;</span>)</span>
+<span id="cb69-7"><a href="tutorials.html#cb69-7" tabindex="-1"></a>  )</span></code></pre></div>
+<pre><code>##                     words
+## 1                       I
+## 2            kinda really
+## 3 want to  do well in BIG
+## 4                    Data
+## 5                    WOOO</code></pre>
+<p>str_trim gets rid of white space to the left, right, or both sides of the string.</p>
+</div>
 </div>
 <div id="scraping-data-from-html" class="section level2 hasAnchor" number="4.4">
 <h2><span class="header-section-number">4.4</span> Scraping data from HTML<a href="tutorials.html#scraping-data-from-html" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -240,8 +290,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>We’ll be using the package <a href="https://rvest.tidyverse.org/index.html">rvest</a> to scrape information from html pages, which is useful for information contained within tables such as this <a href="https://cran.r-project.org/web/packages/rvest/vignettes/rvest.html">Interjection dictionary</a> or the top movies on <a href="https://www.imdb.com/chart/top/">IMDB</a>.</p>
 <p>Let’s start with the table in <a href="https://cran.r-project.org/web/packages/rvest/vignettes/rvest.html">Interjection dictionary</a>.</p>
 <p>First, we’ll read the entire html source code from the website we are interest into R.</p>
-<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="tutorials.html#cb65-1" tabindex="-1"></a>interjections_html <span class="ot">&lt;-</span> <span class="fu">read_html</span>(<span class="st">&quot;https://www.vidarholen.net/contents/interjections/&quot;</span>) <span class="co"># Reading the entire page into R </span></span>
-<span id="cb65-2"><a href="tutorials.html#cb65-2" tabindex="-1"></a>interjections_html</span></code></pre></div>
+<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="tutorials.html#cb71-1" tabindex="-1"></a>interjections_html <span class="ot">&lt;-</span> <span class="fu">read_html</span>(<span class="st">&quot;https://www.vidarholen.net/contents/interjections/&quot;</span>) <span class="co"># Reading the entire page into R </span></span>
+<span id="cb71-2"><a href="tutorials.html#cb71-2" tabindex="-1"></a>interjections_html</span></code></pre></div>
 <pre><code>## {html_document}
 ## &lt;html&gt;
 ## [1] &lt;head&gt;\n&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=UTF-8&quot;&gt;\n&lt;title&gt;Dictionary of Interjections (aww,  ...
@@ -249,12 +299,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>The result is HTML code, which is the programming language web developers use to define the structure and content of the website. In Google, you can inspect the html code of any website by right clicking with your cursor and pressing the “inspect” tab. Importantly, HTML code has a nested structure, typically including “head” a “body” sections of the webpage. The content are mostly contained within tags such as “p” (paragraph) and “h1” (heading 1), I won’t go into too much detail what these are but feel free to look up any HTML tutorial to learn more about these elements.</p>
 <p><img src="assets/html_inspect_screenshot.png" width="800px" style="display: block; margin: auto;" /></p>
 <p>Once you have the html code in R, you can use the html_nodes() function to specify what sort of elements you want to extract. For our purpose, we will specify “table”:</p>
-<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="tutorials.html#cb67-1" tabindex="-1"></a>interjections_dict1 <span class="ot">&lt;-</span> interjections_html <span class="sc">%&gt;%</span> </span>
-<span id="cb67-2"><a href="tutorials.html#cb67-2" tabindex="-1"></a>  <span class="fu">html_nodes</span>(<span class="st">&quot;table&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb67-3"><a href="tutorials.html#cb67-3" tabindex="-1"></a>  .[[<span class="dv">1</span>]] <span class="sc">%&gt;%</span> <span class="co"># Which table you want to extract (if there are multiple tables on a webpage)</span></span>
-<span id="cb67-4"><a href="tutorials.html#cb67-4" tabindex="-1"></a>  <span class="fu">html_table</span>()</span>
-<span id="cb67-5"><a href="tutorials.html#cb67-5" tabindex="-1"></a></span>
-<span id="cb67-6"><a href="tutorials.html#cb67-6" tabindex="-1"></a><span class="fu">head</span>(interjections_dict1) <span class="co"># This gives you a dataframe that you can work with! </span></span></code></pre></div>
+<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="tutorials.html#cb73-1" tabindex="-1"></a>interjections_dict1 <span class="ot">&lt;-</span> interjections_html <span class="sc">%&gt;%</span> </span>
+<span id="cb73-2"><a href="tutorials.html#cb73-2" tabindex="-1"></a>  <span class="fu">html_nodes</span>(<span class="st">&quot;table&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb73-3"><a href="tutorials.html#cb73-3" tabindex="-1"></a>  .[[<span class="dv">1</span>]] <span class="sc">%&gt;%</span> <span class="co"># Which table you want to extract (if there are multiple tables on a webpage)</span></span>
+<span id="cb73-4"><a href="tutorials.html#cb73-4" tabindex="-1"></a>  <span class="fu">html_table</span>()</span>
+<span id="cb73-5"><a href="tutorials.html#cb73-5" tabindex="-1"></a></span>
+<span id="cb73-6"><a href="tutorials.html#cb73-6" tabindex="-1"></a><span class="fu">head</span>(interjections_dict1) <span class="co"># This gives you a dataframe that you can work with! </span></span></code></pre></div>
 <pre><code>## # A tibble: 6 × 5
 ##   Word  `Alternate/ Similar` Translation              Example                                        Meaning                 
 ##   &lt;chr&gt; &lt;chr&gt;                &lt;chr&gt;                    &lt;chr&gt;                                          &lt;chr&gt;                   
@@ -267,9 +317,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Alternatively, you can specify an xpath to directly call the specific element you want to turn into a dataframe. You can find the xpath of an element by hovering over the HTML code that highlights the part of the website you want. For instance:</p>
 <p><img src="assets/html_xpath_screenshot.png" width="800px" style="display: block; margin: auto;" /></p>
 <p>Learn more about xpaths <a href="https://www.w3schools.com/xml/xpath_syntax.asp">here</a>.</p>
-<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="tutorials.html#cb69-1" tabindex="-1"></a>interjections_dict2 <span class="ot">&lt;-</span> <span class="fu">html_node</span>(interjections_html, <span class="at">xpath =</span> <span class="st">&#39;//*[@id=&quot;it&quot;]&#39;</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb69-2"><a href="tutorials.html#cb69-2" tabindex="-1"></a>  <span class="fu">html_table</span>()</span>
-<span id="cb69-3"><a href="tutorials.html#cb69-3" tabindex="-1"></a><span class="fu">head</span>(interjections_dict2)</span></code></pre></div>
+<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb75-1"><a href="tutorials.html#cb75-1" tabindex="-1"></a>interjections_dict2 <span class="ot">&lt;-</span> <span class="fu">html_node</span>(interjections_html, <span class="at">xpath =</span> <span class="st">&#39;//*[@id=&quot;it&quot;]&#39;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb75-2"><a href="tutorials.html#cb75-2" tabindex="-1"></a>  <span class="fu">html_table</span>()</span>
+<span id="cb75-3"><a href="tutorials.html#cb75-3" tabindex="-1"></a><span class="fu">head</span>(interjections_dict2)</span></code></pre></div>
 <pre><code>## # A tibble: 6 × 5
 ##   Word  `Alternate/ Similar` Translation              Example                                        Meaning                 
 ##   &lt;chr&gt; &lt;chr&gt;                &lt;chr&gt;                    &lt;chr&gt;                                          &lt;chr&gt;                   
@@ -282,11 +332,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="what-if-you-wanted-other-information-contained-within-a-page" class="section level3 hasAnchor" number="4.4.1">
 <h3><span class="header-section-number">4.4.1</span> What if you wanted other information contained within a page?<a href="tutorials.html#what-if-you-wanted-other-information-contained-within-a-page" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>You can scrape specific elements of a webpage, depending on the HTML element you specify. Let’s say you want to scrape all the text within paragraphs (“p”) of <a href="https://en.wikipedia.org/wiki/Sigmund_Freud">Sigmund Freud’s Wikipedia</a> website.</p>
-<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="tutorials.html#cb71-1" tabindex="-1"></a>freud_html <span class="ot">&lt;-</span> <span class="fu">read_html</span>(<span class="st">&quot;https://en.wikipedia.org/wiki/Sigmund_Freud&quot;</span>) <span class="sc">%&gt;%</span> <span class="co"># Reading the entire wiki page into R </span></span>
-<span id="cb71-2"><a href="tutorials.html#cb71-2" tabindex="-1"></a>  <span class="fu">html_elements</span>(<span class="st">&quot;p&quot;</span>) <span class="sc">%&gt;%</span> <span class="co"># Specify all &quot;p&quot; elements in the webpage</span></span>
-<span id="cb71-3"><a href="tutorials.html#cb71-3" tabindex="-1"></a>  <span class="fu">html_text2</span>() <span class="co"># Extract the text content of the HTML elements </span></span>
-<span id="cb71-4"><a href="tutorials.html#cb71-4" tabindex="-1"></a></span>
-<span id="cb71-5"><a href="tutorials.html#cb71-5" tabindex="-1"></a>freud_html[[<span class="dv">3</span>]] <span class="co"># This gives you a list of all the paragraph text on the webpage</span></span></code></pre></div>
+<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb77-1"><a href="tutorials.html#cb77-1" tabindex="-1"></a>freud_html <span class="ot">&lt;-</span> <span class="fu">read_html</span>(<span class="st">&quot;https://en.wikipedia.org/wiki/Sigmund_Freud&quot;</span>) <span class="sc">%&gt;%</span> <span class="co"># Reading the entire wiki page into R </span></span>
+<span id="cb77-2"><a href="tutorials.html#cb77-2" tabindex="-1"></a>  <span class="fu">html_elements</span>(<span class="st">&quot;p&quot;</span>) <span class="sc">%&gt;%</span> <span class="co"># Specify all &quot;p&quot; elements in the webpage</span></span>
+<span id="cb77-3"><a href="tutorials.html#cb77-3" tabindex="-1"></a>  <span class="fu">html_text2</span>() <span class="co"># Extract the text content of the HTML elements </span></span>
+<span id="cb77-4"><a href="tutorials.html#cb77-4" tabindex="-1"></a></span>
+<span id="cb77-5"><a href="tutorials.html#cb77-5" tabindex="-1"></a>freud_html[[<span class="dv">3</span>]] <span class="co"># This gives you a list of all the paragraph text on the webpage</span></span></code></pre></div>
 <pre><code>## [1] &quot;Freud was born to Galician Jewish parents in the Moravian town of Freiberg, in the Austrian Empire. He qualified as a doctor of medicine in 1881 at the University of Vienna.[5][6] Upon completing his habilitation in 1885, he was appointed a docent in neuropathology and became an affiliated professor in 1902.[7] Freud lived and worked in Vienna having set up his clinical practice there in 1886. Following the German annexation of Austria in March 1938, Freud left Austria to escape Nazi persecution. He died in exile in the United Kingdom in 1939.&quot;</code></pre>
 </div>
 <div id="some-caveats" class="section level3 hasAnchor" number="4.4.2">
