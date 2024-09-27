@@ -148,5 +148,43 @@ anti_join(sleep, students ,join_by(course))
 ```
 Just DAPR3 is left from the first dataframe.
 
-Again, you can check out a cheatsheet for the dplyr package [here](https://github.com/rstudio/cheatsheets/blob/main/data-transformation.pdf).
+**Different variable names**
+
+Thus far, all these functions required the same variables names for the two datasets that you want to join. There are two methods that we can take to tackle joining variables of different names. 
+
+```{r, include = FALSE}
+courses <- c('DAPR2', 'Psych in Action', 'Big Data', 'Psych 1A', 'Critical Analysis')
+satisfied <- c('strongly agree','moderate','somewhat disagree','agree','moderate')
+satisfaction <- data.frame(courses, satisfied)
+```
+
+```{r}
+satisfaction
+```
+
+1. Renaming the variable 
+
+```{r}
+satisfaction_renamed <- satisfaction %>%
+  rename("course" = "courses")
+satisfaction_renamed
+```
+
+```{r}
+full_join(satisfaction_renamed, students,join_by(course))
+```
+
+2. Specifying which variables in each dataframe to compare
+
+```{r}
+full_join(satisfaction, students, by = c("courses" = "course"))
+```
+
+Here I specified the variable "courses" I want in the satisfaction dataframe and equate it to th variable "course" I want to compare to from the students dataframe.
+
+<br>
+
+Hopefully this was comprehensive enough for you to understand the bascis, but if you want more guidance check out this [cheatsheet](https://github.com/rstudio/cheatsheets/blob/main/data-transformation.pdf) for the dplyr package.
+
+
 

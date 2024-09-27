@@ -309,3 +309,20 @@ unnested %>%
   top_n(10, n)
 ```
 
+** Unnest tokens can also work at the sentence level ** 
+
+We just need to specify that the unit we want to split by by specifying "token = ....."; Check the documentation for other units you can tokenize by. 
+
+```{r}
+psych_df %>%
+  unnest_tokens(output = "sentence", input = "body", token = "sentences") %>%
+  select(title, sentence) %>%
+  head(5)
+```
+
+
+
+
+
+
+

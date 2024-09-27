@@ -30,15 +30,17 @@ BROAD
 
 6. [u/Stuck_In_The_Matrix's Reddit comments datasets](https://www.reddit.com/r/datasets/comments/3bxlg7/i_have_every_publicly_available_reddit_comment/)
 
-7. [Gallup's Global Datasets for Public Use](https://www.gallup.com/analytics/318923/world-poll-public-datasets.aspx)
+7. [Arctic Shift's Reddit Academic Torrents repository](https://github.com/ArthurHeitmann/arctic_shift?tab=readme-ov-file)
+
+8. [Gallup's Global Datasets for Public Use](https://www.gallup.com/analytics/318923/world-poll-public-datasets.aspx)
 
 SPECIFIC
 
-7. [Khodak et al. (2018) Reddit /s sarcasm](https://github.com/NLPrinceton/SARC?tab=readme-ov-file)
+9. [Khodak et al. (2018) Reddit /s sarcasm](https://github.com/NLPrinceton/SARC?tab=readme-ov-file)
 
-8. [Dataset of r/AmITheAsshole comments](https://www.kaggle.com/datasets/jianloongliew/reddit)
+10. [Dataset of r/AmITheAsshole comments](https://www.kaggle.com/datasets/jianloongliew/reddit)
 
-9. [Dataset of r/TipOfMyTongue](https://github.com/samarthbhargav/tomt-data?tab=readme-ov-file)
+11. [Dataset of r/TipOfMyTongue](https://github.com/samarthbhargav/tomt-data?tab=readme-ov-file)
 
 ## Project Ideas 
 
@@ -56,7 +58,8 @@ Don’t copy, just get inspired
 
 Some ideas we came up with (will add more if we get creative): 
 
-- r/TipOfMyTongue and link it to the actual memory literature to see which sorts of events it predicts to be most memorable 
+- r/TipOfMyTongue and link it to the actual memory literature to see which sorts of events it predicts to be most memorable
+- LinkedIn has interesting language on it, would be interesting to work on a project investigating why this sort of language exists on the platform (maybe this dataset: [LinkedIn Influencers' Data](https://www.kaggle.com/datasets/shreyasajal/linkedin-influencers-data))
 
 ## Useful Resources 
 

@@ -29,7 +29,7 @@ set in the _output.yml file.</p>" />
 <meta name="author" content="Joshua Hew and Jana Tomastikova" />
 
 
-<meta name="date" content="2024-09-24" />
+<meta name="date" content="2024-09-27" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -578,6 +578,24 @@ For a score of more than 25 and a “Discussion” flair.</p>
 ## 8     program 35
 ## 9        time 34
 ## 10   research 32</code></pre>
+<p>** Unnest tokens can also work at the sentence level **</p>
+<p>We just need to specify that the unit we want to split by by specifying “token = …..”; Check the documentation for other units you can tokenize by.</p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="common-functions.html#cb49-1" tabindex="-1"></a>psych_df <span class="sc">%&gt;%</span></span>
+<span id="cb49-2"><a href="common-functions.html#cb49-2" tabindex="-1"></a>  <span class="fu">unnest_tokens</span>(<span class="at">output =</span> <span class="st">&quot;sentence&quot;</span>, <span class="at">input =</span> <span class="st">&quot;body&quot;</span>, <span class="at">token =</span> <span class="st">&quot;sentences&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb49-3"><a href="common-functions.html#cb49-3" tabindex="-1"></a>  <span class="fu">select</span>(title, sentence) <span class="sc">%&gt;%</span></span>
+<span id="cb49-4"><a href="common-functions.html#cb49-4" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">5</span>)</span></code></pre></div>
+<pre><code>##                                                                                                                   title
+## 1                                                [USA] Read this if you are interested in a career in mental healthcare
+## 2 [May 2024] Post Study Participation Requests Here (Link/Text posts on their own will be removed) - Monthly Megathread
+## 3 [May 2024] Post Study Participation Requests Here (Link/Text posts on their own will be removed) - Monthly Megathread
+## 4 [May 2024] Post Study Participation Requests Here (Link/Text posts on their own will be removed) - Monthly Megathread
+## 5 [May 2024] Post Study Participation Requests Here (Link/Text posts on their own will be removed) - Monthly Megathread
+##                                                                                                                                                                                                                                                                                                                                                                                                                                          sentence
+## 1                                                                                                                                                                                                                 if you are interested in pursuing a career in mental healthcare in the us, or if you have questions about different undergrad or graduate pathways to pursuing such a career, please read this before posting an advice thread:
+## 2                                                                                                                 [previous megathread: april 2024](  whilst study participation requests are almost completely barred from being posted in general (see rule i), you may post your links here, with all relevant information (as much as possible) included for potential participants; for the collation of a directory of studies and surveys.
+## 3 furthermore, we recommend all researchers to take note of posting their surveys on [r/samplesize]( for research related to *covid-19*/coronavirus, additional advice is given to utilise [r/coronavirus]( [study megathread](  users, who have been tagged, that have posted on our previous monthly thread (*april 2024*) within the past three days, have had their surveys reposted as a comment by moderation for convenience and courtesy.
+## 4                                                                                                                                                                                                                                                                                                                                                                    thank you very much and all best wishes with your research and your studies!
+## 5                                                                                                                                                                                                                                                                                                                      &amp;x200b;  on behalf of r/psychologystudents,  *organist1999* (subreddit moderator)  &amp;x200b;  **next megathread: june 2024**</code></pre>
 
 </div>
 </div>

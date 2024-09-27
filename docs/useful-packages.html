@@ -29,7 +29,7 @@ set in the _output.yml file.</p>" />
 <meta name="author" content="Joshua Hew and Jana Tomastikova" />
 
 
-<meta name="date" content="2024-09-24" />
+<meta name="date" content="2024-09-27" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -229,7 +229,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li>don’t forget that to install a package, you type install.packages(“tidyverse”) into the console and then run this to load the package:</li>
 </ul>
-<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="useful-packages.html#cb49-1" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="useful-packages.html#cb51-1" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
 <p>First, your good old friend:</p>
 <div id="tidyverse" class="section level2 hasAnchor" number="3.1">
 <h2><span class="header-section-number">3.1</span> Tidyverse<a href="useful-packages.html#tidyverse" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -249,10 +249,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="ggplot2" class="section level3 hasAnchor" number="3.1.1">
 <h3><span class="header-section-number">3.1.1</span> ggplot2<a href="useful-packages.html#ggplot2" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Great for plots! You have probably used it in DAPR already - you will use it in this course too. Usually, it starts with the function ggplot(), you then give it a dataset and specify what you want it to look like (aesthetic mapping) with aes(). Here is an example:</p>
-<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="useful-packages.html#cb50-1" tabindex="-1"></a><span class="fu">ggplot</span>(psych_words,<span class="fu">aes</span>(<span class="at">x=</span>words,<span class="at">y=</span>n))<span class="sc">+</span></span>
-<span id="cb50-2"><a href="useful-packages.html#cb50-2" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">fill =</span> <span class="st">&quot;lightblue&quot;</span>)<span class="sc">+</span></span>
-<span id="cb50-3"><a href="useful-packages.html#cb50-3" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span><span class="st">&quot;Most common words in the psych dataset&quot;</span>)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-37-1.png" width="672" /></p>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="useful-packages.html#cb52-1" tabindex="-1"></a><span class="fu">ggplot</span>(psych_words,<span class="fu">aes</span>(<span class="at">x=</span>words,<span class="at">y=</span>n))<span class="sc">+</span></span>
+<span id="cb52-2"><a href="useful-packages.html#cb52-2" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">fill =</span> <span class="st">&quot;lightblue&quot;</span>)<span class="sc">+</span></span>
+<span id="cb52-3"><a href="useful-packages.html#cb52-3" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span><span class="st">&quot;Most common words in the psych dataset&quot;</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-38-1.png" width="672" /></p>
 <p>Boring, but this is a plot that shows the most used words in our previous dataset (I did some data wrangling beforehand to create the psych_words dataframe - by tokenizing psych_df!).</p>
 <p>Click <a href="https://github.com/rstudio/cheatsheets/blob/main/data-visualization.pdf">here</a> to find a nice Data Visualization with ggplot2 cheatsheet.</p>
 </div>
@@ -268,14 +268,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul>
 <p>Some other functions you might see Zach using are “join” functions, which help you combine dataframes and retain certain values from each, depending on what you need. They are a bit confusing, but hopefully this explanation helps:</p>
 <p>I have two dataframes here:</p>
-<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="useful-packages.html#cb51-1" tabindex="-1"></a>sleep</span></code></pre></div>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="useful-packages.html#cb53-1" tabindex="-1"></a>sleep</span></code></pre></div>
 <pre><code>##            course avg_sleep
 ## 1           DAPR2         7
 ## 2 Psych in Action        10
 ## 3        Big Data         4
 ## 4        Psych 1A         9
 ## 5           DAPR3         6</code></pre>
-<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="useful-packages.html#cb53-1" tabindex="-1"></a>students</span></code></pre></div>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="useful-packages.html#cb55-1" tabindex="-1"></a>students</span></code></pre></div>
 <pre><code>##              course n_students
 ## 1             DAPR2        250
 ## 2   Psych in Action        163
@@ -287,7 +287,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li>keeps observations from the first dataframe that have a matching key in the second dataframe (NOTE: join_by() specifies what variable should be our matching variable)</li>
 </ul>
-<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="useful-packages.html#cb55-1" tabindex="-1"></a><span class="fu">inner_join</span>(sleep, students, <span class="fu">join_by</span>(course))</span></code></pre></div>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="useful-packages.html#cb57-1" tabindex="-1"></a><span class="fu">inner_join</span>(sleep, students, <span class="fu">join_by</span>(course))</span></code></pre></div>
 <pre><code>##            course avg_sleep n_students
 ## 1           DAPR2         7        250
 ## 2 Psych in Action        10        163
@@ -298,7 +298,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li>keeps all observations in the first dataframe.</li>
 </ul>
-<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="useful-packages.html#cb57-1" tabindex="-1"></a><span class="fu">left_join</span>(sleep, students,<span class="fu">join_by</span>(course))</span></code></pre></div>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="useful-packages.html#cb59-1" tabindex="-1"></a><span class="fu">left_join</span>(sleep, students,<span class="fu">join_by</span>(course))</span></code></pre></div>
 <pre><code>##            course avg_sleep n_students
 ## 1           DAPR2         7        250
 ## 2 Psych in Action        10        163
@@ -310,7 +310,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li>keeps all observations in the second dataframe</li>
 </ul>
-<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="useful-packages.html#cb59-1" tabindex="-1"></a><span class="fu">right_join</span>(sleep, students,<span class="fu">join_by</span>(course))</span></code></pre></div>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="useful-packages.html#cb61-1" tabindex="-1"></a><span class="fu">right_join</span>(sleep, students,<span class="fu">join_by</span>(course))</span></code></pre></div>
 <pre><code>##              course avg_sleep n_students
 ## 1             DAPR2         7        250
 ## 2   Psych in Action        10        163
@@ -322,7 +322,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li>keeps all observations from both dataframes</li>
 </ul>
-<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="useful-packages.html#cb61-1" tabindex="-1"></a><span class="fu">full_join</span>(sleep, students,<span class="fu">join_by</span>(course))</span></code></pre></div>
+<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="useful-packages.html#cb63-1" tabindex="-1"></a><span class="fu">full_join</span>(sleep, students,<span class="fu">join_by</span>(course))</span></code></pre></div>
 <pre><code>##              course avg_sleep n_students
 ## 1             DAPR2         7        250
 ## 2   Psych in Action        10        163
@@ -335,11 +335,51 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li>keeps all observations from the first dataframe without a match in the second one.</li>
 </ul>
-<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="useful-packages.html#cb63-1" tabindex="-1"></a><span class="fu">anti_join</span>(sleep, students ,<span class="fu">join_by</span>(course))</span></code></pre></div>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="useful-packages.html#cb65-1" tabindex="-1"></a><span class="fu">anti_join</span>(sleep, students ,<span class="fu">join_by</span>(course))</span></code></pre></div>
 <pre><code>##   course avg_sleep
 ## 1  DAPR3         6</code></pre>
 <p>Just DAPR3 is left from the first dataframe.</p>
-<p>Again, you can check out a cheatsheet for the dplyr package <a href="https://github.com/rstudio/cheatsheets/blob/main/data-transformation.pdf">here</a>.</p>
+<p><strong>Different variable names</strong></p>
+<p>Thus far, all these functions required the same variables names for the two datasets that you want to join. There are two methods that we can take to tackle joining variables of different names.</p>
+<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="useful-packages.html#cb67-1" tabindex="-1"></a>satisfaction</span></code></pre></div>
+<pre><code>##             courses         satisfied
+## 1             DAPR2    strongly agree
+## 2   Psych in Action          moderate
+## 3          Big Data somewhat disagree
+## 4          Psych 1A             agree
+## 5 Critical Analysis          moderate</code></pre>
+<ol style="list-style-type: decimal">
+<li>Renaming the variable</li>
+</ol>
+<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="useful-packages.html#cb69-1" tabindex="-1"></a>satisfaction_renamed <span class="ot">&lt;-</span> satisfaction <span class="sc">%&gt;%</span></span>
+<span id="cb69-2"><a href="useful-packages.html#cb69-2" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="st">&quot;course&quot;</span> <span class="ot">=</span> <span class="st">&quot;courses&quot;</span>)</span>
+<span id="cb69-3"><a href="useful-packages.html#cb69-3" tabindex="-1"></a>satisfaction_renamed</span></code></pre></div>
+<pre><code>##              course         satisfied
+## 1             DAPR2    strongly agree
+## 2   Psych in Action          moderate
+## 3          Big Data somewhat disagree
+## 4          Psych 1A             agree
+## 5 Critical Analysis          moderate</code></pre>
+<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="useful-packages.html#cb71-1" tabindex="-1"></a><span class="fu">full_join</span>(satisfaction_renamed, students,<span class="fu">join_by</span>(course))</span></code></pre></div>
+<pre><code>##              course         satisfied n_students
+## 1             DAPR2    strongly agree        250
+## 2   Psych in Action          moderate        163
+## 3          Big Data somewhat disagree         39
+## 4          Psych 1A             agree        300
+## 5 Critical Analysis          moderate        161</code></pre>
+<ol start="2" style="list-style-type: decimal">
+<li>Specifying which variables in each dataframe to compare</li>
+</ol>
+<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="useful-packages.html#cb73-1" tabindex="-1"></a><span class="fu">full_join</span>(satisfaction, students, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;courses&quot;</span> <span class="ot">=</span> <span class="st">&quot;course&quot;</span>))</span></code></pre></div>
+<pre><code>##             courses         satisfied n_students
+## 1             DAPR2    strongly agree        250
+## 2   Psych in Action          moderate        163
+## 3          Big Data somewhat disagree         39
+## 4          Psych 1A             agree        300
+## 5 Critical Analysis          moderate        161</code></pre>
+<p>Here I specified the variable “courses” I want in the satisfaction dataframe and equate it to th variable “course” I want to compare to from the students dataframe.</p>
+<p><br></p>
+<p>Hopefully this was comprehensive enough for you to understand the bascis, but if you want more guidance check out this <a href="https://github.com/rstudio/cheatsheets/blob/main/data-transformation.pdf">cheatsheet</a> for the dplyr package.</p>
 
 </div>
 </div>
