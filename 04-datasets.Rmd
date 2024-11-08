@@ -73,6 +73,7 @@ Some ideas we came up with (will add more if we get creative):
 - [An introduction to statistical learning with applications in R (easier)](https://www.statlearning.com/)
 - [Elements of statistical learning (harder)](https://link.springer.com/book/10.1007/978-0-387-84858-7)
 - [R for statistical learning (David Dalpiaz)](https://daviddalpiaz.github.io/r4sl/)
+- [Caret Package Guidebook](https://topepo.github.io/caret/index.html)
 
 ### Other useful resources
 

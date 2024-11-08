@@ -4,6 +4,7 @@ h2:working-with-different-datatypes-and-how-to-convert-between-them Working with
 h2:regular-expressions-in-r Regular expressions in R
 h3:punctuations Punctuations
 h3:fully-capitalised-words Fully capitalised words
+h3:negated-words Negated words
 h2:scraping-data-from-html Scraping data from HTML
 h3:what-if-you-wanted-other-information-contained-within-a-page What if you wanted other information contained within a page?
 h3:some-caveats Some caveats

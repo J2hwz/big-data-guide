@@ -86,6 +86,19 @@ psych_df %>%
 - The second regex code captures words with two or more consecutive capitalised letters. 
 - The third regex code adds white space (empty string) before and after the capture word so that words like "MEd" or "MSc" don't get counted.
 
+### Negated words 
+
+```{r}
+psych_df %>%
+  mutate(
+    n_negations = str_count(body, regex("n't"))
+  ) %>%
+  select(body, n_negations) %>%
+  filter(n_negations == 2)
+```
+
+
+
 More examples tbd. 
 
 ## Scraping data from HTML 
